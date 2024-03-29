@@ -1,6 +1,1 @@
 node_modules
-vendor
-cache
-var
-.env
-.env.local
