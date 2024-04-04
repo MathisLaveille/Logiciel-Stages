@@ -1,3 +1,44 @@
+<?php 
+
+print('1');
+
+try {
+    print('2');
+
+
+    if (isset($_POST['email']) && isset($_POST['password'])) {
+        print('3');
+
+
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+    
+        print("email = '$email'");
+        
+        // Connexion à la base de données
+        $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
+    
+        // Préparation de la requête
+        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, mail_p ) VALUES (:password, :email)");
+    
+        // Liaison des paramètres
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':email', $email);
+    
+        // Exécution de la requête
+        $stmt->execute();
+    }
+} catch (\Throwable $th) {
+    print('4');
+
+    print($th->getMessage());
+}
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
