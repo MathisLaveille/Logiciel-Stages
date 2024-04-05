@@ -1,30 +1,46 @@
 <?php 
+print(0);
+$errorMessage = "";
 
 try {
+    print(1);
 
-    if (isset($_POST['email']) && isset($_POST['password'])) {
-
-        $email = $_POST['email'];
+    if (isset($_POST['password']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['phone'])) {
+        print(2);
         $password = $_POST['password'];
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
     
         print("email = '$email'");
         
         // Connexion à la base de données
+
         $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
     
         // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, mail_p ) VALUES (PASSWORD(CONCAT('*-6',:password)), :email)");
+        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, nom_p, prenom_p, mail_p, phone_p) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
     
         // Liaison des paramètres
         $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':prenom', $prenom);
         $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':phone', $phone);
     
         // Exécution de la requête
         $stmt->execute();
     }
-} catch (\Throwable $th) {
+} catch (PDOException $e) {
+    print(3);
+    $code = $e->getCode();
+    if ($code == 23000) {
+        $errorMessage = "C'est adresse email existe déjà.";
+    }
 
-    print($th->getMessage());
+    print("code = '$code'");
+    print($e->getMessage());
 }
 
 
@@ -75,6 +91,13 @@ try {
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
+
+                                    <?php if (!empty($errorMessage)) { ?>
+                                        <div class="alert alert-danger" role="alert">
+                                        <?php print($errorMessage); ?>
+                                        </div>
+                                    <?php } ?>
+
                                     <form class="user">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
@@ -95,14 +118,10 @@ try {
                                         <a href="index.html" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </a>
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
                                     </form>
+
+
+
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
