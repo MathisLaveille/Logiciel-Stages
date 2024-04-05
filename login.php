@@ -1,14 +1,8 @@
 <?php 
 
-print('1');
-
 try {
-    print('2');
-
 
     if (isset($_POST['email']) && isset($_POST['password'])) {
-        print('3');
-
 
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -19,7 +13,7 @@ try {
         $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
     
         // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, mail_p ) VALUES (:password, :email)");
+        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, mail_p ) VALUES (PASSWORD(CONCAT('*-6',:password)), :email)");
     
         // Liaison des paramètres
         $stmt->bindParam(':password', $password);
@@ -29,7 +23,6 @@ try {
         $stmt->execute();
     }
 } catch (\Throwable $th) {
-    print('4');
 
     print($th->getMessage());
 }
