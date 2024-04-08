@@ -1,8 +1,12 @@
 <?php 
 
-try {
+print("1");
 
+try {
+    print("2");
     if (isset($_POST['email']) && isset($_POST['password'])) {
+
+        print("3");
 
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -24,8 +28,12 @@ try {
     }
 } catch (\Throwable $th) {
 
+    print("4");
+
     print($th->getMessage());
 }
+
+print("5");
 
 
 
