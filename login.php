@@ -2,8 +2,19 @@
 //---------------------------------------------------------------------------------------------------------//
 // Connexion à la base de données MySQL
 
+<<<<<<< HEAD
 try {
     if (isset($_POST['email']) && isset($_POST['password'])) {
+=======
+print("1");
+
+try {
+    print("2");
+    if (isset($_POST['email']) && isset($_POST['password'])) {
+
+        print("3");
+
+>>>>>>> 0704f64be5bbe1840afe4f3b8716e4c1b8a09167
         $email = $_POST['email'];
         print(0);
         $password = $_POST['password'];
@@ -12,6 +23,7 @@ try {
         $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+<<<<<<< HEAD
         // Vérifier si le compte existe
         $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_p = :email AND password_p = PASSWORD(CONCAT('*-6', :password))");
         $stmt->bindParam(':email', $email);
@@ -33,6 +45,17 @@ try {
     print(3);
 }
 
+=======
+    print("4");
+
+    print($th->getMessage());
+}
+
+print("5");
+
+
+
+>>>>>>> 0704f64be5bbe1840afe4f3b8716e4c1b8a09167
 ?>
 
 <!DOCTYPE html>
