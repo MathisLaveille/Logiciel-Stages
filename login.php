@@ -1,52 +1,39 @@
 <?php 
-print(0);
-$errorMessage = "";
+//---------------------------------------------------------------------------------------------------------//
+// Connexion à la base de données MySQL
 
 try {
-    print(1);
-
-    if (isset($_POST['password']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['phone'])) {
-        print(2);
-        $password = $_POST['password'];
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
+    if (isset($_POST['email']) && isset($_POST['password'])) {
         $email = $_POST['email'];
-        $phone = $_POST['phone'];
-    
-        print("email = '$email'");
-        
-        // Connexion à la base de données
+        print(0);
+        $password = $_POST['password'];
 
+        // Connexion à la base de données
         $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
-    
-        // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, nom_p, prenom_p, mail_p, phone_p) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
-    
-        // Liaison des paramètres
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':nom', $nom);
-        $stmt->bindParam(':prenom', $prenom);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Vérifier si le compte existe
+        $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_p = :email AND password_p = PASSWORD(CONCAT('*-6', :password))");
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':phone', $phone);
-    
-        // Exécution de la requête
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            print(1);// Le compte existe
+            echo "Connexion réussie.";
+            header('location: /index.html');
+        } else {
+            // Le compte n'existe pas ou les identifiants sont incorrects
+            echo "Nom d'utilisateur ou mot de passe incorrect.";
+            print(2);
+        }
     }
 } catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage();
     print(3);
-    $code = $e->getCode();
-    if ($code == 23000) {
-        $errorMessage = "C'est adresse email existe déjà.";
-    }
-
-    print("code = '$code'");
-    print($e->getMessage());
 }
 
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +46,7 @@ try {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>NDLP Avranche - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -92,21 +79,16 @@ try {
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
 
-                                    <?php if (!empty($errorMessage)) { ?>
-                                        <div class="alert alert-danger" role="alert">
-                                        <?php print($errorMessage); ?>
-                                        </div>
-                                    <?php } ?>
 
-                                    <form class="user">
+                                    <form class="user" method="POST" action="login.php" >
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                name="email" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                                name="password" placeholder="Password">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -115,11 +97,11 @@ try {
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                Connexion
+                                </button>
+                                        <hr>
                                     </form>
-
 
 
                                     <hr>

@@ -1,3 +1,52 @@
+<?php 
+print(0);
+$errorMessage = "";
+
+try {
+    print(1);
+
+    if (isset($_POST['password']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['phone'])) {
+        print(2);
+        $password = $_POST['password'];
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+    
+        print("email = '$email'");
+        
+        // Connexion à la base de données
+
+        $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
+    
+        // Préparation de la requête
+        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, nom_p, prenom_p, mail_p, phone_p) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
+    
+        // Liaison des paramètres
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':prenom', $prenom);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':phone', $phone);
+    
+        // Exécution de la requête
+        $stmt->execute();
+        header('location: /login.php');
+    }
+} catch (PDOException $e) {
+    print(3);
+    $code = $e->getCode();
+    if ($code == 23000) {
+        $errorMessage = "C'est adresse email existe déjà.";
+    }
+
+    print("code = '$code'");
+    print($e->getMessage());
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,7 +85,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user" method="post" action="login.php">
+                            <form class="user" method="post" action="register.php">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" name="nom"
