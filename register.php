@@ -70,10 +70,6 @@ try {
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
-<<<<<<< HEAD
-
-=======
->>>>>>> 0704f64be5bbe1840afe4f3b8716e4c1b8a09167
 <body class="bg-gradient-primary">
 
     <div class="container">
@@ -88,7 +84,6 @@ try {
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-<<<<<<< HEAD
                             <form class="user" method="post" action="register.php">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -98,22 +93,10 @@ try {
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" name="prenom"
                                             placeholder="Prenom">
-=======
-                            <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="nom"
-                                            placeholder="Votre nom ...">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="prenom"
-                                            placeholder="Votre prenom ...">
->>>>>>> 0704f64be5bbe1840afe4f3b8716e4c1b8a09167
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" name="email"
-<<<<<<< HEAD
                                         placeholder="email">
                                 </div>
 
@@ -143,32 +126,6 @@ try {
                             </div>
                             <div class="text-center">
                                 <a class="small" href="login.php">Déjà un compte? Connectez vous!</a>
-=======
-                                        placeholder="Votre email ...">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            name="password" placeholder="Votre mot de passe ...">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            name="password_two" placeholder="Répéter votre mot de passe ...">
-                                    </div>
-                                </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                    Valider le compte*
-                                </a>
-                                <hr>
-
-                            </form>
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
->>>>>>> 0704f64be5bbe1840afe4f3b8716e4c1b8a09167
                             </div>
                         </div>
                     </div>
@@ -187,38 +144,7 @@ try {
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
-
-<<<<<<< HEAD
-
-
-=======
-______________________________________________
-
-    <?php
-
-
-    // Connexion à la base de données
-    $dbh = new PDO('mysql:host=localhost;dbname=test', $user, $pass);
-
-    // Préparation de la requête
-    $stmt = $dbh->prepare("INSERT INTO fighters (name, strength, defense) VALUES (:name, :strength, :defense)");
-
-    //Déclaration des variables
-    $name = "Miss Fortune";
-    $strength = 100;
-    $defense = 50;
-
-    // Liaison des paramètres
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':strength', $strength);
-    $stmt->bindParam(':defense', $defense);
-
-    // Exécution de la requête
-    $stmt->execute();
-
-    ?>
->>>>>>> 0704f64be5bbe1840afe4f3b8716e4c1b8a09167
+    
 </body>
 
 </html>
