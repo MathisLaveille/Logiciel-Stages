@@ -1,3 +1,36 @@
+<?php
+try {
+
+if (isset($_POST['email']) && isset($_POST['password'])) {
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    print("email = '$email'");
+    
+    // Connexion à la base de données
+    $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
+
+    // Préparation de la requête
+    $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, mail_p ) VALUES (PASSWORD(CONCAT('*-6',:password)), :email)");
+
+    // Liaison des paramètres
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':email', $email);
+
+    // Exécution de la requête
+    $stmt->execute();
+
+    header('Location: /login.php');
+
+}
+} catch (\Throwable $th) {
+
+print($th->getMessage());
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,7 +69,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user" method="post" action="login.php">
+                            <form class="user" method="post" action="register.php">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
@@ -65,14 +98,6 @@
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                 Valide le compte
                                 </button>
-
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> S'inscrire avec Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> S'inscrire avec Facebook
-                                </a>
                             </form>
                             <hr>
                             <div class="text-center">

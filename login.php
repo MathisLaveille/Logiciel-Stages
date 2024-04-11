@@ -1,36 +1,39 @@
 <?php 
+//---------------------------------------------------------------------------------------------------------//
+// Connexion à la base de données MySQL
 
 try {
-
     if (isset($_POST['email']) && isset($_POST['password'])) {
-
         $email = $_POST['email'];
+        print(0);
         $password = $_POST['password'];
-    
-        print("email = '$email'");
-        
+
         // Connexion à la base de données
         $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
-    
-        // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, mail_p ) VALUES (PASSWORD(CONCAT('*-6',:password)), :email)");
-    
-        // Liaison des paramètres
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':email', $email);
-    
-        // Exécution de la requête
-        $stmt->execute();
-    }
-} catch (\Throwable $th) {
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    print($th->getMessage());
+        // Vérifier si le compte existe
+        $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_p = :email AND password_p = PASSWORD(CONCAT('*-6', :password))");
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            print(1);// Le compte existe
+            echo "Connexion réussie.";
+            header('location: /index.html');
+        } else {
+            // Le compte n'existe pas ou les identifiants sont incorrects
+            echo "Nom d'utilisateur ou mot de passe incorrect.";
+            print(2);
+        }
+    }
+} catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage();
+    print(3);
 }
 
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +46,7 @@ try {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>NDLP Avranche - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -75,15 +78,17 @@ try {
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+
+
+                                    <form class="user" method="POST" action="login.php" >
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                name="email" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                                name="password" placeholder="Password">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -92,17 +97,13 @@ try {
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                Connexion
+                                </button>
                                         <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
                                     </form>
+
+
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
