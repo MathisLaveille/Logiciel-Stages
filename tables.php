@@ -27,6 +27,8 @@
 
 <body id="page-top">
 
+
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -359,6 +361,28 @@
 
                 </nav>
                 <!-- End of Topbar -->
+
+<div class="container-fluid">
+<br><br>
+    <h1 class="h3 mb-2 text-gray-800">Ajout de stages : </h1>
+<br><br>
+
+<form class="user" method="POST" action="login.php" >
+    <div class="form-group">
+        <input type="email" class="form-control form-control-user" name="email" aria-describedby="emailHelp"
+            placeholder="Enter Email Address...">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control form-control-user"
+            name="password" placeholder="Password">
+    </div>
+        <button type="submit" class="btn btn-primary btn-user btn-block">
+            Connexion
+        </button>
+</form>
+</div>
+
+<br><br><br>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">

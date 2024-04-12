@@ -3,10 +3,8 @@ print(0);
 $errorMessage = "";
 
 try {
-    print(1);
 
     if (isset($_POST['password']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['phone'])) {
-        print(2);
         $password = $_POST['password'];
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
@@ -47,6 +45,7 @@ try {
 
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -144,7 +143,7 @@ try {
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-    
+
 </body>
 
 </html>
