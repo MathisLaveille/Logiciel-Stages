@@ -1,3 +1,7 @@
+<?php
+session_start(); 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -310,7 +314,50 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Moi</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    
+                                <?php
+                                // Vérifier si une session est déjà active avant de la démarrer
+                                if(session_status() !== PHP_SESSION_ACTIVE) {
+                                    session_start();
+                                }
+
+                                // Récupération de l'email depuis la session
+                                $email = $_SESSION['email'];
+
+                                // Connexion à la base de données
+                                $connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
+
+                                // Vérifier la connexion
+                                if (!$connection) {
+                                    die("La connexion a échoué : " . mysqli_connect_error());
+                                }
+
+                                // Requête SQL
+                                $query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
+                                $result = mysqli_query($connection, $query);
+
+                                // Vérifier si la requête a abouti
+                                if (!$result) {
+                                    die("Erreur dans la requête : " . mysqli_error($connection));
+                                }
+
+                                // Affichage des données
+                                echo "<ul>";
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<li>" . $row['prenom_u'] . "</li>";
+                                }
+                                echo "</ul>";
+
+                                // Libérer la mémoire des résultats
+                                mysqli_free_result($result);
+
+                                // Fermer la connexion à la base de données
+                                mysqli_close($connection);
+                                ?>
+
+                                </span>
+
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -340,6 +387,8 @@
                     </ul>
 
                 </nav>
+
+                <img src="img/NDLP.jpg" alt="Description de l'image">
                 <!-- End of Topbar -->
 
             </div>
