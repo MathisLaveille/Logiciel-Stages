@@ -1,3 +1,71 @@
+<?php
+session_start();
+
+// // Vérifier si une session est déjà active avant de la démarrer
+// if (session_status() !== PHP_SESSION_ACTIVE) {
+//     session_start();
+// }
+
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+
+// Connexion à la base de données
+$connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
+
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
+}
+
+// Requête SQL pour obtenir les infos sur l'utilisateur
+$query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_firstname = $row['prenom_u'];
+} else {
+    $user_firstname = "Aucun prénom trouvé.";
+}
+
+
+
+// Requête SQL pour obtenir les infos sur le rôle
+$query = "SELECT tbl_role.name_r FROM tbl_role 
+JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+JOIN tbl_user ON tbl_user_role.id_u_user = tbl_user.id_u
+WHERE tbl_user.mail_u = '$email';";
+
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_role = $row['name_r'];
+} else {
+    $user_role = "Aucun rôle.";
+}
+
+
+// Libérer la mémoire des résultats
+mysqli_free_result($result);
+
+// Fermer la connexion à la base de données
+mysqli_close($connection);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,6 +123,8 @@
     Pages
 </div>
 
+
+
 <!-- Nav Item - Tables -->
 <li class="nav-item active">
     <a class="nav-link" href="tables.php">
@@ -64,7 +134,10 @@
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
 
-
+<!-- Sidebar Toggler (Sidebar) -->
+<div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
         </ul>
         <!-- End of Sidebar -->
 
@@ -246,56 +319,10 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-<<<<<<< HEAD
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Moi</span>
-=======
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    
-                                <?php
-                                    // Vérifier si une session est déjà active avant de la démarrer
-                                    if(session_status() !== PHP_SESSION_ACTIVE) {
-                                        session_start();
-                                    }
-
-                                    // Récupération de l'email depuis la session
-                                    $email = $_SESSION['email'];
-
-                                    // Connexion à la base de données
-                                    $connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
-
-                                    // Vérifier la connexion
-                                    if (!$connection) {
-                                        die("La connexion a échoué : " . mysqli_connect_error());
-                                    }
-
-                                    // Requête SQL
-                                    $query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
-                                    $result = mysqli_query($connection, $query);
-
-                                    // Vérifier si la requête a abouti
-                                    if (!$result) {
-                                        die("Erreur dans la requête : " . mysqli_error($connection));
-                                    }
-
-                                    // Affichage des données
-                                    $row = mysqli_fetch_assoc($result);
-                                    if ($row) {
-                                        echo $row['prenom_u'];
-                                    } else {
-                                        echo "Aucun prénom trouvé.";
-                                    }
-
-                                    // Libérer la mémoire des résultats
-                                    mysqli_free_result($result);
-
-                                    // Fermer la connexion à la base de données
-                                    mysqli_close($connection);
-                                ?>
-
-
+                                    <?php echo $user_firstname; echo '('.$user_role.')'; ?>
                                 </span>
 
->>>>>>> ccab65441259cf15f7e9b082ebd9dcfbe4cec9bf
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -334,14 +361,14 @@
                 <a> Bienvenue sur le site ! <a>
                     <br> </br>
 
-                    <a>Petite présention :</a> 
+                    <a>Petite présention :</a>
                     <br>  </br>
                     <a>Ce site à était conçue par une équipe de trois étudiants en BTS Services Informatiques aux Organisations (SIO) option Solutions Logicielles et Applications Métiers (SLAM).</a>
                     <br> </br>
 
                     <a> Stage à venir : </a>
 
-                    <table>
+<table border>
   <tr>
     <td>Classe </td>
     <td>Date</td>
@@ -373,9 +400,9 @@
 <img src="img\NDLP.jpg" style="display: block; margin: 0 auto;">
 
 
-                    
 
-        
+
+
                 <!-- End of Topbar -->
 
             </div>
