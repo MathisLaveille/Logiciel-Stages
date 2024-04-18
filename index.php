@@ -1,3 +1,74 @@
+<<<<<<< HEAD
+=======
+<?php
+session_start();
+
+// // Vérifier si une session est déjà active avant de la démarrer
+// if (session_status() !== PHP_SESSION_ACTIVE) {
+//     session_start();
+// }
+
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+
+// Connexion à la base de données
+$connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
+
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
+}
+
+// Requête SQL pour obtenir les infos sur l'utilisateur
+$query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_firstname = $row['prenom_u'];
+} else {
+    $user_firstname = "Aucun prénom trouvé.";
+}
+
+
+
+// Requête SQL pour obtenir les infos sur le rôle
+$query = "SELECT tbl_role.name_r FROM tbl_role 
+JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+JOIN tbl_user ON tbl_user_role.id_u_user = tbl_user.id_u
+WHERE tbl_user.mail_u = '$email';";
+
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_role = $row['name_r'];
+} else {
+    $user_role = "Aucun rôle.";
+}
+
+
+// Libérer la mémoire des résultats
+mysqli_free_result($result);
+
+// Fermer la connexion à la base de données
+mysqli_close($connection);
+
+?>
+
+>>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,6 +126,8 @@
     Pages
 </div>
 
+
+
 <!-- Nav Item - Tables -->
 <li class="nav-item active">
     <a class="nav-link" href="tables.php">
@@ -64,7 +137,10 @@
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
 
-
+<!-- Sidebar Toggler (Sidebar) -->
+<div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
         </ul>
         <!-- End of Sidebar -->
 
@@ -105,7 +181,14 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<<<<<<< HEAD
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Moi</span>
+=======
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?php echo $user_firstname; echo '('.$user_role.')'; ?>
+                                </span>
+
+>>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -140,8 +223,15 @@
 
 <body>
 
+<<<<<<< HEAD
 <a>Bienvenue sur le site !</a>
 <br><br>
+=======
+                    <a>Petite présention :</a>
+                    <br>  </br>
+                    <a>Ce site à était conçue par une équipe de trois étudiants en BTS Services Informatiques aux Organisations (SIO) option Solutions Logicielles et Applications Métiers (SLAM).</a>
+                    <br> </br>
+>>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 
 <a>Petite présentation :</a>
 <br><br>
@@ -150,6 +240,7 @@
 <a> Explication du projet : </a>
 <br> </br>
 
+<<<<<<< HEAD
 <a> Le projet à débuter le 12 Janvier 2024. On as fait un cahier des charges et la création d'un MCD.Nous avons rencontrer le client. Bonne visite !
 <br> </br>
 <a>Stage à venir :</a>
@@ -175,6 +266,35 @@
         <td>à définir</td>
         <td>à définir</td>
     </tr>
+=======
+<table border>
+  <tr>
+    <td>Classe </td>
+    <td>Date</td>
+  </tr>
+  <tr>
+    <td>BTS GPME 1ère année</td>
+
+
+    <td> à définir</td>
+
+  </tr>
+  <tr>
+    <td>BTS SIO 1ère année</td>
+    <td>27mai-6juillet</td>
+
+  </tr>
+  <tr>
+    <td>à définir</td>
+    <td>à définir</td>
+
+  </tr>
+  <tr>
+    <td>à définir</td>
+    <td>à définir</td>
+
+  </tr>
+>>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 </table>
 
 </body>
@@ -183,10 +303,14 @@
 <img src="img\NDLP.jpg" style="display: block; margin: 0 auto;">
 
 
+<<<<<<< HEAD
 
                    
+=======
+>>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 
-        
+
+
                 <!-- End of Topbar -->
 
             </div>
