@@ -21,7 +21,7 @@ try {
         if ($stmt->rowCount() > 0) {
             print(1);// Le compte existe
             echo "Connexion réussie.";
-            header('location: /index.html');
+            header('location: /index.php');
         } else {
             // Le compte n'existe pas ou les identifiants sont incorrects
             echo "Nom d'utilisateur ou mot de passe incorrect.";

@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Accueil</span></a>
             </li>
@@ -337,9 +337,35 @@
                             </div>
                         </li>
 
+
                     </ul>
 
+
+
+
+
                 </nav>
+
+                <a> Bienvenue sur le site ! <a>
+                    <br> </br>
+
+
+
+                    <a>Petite présention :</a> 
+                    <br>  </br>
+
+
+                    <a>Ce site à était conçue par une équipe de trois étudiants en BTS Services Informatiques aux Organisations (SIO) option Solutions Logicielles et Applications Métiers (SLAM).</a>
+
+                    <br> </br>
+
+           
+              <img src="img\NDLP.jpg" style="display: block; margin: 0 auto;">
+
+
+                    
+
+        
                 <!-- End of Topbar -->
 
             </div>
@@ -349,7 +375,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Crée par Griffon Dawson, Laveille Mathis, Grall Emeric</span>
                     </div>
                 </div>
             </footer>
