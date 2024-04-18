@@ -1,3 +1,7 @@
+<?php
+SESSION_START();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -246,9 +250,6 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-<<<<<<< HEAD
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Moi</span>
-=======
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     
                                 <?php
@@ -295,7 +296,6 @@
 
                                 </span>
 
->>>>>>> ccab65441259cf15f7e9b082ebd9dcfbe4cec9bf
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
