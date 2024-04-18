@@ -65,7 +65,8 @@ session_start();
         <i class="fas fa-fw fa-table"></i>
         <span>Stages</span></a>
 </li>
-
+<!-- Divider -->
+<hr class="sidebar-divider d-none d-md-block">
 
 
         </ul>
