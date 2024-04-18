@@ -18,7 +18,7 @@ try {
         $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
     
         // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_p, nom_p, prenom_p, mail_p, phone_p) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
+        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_u, nom_u, prenom_u, mail_u, phone_u) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
     
         // Liaison des paramètres
         $stmt->bindParam(':password', $password);

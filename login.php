@@ -1,19 +1,22 @@
 <?php 
 //---------------------------------------------------------------------------------------------------------//
 // Connexion à la base de données MySQL
+session_start();
 
 try {
     if (isset($_POST['email']) && isset($_POST['password'])) {
+
         $email = $_POST['email'];
-        print(0);
         $password = $_POST['password'];
+
+        $_SESSION['email'] = $email;
 
         // Connexion à la base de données
         $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Vérifier si le compte existe
-        $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_p = :email AND password_p = PASSWORD(CONCAT('*-6', :password))");
+        $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_u = :email AND password_u = PASSWORD(CONCAT('*-6', :password))");
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
@@ -89,26 +92,15 @@ try {
                                             <input type="password" class="form-control form-control-user"
                                                 name="password" placeholder="Password">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Connexion
                                         </button>
-                                        <hr>
                                     </form>
 
 
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="register.php">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>
