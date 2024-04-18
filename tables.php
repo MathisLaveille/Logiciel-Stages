@@ -1,3 +1,46 @@
+<?php 
+$errorMessage = "";
+
+try {
+
+    if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone'])) {
+        $nom = $_POST['nom'];
+        $rue = $_POST['rue'];
+        $postal = $_POST['postal'];
+        $ville = $_POST['ville'];
+        $phone = $_POST['phone'];
+        
+        // Connexion à la base de données
+
+        $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
+    
+        // Préparation de la requête
+        $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
+    
+        // Liaison des paramètres
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':rue', $rue);
+        $stmt->bindParam(':postal', $postal);
+        $stmt->bindParam(':ville', $ville);
+        $stmt->bindParam(':phone', $phone);
+    
+        // Exécution de la requête
+        $stmt->execute();
+    }
+} catch (PDOException $e) {
+    print(3);
+    $code = $e->getCode();
+    $errorMessage = "erreur";
+    
+
+    print("code = '$code'");
+    print($e->getMessage());
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -371,82 +414,60 @@
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <a href="adresse de redirection" class="btn btn-primary btn-user btn-block" > Ajouter un stage : </a>
-                        </div>
                         
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nom, Prenom</th>
-                                            <th>Entreprise</th>
-                                            <th>Durée</th>
-                                            <th>Classe</th>
-                                            <th>Theme</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>San Francisco</td>
-                                            <td>66</td>
-                                            <td>2009/01/12</td>
-                                            <td>$86,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Senior Javascript Developer</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2012/03/29</td>
-                                            <td>$433,060</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Airi Satou</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>33</td>
-                                            <td>2008/11/28</td>
-                                            <td>$162,700</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>New York</td>
-                                            <td>61</td>
-                                            <td>2012/12/02</td>
-                                            <td>$372,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Herrod Chandler</td>
-                                            <td>Sales Assistant</td>
-                                            <td>San Francisco</td>
-                                            <td>59</td>
-                                            <td>2012/08/06</td>
-                                            <td>$137,500</td>
-                                        </tr>
-                                    </tbody>
+                                    <tr>
+                                        <th>Nom entreprise</th>
+                                        <th>Rue entreprise</th>
+                                        <th>Code postal entreprise</th>
+                                        <th>Ville entreprise</th>
+                                        <th>Téléphone entreprise</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                        
+                                    </tr>
+                                    <?php
+                                    $serveur = "172.16.136.9"; 
+                                    $utilisateur = "root"; 
+                                    $mot_de_passe = "root"; 
+                                    $base_de_donnees ="logiciel_stages"; 
+                                    
+                                    try {
+                                    
+                                        $dbh = new PDO("mysql:host=$serveur;dbname=$base_de_donnees", $utilisateur, $mot_de_passe);
+                                        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                        $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+                                        // Exécute la requête
+                                        $stmt->execute();
+                                        // Affiche les données dans le tableau
+                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                            echo "<tr>";
+                                            echo "<td>".$row["nom_e"]."</td>"; 
+                                            echo "<td>".$row["rue_e"]."</td>";
+                                            echo "<td>".$row["CP_e"]."</td>";
+                                            echo "<td>".$row["city_e"]."</td>";
+                                            echo "<td>".$row["phone_e"]."</td>";
+                                            echo "<tr>";
+                                    
+
+
+                                            
+
+                                
+
+                                        }
+                                        } catch(PDOException $e) {
+                                            echo "Erreur : " . $e->getMessage();
+                                        }
+                                        // Ferme la connexion
+                                        $dbh = null;
+                                    
+                                
+                                    ?>
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -461,40 +482,34 @@
     <h1 class="h3 mb-2 text-gray-800">Ajout de stages : </h1>
 <br><br>
 
-<form class="user" method="post" action="register.php">
+<form class="user" method="post" action="tables.php">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" name="nom"
                                             placeholder="Nom de l'entreprise">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="prenom"
+                                        <input type="text" class="form-control form-control-user" name="rue"
                                             placeholder="Rue de l'entreprise">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" name="email"
+                                    <input type="text" class="form-control form-control-user" name="postal"
                                         placeholder="Code postal de l'entreprise">
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="phone"
+                                    <input type="text" class="form-control form-control-user" name="ville"
                                         placeholder="Ville de l'entreprise">
                                 </div>
 
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            name="password" placeholder="Téléphone de l'entreprise">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            name="RepeatPassword" placeholder="Confirmation du Mot De Passe">
-                                    </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" name="phone"
+                                        placeholder="Téléphone de l'entreprise">
                                 </div>
                                 
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
-                                Valide le compte
+                                Validation du stage
                                 </button>
                             </form>
 </div>

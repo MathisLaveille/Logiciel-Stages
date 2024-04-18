@@ -1,5 +1,4 @@
 <?php 
-print(0);
 $errorMessage = "";
 
 try {
