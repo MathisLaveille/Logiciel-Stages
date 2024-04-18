@@ -240,7 +240,6 @@ mysqli_close($connection);
 <a> Explication du projet : </a>
 <br> </br>
 
-<<<<<<< HEAD
 <a> Le projet à débuter le 12 Janvier 2024. On as fait un cahier des charges et la création d'un MCD.Nous avons rencontrer le client. Bonne visite !
 <br> </br>
 <a>Stage à venir :</a>
@@ -266,35 +265,6 @@ mysqli_close($connection);
         <td>à définir</td>
         <td>à définir</td>
     </tr>
-=======
-<table border>
-  <tr>
-    <td>Classe </td>
-    <td>Date</td>
-  </tr>
-  <tr>
-    <td>BTS GPME 1ère année</td>
-
-
-    <td> à définir</td>
-
-  </tr>
-  <tr>
-    <td>BTS SIO 1ère année</td>
-    <td>27mai-6juillet</td>
-
-  </tr>
-  <tr>
-    <td>à définir</td>
-    <td>à définir</td>
-
-  </tr>
-  <tr>
-    <td>à définir</td>
-    <td>à définir</td>
-
-  </tr>
->>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 </table>
 
 </body>
@@ -303,11 +273,6 @@ mysqli_close($connection);
 <img src="img\NDLP.jpg" style="display: block; margin: 0 auto;">
 
 
-<<<<<<< HEAD
-
-                   
-=======
->>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 
 
 
