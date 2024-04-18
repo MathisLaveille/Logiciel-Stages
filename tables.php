@@ -1,44 +1,5 @@
-<?php 
-$errorMessage = "";
-
-try {
-
-    if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone'])) {
-        $nom = $_POST['nom'];
-        $rue = $_POST['rue'];
-        $postal = $_POST['postal'];
-        $ville = $_POST['ville'];
-        $phone = $_POST['phone'];
-        
-        // Connexion à la base de données
-
-        $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
-    
-        // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
-    
-        // Liaison des paramètres
-        $stmt->bindParam(':nom', $nom);
-        $stmt->bindParam(':rue', $rue);
-        $stmt->bindParam(':postal', $postal);
-        $stmt->bindParam(':ville', $ville);
-        $stmt->bindParam(':phone', $phone);
-    
-        // Exécution de la requête
-        $stmt->execute();
-    }
-} catch (PDOException $e) {
-    print(3);
-    $code = $e->getCode();
-    $errorMessage = "erreur";
-    
-
-    print("code = '$code'");
-    print($e->getMessage());
-}
-
-
-
+<?php
+session_start()
 ?>
 
 <!DOCTYPE html>
@@ -300,7 +261,52 @@ try {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    
+                                <?php
+                                    // Vérifier si une session est déjà active avant de la démarrer
+                                    if(session_status() !== PHP_SESSION_ACTIVE) {
+                                        session_start();
+                                    }
+
+                                    // Récupération de l'email depuis la session
+                                    $email = $_SESSION['email'];
+
+                                    // Connexion à la base de données
+                                    $connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
+
+                                    // Vérifier la connexion
+                                    if (!$connection) {
+                                        die("La connexion a échoué : " . mysqli_connect_error());
+                                    }
+
+                                    // Requête SQL
+                                    $query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
+                                    $result = mysqli_query($connection, $query);
+
+                                    // Vérifier si la requête a abouti
+                                    if (!$result) {
+                                        die("Erreur dans la requête : " . mysqli_error($connection));
+                                    }
+
+                                    // Affichage des données
+                                    $row = mysqli_fetch_assoc($result);
+                                    if ($row) {
+                                        echo $row['prenom_u'];
+                                    } else {
+                                        echo "Aucun prénom trouvé.";
+                                    }
+
+                                    // Libérer la mémoire des résultats
+                                    mysqli_free_result($result);
+
+                                    // Fermer la connexion à la base de données
+                                    mysqli_close($connection);
+                                ?>
+
+
+                                </span>
+
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -337,7 +343,10 @@ try {
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
-                    <p class="mb-4">Stages déja trouvée pour vous aider a mieux chercher<a target="_blank"></a>
+
+                    <a href="ajout_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
+                
+                    <br>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -405,40 +414,6 @@ try {
             </div>
             <!-- End of Main Content -->
             <div class="container-fluid">
-<br><br>
-    <h1 class="h3 mb-2 text-gray-800">Ajout de stages : </h1>
-<br><br>
-
-<form class="user" method="post" action="tables.php">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="nom"
-                                            placeholder="Nom de l'entreprise">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="rue"
-                                            placeholder="Rue de l'entreprise">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="postal"
-                                        placeholder="Code postal de l'entreprise">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="ville"
-                                        placeholder="Ville de l'entreprise">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="phone"
-                                        placeholder="Téléphone de l'entreprise">
-                                </div>
-                                
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                Validation du stage
-                                </button>
-                            </form>
 </div>
 
 <br><br><br>

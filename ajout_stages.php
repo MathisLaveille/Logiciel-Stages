@@ -1,5 +1,50 @@
 <?php
+
 session_start();
+
+$errorMessage = "";
+
+try {
+
+    if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone'])) {
+        $nom = $_POST['nom'];
+        $rue = $_POST['rue'];
+        $postal = $_POST['postal'];
+        $ville = $_POST['ville'];
+        $phone = $_POST['phone'];
+        
+        // Connexion à la base de données
+
+        $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
+    
+        // Préparation de la requête
+        $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
+    
+        // Liaison des paramètres
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':rue', $rue);
+        $stmt->bindParam(':postal', $postal);
+        $stmt->bindParam(':ville', $ville);
+        $stmt->bindParam(':phone', $phone);
+    
+        // Exécution de la requête
+        $stmt->execute();
+        
+        header('location: /tables.php');
+    }
+} catch (PDOException $e) {
+    print(3);
+    $code = $e->getCode();
+    $errorMessage = "erreur";
+    
+
+    print("code = '$code'");
+    print($e->getMessage());
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -13,20 +58,25 @@ session_start();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Logicel gestion de stages</title>
+    <title>Gestion des stages</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
 <body id="page-top">
+
+
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -42,32 +92,36 @@ session_start();
                 <img src="/img/NDLP.png" width="70" height="50">
             </a>
 
-             <!-- Divider -->
-             <hr class="sidebar-divider my-0">
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
 
-<!-- Nav Item - Dashboard -->
-<li class="nav-item">
-    <a class="nav-link" href="index.php">
-        <img src="/img/Acceuil.png" width="35" height="35">
-        <span>Acceuil</span>
-    </a>
-</li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.php">
+                    <img src="/img/Acceuil.png" width="35" height="35">
+                    <span>Acceuil</span>
+                </a>
+            </li>
 
 
-<!-- Heading -->
-<div class="sidebar-heading">
-    Pages
-</div>
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Pages
+            </div>
 
 <!-- Nav Item - Tables -->
 <li class="nav-item active">
-    <a class="nav-link" href="tables.php">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Stages</span></a>
-</li>
-<!-- Divider -->
-<hr class="sidebar-divider d-none d-md-block">
+                <a class="nav-link" href="tables.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Stages</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
 
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
 
         </ul>
         <!-- End of Sidebar -->
@@ -82,15 +136,17 @@ session_start();
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
 
                     <!-- Topbar Search -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Rechercher ..."
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
@@ -322,70 +378,71 @@ session_start();
                             </div>
                         </li>
 
-
                     </ul>
 
-
-
-
-
                 </nav>
-
-                <a> Bienvenue sur le site ! <a>
-                    <br> </br>
-
-                    <a>Petite présention :</a> 
-                    <br>  </br>
-                    <a>Ce site à était conçue par une équipe de trois étudiants en BTS Services Informatiques aux Organisations (SIO) option Solutions Logicielles et Applications Métiers (SLAM).</a>
-                    <br> </br>
-
-                    <a> Stage à venir : </a>
-
-                    <table>
-  <tr>
-    <td>Classe </td>
-    <td>Date</td>
-  </tr>
-  <tr>
-    <td>BTS GPME 1ère année</td>
-
-
-    <td> à définir</td>
-
-  </tr>
-  <tr>
-    <td>BTS SIO 1ère année</td>
-    <td>27mai-6juillet</td>
-
-  </tr>
-  <tr>
-    <td>à définir</td>
-    <td>à définir</td>
-
-  </tr>
-  <tr>
-    <td>à définir</td>
-    <td>à définir</td>
-
-  </tr>
-</table>
-
-<img src="img\NDLP.jpg" style="display: block; margin: 0 auto;">
-
-
-                    
-
-        
                 <!-- End of Topbar -->
 
-            </div>
-            <!-- End of Main Content -->
+<h1 class="h3 p-4 mb-2 text-gray-800">Ajout de stages : </h1>
+<br><br>
 
+<div class="container">
+
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                    </div>
+                            <form class="user" method="post" action="ajout_stages.php">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" name="nom"
+                                            placeholder="Nom de l'entreprise">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" name="rue"
+                                            placeholder="Rue de l'entreprise">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" name="postal"
+                                        placeholder="Code postal de l'entreprise">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" name="ville"
+                                        placeholder="Ville de l'entreprise">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" name="phone"
+                                        placeholder="Téléphone de l'entreprise">
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                Validation du stage
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<br><br><br>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Crée par Griffon Dawson, Laveille Mathis, Grall Emeric</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -408,15 +465,15 @@ session_start();
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Prêt à partir ?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Sélectionnez « Se déconnecter » ci-dessous si vous êtes prêt à mettre fin à votre session en cours.</div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                    <a class="btn btn-primary" href="login.php">Se déconnecter</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -433,11 +490,11 @@ session_start();
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 
