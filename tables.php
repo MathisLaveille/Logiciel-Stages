@@ -107,6 +107,7 @@ session_start()
                     </form>
 
 
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -217,7 +218,7 @@ session_start()
                                         <th>Ville entreprise</th>
                                         <th>Téléphone entreprise</th>               
                                     </tr>
-                                    
+
                                 </thead> 
 
                                 <tfoot>    
