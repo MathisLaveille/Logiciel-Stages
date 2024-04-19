@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 <?php
 session_start();
 
@@ -68,7 +67,6 @@ mysqli_close($connection);
 
 ?>
 
->>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,14 +179,14 @@ mysqli_close($connection);
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-<<<<<<< HEAD
+
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Moi</span>
-=======
+
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?php echo $user_firstname; echo '('.$user_role.')'; ?>
                                 </span>
 
->>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
+
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -222,55 +220,73 @@ mysqli_close($connection);
                 </nav>
 
 <body>
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="p-5">
+                    <div class="text-center">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="flex: 1;">
+                                <h1 class="h4 text-gray-900 mb-4">Bienvenue sur le site !</h1>
+                            </div>
+                            <div style="flex: 1;">
+                                <img src="img/NDLP.png" style="display: block; margin: 0 auto; max-width: 100px;">
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
 
-<<<<<<< HEAD
-<a>Bienvenue sur le site !</a>
+                    <a style="font-family: Roboto, sans-serif;">Petite présentation :</a>
 <br><br>
-=======
-                    <a>Petite présention :</a>
-                    <br>  </br>
-                    <a>Ce site à était conçue par une équipe de trois étudiants en BTS Services Informatiques aux Organisations (SIO) option Solutions Logicielles et Applications Métiers (SLAM).</a>
-                    <br> </br>
->>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
+<a style="font-family: Roboto, sans-serif;">Ce site a été conçu par une équipe de trois étudiants en BTS Services Informatiques aux Organisations (SIO) option Solutions Logicielles et Applications Métiers (SLAM).</a>
+<br><br>
+<a style="font-family: Roboto, sans-serif;">Explication du projet :</a>
+<br><br>
+<a style="font-family: Roboto, sans-serif;">Le projet a débuté le 12 Janvier 2024. Nous avons fait un cahier des charges et la création d'un MCD. Nous avons rencontré le client. Bonne visite !</a>
+<br><br>
+<a style="font-family: Roboto, sans-serif;">Stage à venir :</a>
+<br><br>
+<table border="2">
+    <tr>
+        <td style="font-family: Roboto, sans-serif;">Classe</td>
+        <td style="font-family: Roboto, sans-serif;">Date</td>
+    </tr>
+    <tr>
+        <td style="font-family: Roboto, sans-serif;">BTS GPME 1ère année</td>
+        <td style="font-family: Roboto, sans-serif;">à définir</td>
+    </tr>
+    <tr>
+        <td style="font-family: Roboto, sans-serif;">BTS SIO 1ère année</td>
+        <td style="font-family: Roboto, sans-serif;">27 mai - 6 juillet</td>
+    </tr>
+    <tr>
+        <td style="font-family: Roboto, sans-serif;">à définir</td>
+        <td style="font-family: Roboto, sans-serif;">à définir</td>
+    </tr>
+    <tr>
+        <td style="font-family: Roboto, sans-serif;">à définir</td>
+        <td style="font-family: Roboto, sans-serif;">à définir</td>
+    </tr>
 
-<a>Petite présentation :</a>
-<br><br>
-<a>Ce site a été conçu par une équipe de trois étudiants en BTS Services Informatiques aux Organisations (SIO) option Solutions Logicielles et Applications Métiers (SLAM).</a>
-<br><br>
-<a> Explication du projet : </a>
-<br> </br>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<a> Le projet à débuter le 12 Janvier 2024. On as fait un cahier des charges et la création d'un MCD.Nous avons rencontrer le client. Bonne visite !
-<br> </br>
-<a>Stage à venir :</a>
-<br> </br>
-<table border = 1>
-    <tr>
-        <td>Classe</td>
-        <td>Date</td>
-    </tr>
-    <tr>
-        <td>BTS GPME 1ère année      </td>
-        <td>à définir</td>
-    </tr>
-    <tr>
-        <td>BTS SIO 1ère année</td>
-        <td>27 mai  - 6 juillet</td>
-    </tr>
-    <tr>
-        <td>à définir</td>
-        <td>à définir</td>
-    </tr>
-    <tr>
-        <td>à définir</td>
-        <td>à définir</td>
-    </tr>
-</table>
+
+    
+
+
+
 
 </body>
 
 
-<img src="img\NDLP.jpg" style="display: block; margin: 0 auto;">
+
 
 
 
