@@ -214,11 +214,6 @@ mysqli_close($connection);
 
 
                     </ul>
-
-
-
-
-
                 </nav>
 
 <body>
@@ -262,21 +257,7 @@ mysqli_close($connection);
         </div>
     </div>
 </div>
-
-
-    
-
-
-
-
 </body>
-
-
-
-
-
-
-
 
                 <!-- End of Topbar -->
 

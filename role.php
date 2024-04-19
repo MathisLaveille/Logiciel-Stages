@@ -1,5 +1,79 @@
 <?php
-session_start()
+session_start();
+
+// // Vérifier si une session est déjà active avant de la démar²rer
+// if (session_status() !== PHP_SESSION_ACTIVE) {
+//     session_start();
+// }
+
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+
+// Connexion à la base de données
+$connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
+
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
+}
+
+// Requête SQL pour obtenir les infos sur l'utilisateur
+$query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_firstname = $row['prenom_u'];
+} else {
+    $user_firstname = "Aucun prénom trouvé.";
+}
+
+// Requête SQL pour obtenir les infos sur le rôle
+$query = "SELECT tbl_role.name_r FROM tbl_role
+JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+JOIN tbl_user ON tbl_user_role.id_u_user = tbl_user.id_u
+WHERE tbl_user.mail_u = '$email';";
+
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_role = $row['name_r'];
+} else {
+    $user_role = "Aucun rôle.";
+}
+
+session_start();
+
+// Vérifier si l'utilisateur est connecté et a le rôle de SUPERADMIN
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $user_role['name_r'] !== 'ADMIN') {
+    // Rediriger vers une page d'accès non autorisé si l'utilisateur n'est pas autorisé
+    header('Location: /index.php');
+    exit;
+}
+
+// Code de la page accessible uniquement au SUPERADMIN
+echo "Bienvenue, SUPERADMIN!";
+
+
+// Libérer la mémoire des résultats
+mysqli_free_result($result);
+
+// Fermer la connexion à la base de données
+mysqli_close($connection);
+
 ?>
 
 <!DOCTYPE html>
@@ -30,8 +104,6 @@ session_start()
 </head>
 
 <body id="page-top">
-
-
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -123,48 +195,9 @@ session_start()
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    
-                                <?php
-                                    // Vérifier si une session est déjà active avant de la démarrer
-                                    if(session_status() !== PHP_SESSION_ACTIVE) {
-                                        session_start();
-                                    }
 
-                                    // Récupération de l'email depuis la session
-                                    $email = $_SESSION['email'];
-
-                                    // Connexion à la base de données
-                                    $connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
-
-                                    // Vérifier la connexion
-                                    if (!$connection) {
-                                        die("La connexion a échoué : " . mysqli_connect_error());
-                                    }
-
-                                    // Requête SQL
-                                    $query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
-                                    $result = mysqli_query($connection, $query);
-
-                                    // Vérifier si la requête a abouti
-                                    if (!$result) {
-                                        die("Erreur dans la requête : " . mysqli_error($connection));
-                                    }
-
-                                    // Affichage des données
-                                    $row = mysqli_fetch_assoc($result);
-                                    if ($row) {
-                                        echo $row['prenom_u'];
-                                    } else {
-                                        echo "Aucun prénom trouvé.";
-                                    }
-
-                                    // Libérer la mémoire des résultats
-                                    mysqli_free_result($result);
-
-                                    // Fermer la connexion à la base de données
-                                    mysqli_close($connection);
-                                ?>
-
+                                <?php echo $user_firstname;
+echo '(' . $user_role . ')'; ?>
 
                                 </span>
 
@@ -204,12 +237,12 @@ session_start()
                     <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
 
                     <a href="ajout_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
-                
+
                     <br>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -221,46 +254,39 @@ session_start()
                                         <th>Téléphone entreprise</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
-                                        
+
                                     </tr>
                                     <?php
-                                    $serveur = "172.16.136.9"; 
-                                    $utilisateur = "root"; 
-                                    $mot_de_passe = "root"; 
-                                    $base_de_donnees ="logiciel_stages"; 
-                                    
-                                    try {
-                                    
-                                        $dbh = new PDO("mysql:host=$serveur;dbname=$base_de_donnees", $utilisateur, $mot_de_passe);
-                                        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                                        $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
-                                        // Exécute la requête
-                                        $stmt->execute();
-                                        // Affiche les données dans le tableau
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            echo "<tr>";
-                                            echo "<td>".$row["nom_e"]."</td>"; 
-                                            echo "<td>".$row["rue_e"]."</td>";
-                                            echo "<td>".$row["CP_e"]."</td>";
-                                            echo "<td>".$row["city_e"]."</td>";
-                                            echo "<td>".$row["phone_e"]."</td>";
-                                            echo "<tr>";
-                                    
+$serveur = "172.16.136.9";
+$utilisateur = "root";
+$mot_de_passe = "root";
+$base_de_donnees = "logiciel_stages";
 
+try {
 
-                                            
+    $dbh = new PDO("mysql:host=$serveur;dbname=$base_de_donnees", $utilisateur, $mot_de_passe);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+    // Exécute la requête
+    $stmt->execute();
+    // Affiche les données dans le tableau
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo "<tr>";
+        echo "<td>" . $row["nom_e"] . "</td>";
+        echo "<td>" . $row["rue_e"] . "</td>";
+        echo "<td>" . $row["CP_e"] . "</td>";
+        echo "<td>" . $row["city_e"] . "</td>";
+        echo "<td>" . $row["phone_e"] . "</td>";
+        echo "<tr>";
 
-                                
+    }
+} catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage();
+}
+// Ferme la connexion
+$dbh = null;
 
-                                        }
-                                        } catch(PDOException $e) {
-                                            echo "Erreur : " . $e->getMessage();
-                                        }
-                                        // Ferme la connexion
-                                        $dbh = null;
-                                    
-                                
-                                    ?>
+?>
                                 </table>
 
                             </div>
