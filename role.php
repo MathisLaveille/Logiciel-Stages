@@ -70,15 +70,6 @@ session_start()
                     <i class="fas fa-fw fa-table"></i>
                     <span>Stages</span></a>
             </li>
-
-            <li class="nav-item">
-    <a class="nav-link" href="role.php">
-        <img src="/img/Acceuil.png" width="35" height="35">
-        <span>Role</span>
-    </a>
-</li>
-
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -222,31 +213,16 @@ session_start()
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>    
                                     <tr>
                                         <th>Nom entreprise</th>
                                         <th>Rue entreprise</th>
                                         <th>Code postal entreprise</th>
                                         <th>Ville entreprise</th>
                                         <th>Téléphone entreprise</th>
-
+                                        <th>Edit</th>
+                                        <th>Delete</th>
                                         
                                     </tr>
-                                </thead> 
-
-                                <tfoot>    
-                                    <tr>
-                                        <th>Nom entreprise</th>
-                                        <th>Rue entreprise</th>
-                                        <th>Code postal entreprise</th>
-                                        <th>Ville entreprise</th>
-                                        <th>Téléphone entreprise</th>
-
-                                        
-                                    </tr>
-                                </tfoot> 
-                                    <tbody>
-
                                     <?php
                                     $serveur = "172.16.136.9"; 
                                     $utilisateur = "root"; 
@@ -261,20 +237,22 @@ session_start()
                                         // Exécute la requête
                                         $stmt->execute();
                                         // Affiche les données dans le tableau
-                                        
                                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            
                                             echo "<tr>";
                                             echo "<td>".$row["nom_e"]."</td>"; 
                                             echo "<td>".$row["rue_e"]."</td>";
                                             echo "<td>".$row["CP_e"]."</td>";
                                             echo "<td>".$row["city_e"]."</td>";
                                             echo "<td>".$row["phone_e"]."</td>";
-                                            echo "</tr>";
+                                            echo "<tr>";
+                                    
 
+
+                                            
+
+                                
 
                                         }
-
                                         } catch(PDOException $e) {
                                             echo "Erreur : " . $e->getMessage();
                                         }
@@ -283,7 +261,6 @@ session_start()
                                     
                                 
                                     ?>
-                                    </tbody>
                                 </table>
 
                             </div>
