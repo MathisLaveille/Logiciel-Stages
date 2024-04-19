@@ -12,6 +12,7 @@ try {
         $postal = $_POST['postal'];
         $ville = $_POST['ville'];
         $phone = $_POST['phone'];
+
         
         // Connexion à la base de données
 
@@ -26,6 +27,7 @@ try {
         $stmt->bindParam(':postal', $postal);
         $stmt->bindParam(':ville', $ville);
         $stmt->bindParam(':phone', $phone);
+
     
         // Exécution de la requête
         $stmt->execute();
@@ -140,20 +142,6 @@ try {
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-                    </form>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
                     </form>
 
                     <!-- Topbar Navbar -->
@@ -398,16 +386,19 @@ try {
                         <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                     </div>
                             <form class="user" method="post" action="ajout_stages.php">
+
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" name="nom"
                                             placeholder="Nom de l'entreprise">
                                     </div>
+
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" name="rue"
                                             placeholder="Rue de l'entreprise">
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" name="postal"
                                         placeholder="Code postal de l'entreprise">
@@ -421,6 +412,30 @@ try {
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" name="phone"
                                         placeholder="Téléphone de l'entreprise">
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" name="nom"
+                                            placeholder="Nom de l'entreprise">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" name="rue"
+                                            placeholder="Rue de l'entreprise">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" name="nom"
+                                            placeholder="Nom de l'entreprise">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" name="rue"
+                                            placeholder="Rue de l'entreprise">
+                                    </div>
                                 </div>
                                 
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
