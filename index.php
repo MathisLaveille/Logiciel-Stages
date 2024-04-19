@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <?php
 session_start();
 
@@ -68,7 +66,6 @@ mysqli_close($connection);
 
 ?>
 
->>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,14 +178,10 @@ mysqli_close($connection);
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-<<<<<<< HEAD
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Moi</span>
-=======
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?php echo $user_firstname; echo '('.$user_role.')'; ?>
                                 </span>
 
->>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -223,15 +216,12 @@ mysqli_close($connection);
 
 <body>
 
-<<<<<<< HEAD
 <a>Bienvenue sur le site !</a>
 <br><br>
-=======
                     <a>Petite présention :</a>
                     <br>  </br>
                     <a>Ce site à était conçue par une équipe de trois étudiants en BTS Services Informatiques aux Organisations (SIO) option Solutions Logicielles et Applications Métiers (SLAM).</a>
                     <br> </br>
->>>>>>> ff9651b6af492292b05ad4b1270bfca457a7c0dd
 
 <a>Petite présentation :</a>
 <br><br>
