@@ -70,15 +70,6 @@ session_start()
                     <i class="fas fa-fw fa-table"></i>
                     <span>Stages</span></a>
             </li>
-
-            <li class="nav-item">
-    <a class="nav-link" href="role.php">
-        <img src="/img/Acceuil.png" width="35" height="35">
-        <span>Role</span>
-    </a>
-</li>
-
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
