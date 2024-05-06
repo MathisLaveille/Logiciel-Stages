@@ -131,7 +131,7 @@ session_start()
                                     $email = $_SESSION['email'];
 
                                     // Connexion à la base de données
-                                    $connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
+                                    $connection = mysqli_connect("172.16.136.21", "root", "root", "logiciel_stages");
 
                                     // Vérifier la connexion
                                     if (!$connection) {
@@ -234,7 +234,7 @@ session_start()
                                     <tbody>
 
                                     <?php
-                                    $serveur = "172.16.136.9"; 
+                                    $serveur = "172.16.136.21"; 
                                     $utilisateur = "root"; 
                                     $mot_de_passe = "root"; 
                                     $base_de_donnees ="logiciel_stages"; 
@@ -337,7 +337,7 @@ session_start()
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->

@@ -16,7 +16,7 @@ try {
         
         // Connexion à la base de données
 
-        $dbh = new PDO('mysql:host=172.16.136.9;dbname=logiciel_stages', 'root', 'root');
+        $dbh = new PDO('mysql:host=172.16.136.21;dbname=logiciel_stages', 'root', 'root');
     
         // Préparation de la requête
         $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
@@ -505,7 +505,7 @@ try {
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
