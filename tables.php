@@ -234,7 +234,7 @@ session_start()
                                     <tbody>
 
                                     <?php
-                                    $serveur = "172.16.136.9"; 
+                                    $serveur = "172.16.136.21"; 
                                     $utilisateur = "root"; 
                                     $mot_de_passe = "root"; 
                                     $base_de_donnees ="logiciel_stages"; 
