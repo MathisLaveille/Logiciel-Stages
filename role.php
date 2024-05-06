@@ -10,7 +10,7 @@ session_start();
 $email = $_SESSION['email'];
 
 // Connexion à la base de données
-$connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
+$connection = mysqli_connect("172.16.136.21", "root", "root", "logiciel_stages");
 
 // Vérifier la connexion
 if (!$connection) {
@@ -354,7 +354,7 @@ $dbh = null;
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
