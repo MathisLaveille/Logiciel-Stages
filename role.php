@@ -12,6 +12,7 @@ $email = $_SESSION['email'];
 // Connexion à la base de données
 $connection = mysqli_connect("172.16.136.21", "root", "root", "logiciel_stages");
 
+
 // Vérifier la connexion
 if (!$connection) {
     die("La connexion a échoué : " . mysqli_connect_error());
@@ -55,10 +56,8 @@ if ($row) {
     $user_role = "Aucun rôle.";
 }
 
-session_start();
-
 // Vérifier si l'utilisateur est connecté et a le rôle de SUPERADMIN
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $user_role['name_r'] !== 'ADMIN') {
+if ($user_role !== 'ADMIN') {
     // Rediriger vers une page d'accès non autorisé si l'utilisateur n'est pas autorisé
     header('Location: /index.php');
     exit;
@@ -66,7 +65,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $user_rol
 
 // Code de la page accessible uniquement au SUPERADMIN
 echo "Bienvenue, SUPERADMIN!";
-
 
 // Libérer la mémoire des résultats
 mysqli_free_result($result);
