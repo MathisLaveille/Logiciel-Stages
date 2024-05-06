@@ -371,8 +371,6 @@ try {
                 </nav>
                 <!-- End of Topbar -->
 
-<h1 class="h3 p-4 mb-2 text-gray-800">Ajout de stages : </h1>
-<br><br>
 
 <div class="container">
 
@@ -383,7 +381,7 @@ try {
             <div class="col-lg-12">
                 <div class="p-5">
                     <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                        <h1 class="h4 text-gray-900 mb-4">Ajout d'un strage : </h1>
                     </div>
                             <form class="user" method="post" action="ajout_stages.php">
 
@@ -416,32 +414,32 @@ try {
 
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="nom"
-                                            placeholder="Nom de l'entreprise">
+                                        <input type="text" class="form-control form-control-user" name="Periode"
+                                            placeholder="Période de stage">
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="rue"
-                                            placeholder="Rue de l'entreprise">
+                                        <input type="hidden" class="form-control form-control-user" name="rapport" value="30000" >
+
+                                        <!-- <input type="text" class="form-control form-control-user" name="rapport"
+                                            placeholder="Rapport de stage">-->
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="nom"
-                                            placeholder="Nom de l'entreprise">
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="rue"
-                                            placeholder="Rue de l'entreprise">
-                                    </div>
-                                </div>
-                                
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                 Validation du stage
                                 </button>
                             </form>
+
+                            <!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
+                            <form enctype="multipart/form-data" action="_URL_" method="post">
+                                <!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
+                                <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+                                <!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
+                                Envoyez ce fichier : <input name="userfile" type="file" />
+                                <input type="submit" value="Envoyer le fichier" />
+                            </form>
+
                         </div>
                     </div>
                 </div>

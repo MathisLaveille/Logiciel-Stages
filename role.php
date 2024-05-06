@@ -12,6 +12,7 @@ $email = $_SESSION['email'];
 // Connexion à la base de données
 $connection = mysqli_connect("172.16.136.21", "root", "root", "logiciel_stages");
 
+
 // Vérifier la connexion
 if (!$connection) {
     die("La connexion a échoué : " . mysqli_connect_error());
@@ -227,6 +228,136 @@ echo '(' . $user_role . ')'; ?>
                 </nav>
                 <!-- End of Topbar -->
 
-                ²
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
+
+                    <a href="ajout_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
+
+                    <br>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <tr>
+                                        <th>Nom entreprise</th>
+                                        <th>Rue entreprise</th>
+                                        <th>Code postal entreprise</th>
+                                        <th>Ville entreprise</th>
+                                        <th>Téléphone entreprise</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+
+                                    </tr>
+                                    <?php
+$serveur = "172.16.136.9";
+$utilisateur = "root";
+$mot_de_passe = "root";
+$base_de_donnees = "logiciel_stages";
+
+try {
+
+    $dbh = new PDO("mysql:host=$serveur;dbname=$base_de_donnees", $utilisateur, $mot_de_passe);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+    // Exécute la requête
+    $stmt->execute();
+    // Affiche les données dans le tableau
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo "<tr>";
+        echo "<td>" . $row["nom_e"] . "</td>";
+        echo "<td>" . $row["rue_e"] . "</td>";
+        echo "<td>" . $row["CP_e"] . "</td>";
+        echo "<td>" . $row["city_e"] . "</td>";
+        echo "<td>" . $row["phone_e"] . "</td>";
+        echo "<tr>";
+
+    }
+} catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage();
+}
+// Ferme la connexion
+$dbh = null;
+
+?>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <div class="container-fluid">
+</div>
+
+<br><br><br>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span> Crée par Griffon Dawson, Laveille Mathis, Grall Emeric </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+
+</body>
 
 </html>
