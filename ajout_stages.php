@@ -306,7 +306,7 @@ try {
                                     $email = $_SESSION['email'];
 
                                     // Connexion à la base de données
-                                    $connection = mysqli_connect("172.16.136.9", "root", "root", "logiciel_stages");
+                                    $connection = mysqli_connect("172.16.136.21", "root", "root", "logiciel_stages");
 
                                     // Vérifier la connexion
                                     if (!$connection) {

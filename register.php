@@ -3,42 +3,43 @@ $errorMessage = "";
 
 try {
 
-    if (isset($_POST['password']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['phone'])) {
+    if (isset($_POST['password']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['RepeatPassword'])) {
         $password = $_POST['password'];
+        $password2 = $_POST['RepeatPassword'];
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
 
-        print ("email = '$email'");
+        if ($password != $password2) {
+            $errorMessage = "Les mots de passe ne correspondent pas.";
+        } else {
 
-        // Connexion à la base de données
+            // Connexion à la base de données
 
-        $dbh = new PDO('mysql:host=172.16.136.21;dbname=logiciel_stages', 'root', 'root');
+            $dbh = new PDO('mysql:host=172.16.136.21;dbname=logiciel_stages', 'root', 'root');
 
-        // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_user (password_u, nom_u, prenom_u, mail_u, phone_u) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
+            // Préparation de la requête
+            $stmt = $dbh->prepare("INSERT INTO tbl_user (password_u, nom_u, prenom_u, mail_u, phone_u) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
 
-        // Liaison des paramètres
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':nom', $nom);
-        $stmt->bindParam(':prenom', $prenom);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':phone', $phone);
+            // Liaison des paramètres
+            $stmt->bindParam(':password', $password);
+            $stmt->bindParam(':nom', $nom);
+            $stmt->bindParam(':prenom', $prenom);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':phone', $phone);
 
-        // Exécution de la requête
-        $stmt->execute();
-        header('location: /login.php');
+            // Exécution de la requête
+            $stmt->execute();
+            header('location: /login.php');
+        }
     }
 } catch (PDOException $e) {
-    print (3);
+
     $code = $e->getCode();
     if ($code == 23000) {
         $errorMessage = "C'est adresse email existe déjà.";
     }
-
-    print ("code = '$code'");
-    print ($e->getMessage());
 }
 
 ?>
@@ -99,10 +100,10 @@ try {
                                                     placeholder="Prenom">
                                             </div>
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" name="email"
-                                                placeholder="email">
+                                                placeholder="Email">
                                         </div>
 
                                         <div class="form-group">
@@ -117,9 +118,15 @@ try {
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="password" class="form-control form-control-user"
-                                                    name="RepeatPassword" placeholder="Confirmation du Mot De Passe">
+                                                    name="RepeatPassword" placeholder="Confirmation MDP">
                                             </div>
                                         </div>
+
+                                        <?php if (!empty($errorMessage)) { ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                <?php echo $errorMessage; ?>
+                                            </div>
+                                        <?php } ?>
 
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Valide le compte
@@ -127,7 +134,7 @@ try {
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Mot de passe oublié?</a>
+                                        <a class="small" href="forgot-password.php">Mot de passe oublié?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="login.php">Déjà un compte? Connectez vous!</a>

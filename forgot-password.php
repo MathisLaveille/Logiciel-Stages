@@ -1,39 +1,39 @@
 <?php
-//---------------------------------------------------------------------------------------------------------//
-// Connexion à la base de données MySQL
-session_start();
+$errorMessage = "";
 
 try {
-    if (isset($_POST['email']) && isset($_POST['password'])) {
 
-        $email = $_POST['email'];
+    if (isset($_POST['password']) && isset($_POST['RepeatPassword']) && isset($_POST['email'])) {
         $password = $_POST['password'];
+        $password2 = $_POST['RepeatPassword'];
+        $email = $_POST['email'];
 
-        $_SESSION['email'] = $email;
 
-        // Connexion à la base de données
-        $dbh = new PDO('mysql:host=172.16.136.21;dbname=logiciel_stages', 'root', 'root');
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Vérifier si le compte existe
-        $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_u = :email AND password_u = PASSWORD(CONCAT('*-6', :password))");
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            print (1);// Le compte existe
-            echo "Connexion réussie.";
-            header('location: /index.php');
+        if ($password != $password2) {
+            $errorMessage = "Les mots de passe ne correspondent pas.";
         } else {
-            // Le compte n'existe pas ou les identifiants sont incorrects
-            echo "Nom d'utilisateur ou mot de passe incorrect.";
-            print (2);
+
+            // Connexion à la base de données
+
+            $dbh = new PDO('mysql:host=172.16.136.21;dbname=logiciel_stages', 'root', 'root');
+
+            // Préparation de la requête
+            $stmt = $dbh->prepare("UPDATE tbl_user
+                       SET password_u = PASSWORD(CONCAT('*-6', :password))
+                       WHERE mail_u = :email");
+
+
+            // Liaison des paramètres
+            $stmt->bindParam(':password', $password2);
+            $stmt->bindParam(':email', $email);
+
+            // Exécution de la requête
+            $stmt->execute();
+            header('location: /login.php');
         }
     }
 } catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
-    print (3);
+$errorMessage = $e->getMessage();
 }
 
 ?>
@@ -49,7 +49,7 @@ try {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>NDLP Avranche - Login</title>
+    <title>SB Admin 2 - Forgot Password</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -82,30 +82,43 @@ try {
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Bienvenue !</h1>
+                                        <h1 class="h4 text-gray-900 mb-2">Mot de passe oublié ?</h1>
+                                        <p class="mb-4"></p>
                                     </div>
+                                    <form class="user" method="POST" action="forgot-password.php">
 
-                                    <form class="user" method="POST" action="login.php">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" name="email"
-                                                aria-describedby="emailHelp" placeholder="Enter Email Address">
+                                                placeholder="Email">
                                         </div>
+
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                name="password" placeholder="Enter mot de passe">
+                                                name="password" placeholder="Nouveau mot de passe">
                                         </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Connexion
-                                        </button>
-                                    </form>
 
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                name="RepeatPassword" placeholder="Confirmation nouveau MDP">
+                                        </div>
+
+                                        <?php if (!empty($errorMessage)) { ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                <?php echo $errorMessage; ?>
+                                            </div>
+                                        <?php } ?>
+
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Réinitialiser le mot de passe
+                                        </button>
+
+                                    </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.php">Mot de passe oublié?</a>
+                                        <a class="small" href="register.php">Créer un compte !</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.php">Créer un compte !</a>
+                                        <a class="small" href="login.php">Déjà un compte ? Connectez vous !</a>
                                     </div>
                                 </div>
                             </div>
