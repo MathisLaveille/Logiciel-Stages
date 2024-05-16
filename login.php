@@ -15,17 +15,18 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
+// Connexion à la base de données
 try {
+    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     if (isset($_POST['email']) && isset($_POST['password'])) {
 
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+        
         $_SESSION['email'] = $email;
-
-        // Connexion à la base de données
-        $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Vérifier si le compte existe
         $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_u = :email AND password_u = PASSWORD(CONCAT('*-6', :password))");

@@ -1,5 +1,6 @@
 <?php
 
+
 require 'vendor/autoload.php';
 
 // Charger les variables d'environnement à partir du fichier .env
@@ -11,10 +12,11 @@ $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
-$errorMessage = "";
 
+// Connexion à la base de données
 try {
-
+    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     if (isset($_POST['password']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['RepeatPassword'])) {
         $password = $_POST['password'];
         $password2 = $_POST['RepeatPassword'];
@@ -26,10 +28,6 @@ try {
         if ($password != $password2) {
             $errorMessage = "Les mots de passe ne correspondent pas.";
         } else {
-
-            // Connexion à la base de données
-
-            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
             // Préparation de la requête
             $stmt = $dbh->prepare("INSERT INTO tbl_user (password_u, nom_u, prenom_u, mail_u, phone_u) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
