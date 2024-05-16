@@ -2,10 +2,13 @@
 
 session_start();
 
-use Dotenv\Dotenv;
-
 require 'vendor/autoload.php';
 
+// Charger les variables d'environnement à partir du fichier .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Récupérer les variables d'environnement
 $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
