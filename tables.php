@@ -53,7 +53,7 @@ session_start()
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="index.php">
-                    <img src="/img/Acceuil.png" width="35" height="35">
+                <img src="/img/Acceuil.png" width="25" height="25">
                     <span>Acceuil</span>
                 </a>
             </li>
@@ -73,7 +73,7 @@ session_start()
 
             <li class="nav-item">
     <a class="nav-link" href="role.php">
-        <img src="/img/Acceuil.png" width="35" height="35">
+        <img src="/img/Acceuil.png" width="25" height="25">
         <span>Role</span>
     </a>
 </li>
