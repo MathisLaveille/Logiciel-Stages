@@ -1,6 +1,18 @@
 <?php
 session_start();
 
+require 'vendor/autoload.php';
+
+// Charger les variables d'environnement à partir du fichier .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Récupérer les variables d'environnement
+$servername = $_ENV['BD_HOST'];
+$username = $_ENV['BD_USER'];
+$password = $_ENV['BD_PASS'];
+$dbname = $_ENV['BD_NAME'];
+
 $errorMessage = "";
 
 
@@ -16,7 +28,7 @@ try {
         
         // Connexion à la base de données
 
-        $dbh = new PDO('mysql:host=172.16.136.21;dbname=logiciel_stages', 'root', 'root');
+        $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     
         // Préparation de la requête
         $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
@@ -187,7 +199,7 @@ try {
                                     $email = $_SESSION['email'];
 
                                     // Connexion à la base de données
-                                    $connection = mysqli_connect("172.16.136.21", "root", "root", "logiciel_stages");
+                                    $connection = mysqli_connect($servername, $username, $password, $dbname);
 
                                     // Vérifier la connexion
                                     if (!$connection) {

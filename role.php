@@ -1,6 +1,18 @@
 <?php
 session_start();
 
+
+require 'vendor/autoload.php';
+
+// Charger les variables d'environnement à partir du fichier .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Récupérer les variables d'environnement
+$servername = $_ENV['BD_HOST'];
+$username = $_ENV['BD_USER'];
+$password = $_ENV['BD_PASS'];
+$dbname = $_ENV['BD_NAME'];
 // // Vérifier si une session est déjà active avant de la démar²rer
 // if (session_status() !== PHP_SESSION_ACTIVE) {
 //     session_start();
@@ -10,7 +22,7 @@ session_start();
 $email = $_SESSION['email'];
 
 // Connexion à la base de données
-$connection = mysqli_connect("172.16.136.21", "root", "root", "logiciel_stages");
+$connection = mysqli_connect($servername, $username, $password, $dbname);
 
 // Vérifier la connexion
 if (!$connection) {

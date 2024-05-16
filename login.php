@@ -3,6 +3,18 @@
 // Connexion à la base de données MySQL
 session_start();
 
+require 'vendor/autoload.php';
+
+// Charger les variables d'environnement à partir du fichier .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Récupérer les variables d'environnement
+$servername = $_ENV['BD_HOST'];
+$username = $_ENV['BD_USER'];
+$password = $_ENV['BD_PASS'];
+$dbname = $_ENV['BD_NAME'];
+
 try {
     if (isset($_POST['email']) && isset($_POST['password'])) {
 
@@ -12,7 +24,7 @@ try {
         $_SESSION['email'] = $email;
 
         // Connexion à la base de données
-        $dbh = new PDO('mysql:host=172.16.136.21;dbname=logiciel_stages', 'root', 'root');
+        $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Vérifier si le compte existe
