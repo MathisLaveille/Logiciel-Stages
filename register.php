@@ -1,4 +1,4 @@
-<?php 
+<?php
 $errorMessage = "";
 
 try {
@@ -9,39 +9,37 @@ try {
         $prenom = $_POST['prenom'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
-    
-        print("email = '$email'");
-        
+
+        print ("email = '$email'");
+
         // Connexion à la base de données
 
         $dbh = new PDO('mysql:host=172.16.136.21;dbname=logiciel_stages', 'root', 'root');
-    
+
         // Préparation de la requête
         $stmt = $dbh->prepare("INSERT INTO tbl_user (password_u, nom_u, prenom_u, mail_u, phone_u) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
-    
+
         // Liaison des paramètres
         $stmt->bindParam(':password', $password);
         $stmt->bindParam(':nom', $nom);
         $stmt->bindParam(':prenom', $prenom);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':phone', $phone);
-    
+
         // Exécution de la requête
         $stmt->execute();
         header('location: /login.php');
     }
 } catch (PDOException $e) {
-    print(3);
+    print (3);
     $code = $e->getCode();
     if ($code == 23000) {
         $errorMessage = "C'est adresse email existe déjà.";
     }
 
-    print("code = '$code'");
-    print($e->getMessage());
+    print ("code = '$code'");
+    print ($e->getMessage());
 }
-
-
 
 ?>
 
@@ -68,69 +66,79 @@ try {
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
+
 <body class="bg-gradient-primary">
 
     <div class="container">
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
-                            </div>
-                            <form class="user" method="post" action="register.php">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="nom"
-                                            placeholder="Nom">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="prenom"
-                                            placeholder="Prenom">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" name="email"
-                                        placeholder="email">
-                                </div>
+        <div class="row justify-content-center">
 
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="phone"
-                                        placeholder="Numéro De Téléphone">
-                                </div>
+            <div class="col-xl-10 col-lg-12 col-md-9">
 
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            name="password" placeholder="Mot De Passe">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block text-center">
+                                <!-- Ajout de la classe "text-center" pour aligner le contenu au centre -->
+                                <img src="../img/NDLP.png" width="90%"> <!-- Largeur de 75% de la colonne parente -->
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Create un compte!</h1>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            name="RepeatPassword" placeholder="Confirmation du Mot De Passe">
+                                    <form class="user" method="post" action="register.php">
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="text" class="form-control form-control-user" name="nom"
+                                                    placeholder="Nom">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control form-control-user" name="prenom"
+                                                    placeholder="Prenom">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user" name="email"
+                                                placeholder="email">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user" name="phone"
+                                                placeholder="Numéro De Téléphone">
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="password" class="form-control form-control-user"
+                                                    name="password" placeholder="Mot De Passe">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="password" class="form-control form-control-user"
+                                                    name="RepeatPassword" placeholder="Confirmation du Mot De Passe">
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Valide le compte
+                                        </button>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="forgot-password.html">Mot de passe oublié?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="login.php">Déjà un compte? Connectez vous!</a>
                                     </div>
                                 </div>
-                                
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                Valide le compte
-                                </button>
-                            </form>
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Mot de passe oublié?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.php">Déjà un compte? Connectez vous!</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Bootstrap core JavaScript-->

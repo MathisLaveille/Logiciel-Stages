@@ -1,4 +1,4 @@
-<?php 
+<?php
 //---------------------------------------------------------------------------------------------------------//
 // Connexion à la base de données MySQL
 session_start();
@@ -22,18 +22,18 @@ try {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            print(1);// Le compte existe
+            print (1);// Le compte existe
             echo "Connexion réussie.";
             header('location: /index.php');
         } else {
             // Le compte n'existe pas ou les identifiants sont incorrects
             echo "Nom d'utilisateur ou mot de passe incorrect.";
-            print(2);
+            print (2);
         }
     }
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
-    print(3);
+    print (3);
 }
 
 ?>
@@ -75,22 +75,24 @@ try {
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block text-center">
+                                <!-- Ajout de la classe "text-center" pour aligner le contenu au centre -->
+                                <img src="../img/NDLP.png" width="90%"> <!-- Largeur de 75% de la colonne parente -->
+                            </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Bienvenue !</h1>
                                     </div>
 
-                                    <form class="user" method="POST" action="login.php" >
+                                    <form class="user" method="POST" action="login.php">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                name="email" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input type="email" class="form-control form-control-user" name="email"
+                                                aria-describedby="emailHelp" placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                name="password" placeholder="Password">
+                                                name="password" placeholder="Enter mot de passe...">
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Connexion
