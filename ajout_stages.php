@@ -100,7 +100,7 @@ try {
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="acceuil.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                 </div>
                 <div class="sidebar-brand-text mx-3">NDLP Avranches</div>
@@ -112,7 +112,7 @@ try {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.php">
+                <a class="nav-link" href="acceuil.php">
                     <img src="/img/Acceuil.png" width="35" height="35">
                     <span>Acceuil</span>
                 </a>
@@ -379,7 +379,7 @@ try {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
+                    <a class="btn btn-primary" href="index.php">Logout</a>
                 </div>
             </div>
         </div>

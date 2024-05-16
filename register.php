@@ -41,7 +41,7 @@ try {
 
             // Exécution de la requête
             $stmt->execute();
-            header('location: /login.php');
+            header('location: /index.php');
         }
     }
 } catch (PDOException $e) {
@@ -153,7 +153,7 @@ try {
                                         <a class="small" href="forgot-password.php">Mot de passe oublié?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="login.php">Déjà un compte? Connectez vous!</a>
+                                        <a class="small" href="index.php">Déjà un compte? Connectez vous!</a>
                                     </div>
                                 </div>
                             </div>

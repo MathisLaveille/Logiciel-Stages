@@ -70,7 +70,7 @@ if ($row) {
 // Vérifier si l'utilisateur est connecté et a le rôle de SUPERADMIN
 if ($user_role !== 'ADMIN') {
     // Rediriger vers une page d'accès non autorisé si l'utilisateur n'est pas autorisé
-    header('Location: /index.php');
+    header('Location: /acceuil.php');
     exit;
 }
 
@@ -118,7 +118,7 @@ mysqli_close($connection);
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="acceuil.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                 </div>
                 <div class="sidebar-brand-text mx-3">NDLP Avranches</div>
@@ -130,7 +130,7 @@ mysqli_close($connection);
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.php">
+                <a class="nav-link" href="acceuil.php">
                     <img src="/img/Acceuil.png" width="25" height="25">
                     <span>Acceuil</span>
                 </a>

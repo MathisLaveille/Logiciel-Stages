@@ -11,9 +11,11 @@ $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
-$errorMessage = "";
 
+// Connexion à la base de données
 try {
+    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if (isset($_POST['password']) && isset($_POST['RepeatPassword']) && isset($_POST['email'])) {
         $password = $_POST['password'];
@@ -25,9 +27,6 @@ try {
             $errorMessage = "Les mots de passe ne correspondent pas.";
         } else {
 
-            // Connexion à la base de données
-
-            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
             // Préparation de la requête
             $stmt = $dbh->prepare("UPDATE tbl_user
@@ -41,7 +40,7 @@ try {
 
             // Exécution de la requête
             $stmt->execute();
-            header('location: /login.php');
+            header('location: /index.php');
         }
     }
 } catch (PDOException $e) {
@@ -130,7 +129,7 @@ $errorMessage = $e->getMessage();
                                         <a class="small" href="register.php">Créer un compte !</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="login.php">Déjà un compte ? Connectez vous !</a>
+                                        <a class="small" href="index.php">Déjà un compte ? Connectez vous !</a>
                                     </div>
                                 </div>
                             </div>
