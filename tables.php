@@ -1,5 +1,16 @@
 <?php
-session_start()
+
+session_start();
+
+use Dotenv\Dotenv;
+
+require 'vendor/autoload.php';
+
+$servername = $_ENV['BD_HOST'];
+$username = $_ENV['BD_USER'];
+$password = $_ENV['BD_PASS'];
+$dbname = $_ENV['BD_NAME'];
+
 ?>
 
 <!DOCTYPE html>
@@ -131,7 +142,7 @@ session_start()
                                     $email = $_SESSION['email'];
 
                                     // Connexion à la base de données
-                                    $connection = mysqli_connect("172.16.136.21", "root", "root", "logiciel_stages");
+                                    $connection = mysqli_connect($servername, $username, $password, $dbname);
 
                                     // Vérifier la connexion
                                     if (!$connection) {
@@ -234,14 +245,10 @@ session_start()
                                     <tbody>
 
                                     <?php
-                                    $serveur = "172.16.136.21"; 
-                                    $utilisateur = "root"; 
-                                    $mot_de_passe = "root"; 
-                                    $base_de_donnees ="logiciel_stages"; 
                                     
                                     try {
-                                    
-                                        $dbh = new PDO("mysql:host=$serveur;dbname=$base_de_donnees", $utilisateur, $mot_de_passe);
+
+                                        $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                                         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                                         $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
                                         // Exécute la requête
