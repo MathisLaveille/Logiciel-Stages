@@ -75,6 +75,12 @@ try {
         <div class="row justify-content-center">
 
             <div class="col-xl-10 col-lg-12 col-md-9">
+                 <style>
+        .col-lg-6 img {
+            width: 90%; /* Ajustez la largeur de l'image à 90% de la colonne parente */
+            margin: 0 auto; /* Centre horizontalement l'image */
+        }
+    </style>
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
@@ -82,7 +88,7 @@ try {
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-block text-center">
                                 <!-- Ajout de la classe "text-center" pour aligner le contenu au centre -->
-                                <img src="../img/NDLP.png" width="90%"> <!-- Largeur de 75% de la colonne parente -->
+                                <img src="../img/NDLP.png" width="75%"> <!-- Largeur de 75% de la colonne parente -->
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
