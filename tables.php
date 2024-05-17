@@ -146,16 +146,9 @@ mysqli_close($connection);
             <?php
             if ($user_role == 'SUPER_ADMIN') {
                 ?>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="role.php">
-                        <img src="/img/role.png" width="25" height="25">
-                        <span>Role</span>
-                    </a>
-                </li>
             <li class="nav-item">
     <a class="nav-link" href="admin.php">
-        <img src="/img/Acceuil.png" width="25" height="25">
+        <img src="/img/role.png" width="25" height="25">
         <span>Administration</span>
     </a>
 </li>

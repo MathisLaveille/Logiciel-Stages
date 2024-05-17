@@ -68,7 +68,7 @@ if ($row) {
 }
 
 // Vérifier si l'utilisateur est connecté et a le rôle de SUPERADMIN
-if ($user_role !== 'ADMIN') {
+if ($user_role !== 'SUPER_ADMIN') {
     // Rediriger vers une page d'accès non autorisé si l'utilisateur n'est pas autorisé
     header('Location: /acceuil.php');
     exit;
