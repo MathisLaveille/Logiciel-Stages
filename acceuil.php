@@ -149,7 +149,7 @@ mysqli_close($connection);
                 <li class="nav-item">
                     <a class="nav-link" href="admin.php">
                         <img src="/img/role.png" width="25" height="25">
-                        <span>Role</span>
+                        <span>Administration</span>
                     </a>
                 </li>
 
