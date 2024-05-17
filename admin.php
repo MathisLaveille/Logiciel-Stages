@@ -13,10 +13,6 @@ $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
-// // Vérifier si une session est déjà active avant de la démar²rer
-// if (session_status() !== PHP_SESSION_ACTIVE) {
-//     session_start();
-// }
 
 // Récupération de l'email depuis la session
 $email = $_SESSION['email'];
@@ -128,8 +124,8 @@ mysqli_close($connection);
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+                        <!-- Nav Item - Dashboard -->
+                        <li class="nav-item">
                 <a class="nav-link" href="acceuil.php">
                     <img src="/img/Acceuil.png" width="25" height="25">
                     <span>Acceuil</span>
@@ -137,17 +133,32 @@ mysqli_close($connection);
             </li>
 
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Pages
-            </div>
-
-<!-- Nav Item - Tables -->
-<li class="nav-item active">
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
                 <a class="nav-link" href="tables.php">
-                    <i class="fas fa-fw fa-table"></i>
+                    <img src="img/stage.png" width="25" height="25"></img>
                     <span>Stages</span></a>
             </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+
+            <?php
+            if ($user_role == 'SUPER_ADMIN') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.php">
+                        <img src="/img/role.png" width="25" height="25">
+                        <span>Administration</span>
+                    </a>
+                </li>
+
+                <?php
+            }
+            ?>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -173,20 +184,6 @@ mysqli_close($connection);
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-                    </form>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
                     </form>
 
                     <!-- Topbar Navbar -->
