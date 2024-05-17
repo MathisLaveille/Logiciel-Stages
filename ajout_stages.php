@@ -25,36 +25,36 @@ try {
         $ville = $_POST['ville'];
         $phone = $_POST['phone'];
 
-        
+
         // Connexion à la base de données
 
         $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    
+
         // Préparation de la requête
         $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
-    
+
         // Liaison des paramètres
         $stmt->bindParam(':nom', $nom);
         $stmt->bindParam(':rue', $rue);
         $stmt->bindParam(':postal', $postal);
         $stmt->bindParam(':ville', $ville);
         $stmt->bindParam(':phone', $phone);
-        
 
-    
+
+
         // Exécution de la requête
         $stmt->execute();
-        
+
         header('location: /tables.php');
     }
 } catch (PDOException $e) {
-    print(3);
+    print (3);
     $code = $e->getCode();
     $errorMessage = "erreur";
-    
 
-    print("code = '$code'");
-    print($e->getMessage());
+
+    print ("code = '$code'");
+    print ($e->getMessage());
 }
 
 
@@ -124,8 +124,8 @@ try {
                 Pages
             </div>
 
-<!-- Nav Item - Tables -->
-<li class="nav-item active">
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
                 <a class="nav-link" href="tables.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Stages</span></a>
@@ -183,15 +183,15 @@ try {
                                 </form>
                             </div>
 
-                        <!-- Nav Item - User Information -->
+                            <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    
-                                <?php
+
+                                    <?php
                                     // Vérifier si une session est déjà active avant de la démarrer
-                                    if(session_status() !== PHP_SESSION_ACTIVE) {
+                                    if (session_status() !== PHP_SESSION_ACTIVE) {
                                         session_start();
                                     }
 
@@ -228,13 +228,12 @@ try {
 
                                     // Fermer la connexion à la base de données
                                     mysqli_close($connection);
-                                ?>
+                                    ?>
 
 
                                 </span>
 
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -265,85 +264,82 @@ try {
                 <!-- End of Topbar -->
 
 
-<div class="container">
+                <div class="container">
 
-<div class="card o-hidden border-0 shadow-lg my-5">
-    <div class="card-body p-0">
-        <!-- Nested Row within Card Body -->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="p-5">
-                    <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">Ajout d'un strage : </h1>
-                    </div>
-                            <form class="user" method="post" action="ajout_stages.php">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Ajout d'un strage : </h1>
+                                        </div>
+                                        <form class="user" method="post" action="ajout_stages.php">
 
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="nom"
-                                            placeholder="Nom de l'entreprise">
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="text" class="form-control form-control-user" name="nom"
+                                                        placeholder="Nom de l'entreprise">
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control form-control-user" name="rue"
+                                                        placeholder="Rue de l'entreprise">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user" name="postal"
+                                                    placeholder="Code postal de l'entreprise">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user" name="ville"
+                                                    placeholder="Ville de l'entreprise">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user" name="phone"
+                                                    placeholder="Téléphone de l'entreprise">
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="date" class="form-control form-control-user"
+                                                        #name="date_debut" placeholder="Date début de stage : " />
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                <input type="date" class="form-control form-control-user"
+                                                    #name="date_debut" placeholder="Date début de stage : " />
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+                       
+                                                <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+                                                Envoyez ce fichier : <input name="userfile" type="file" />
+                                                <input type="submit" value="Envoyer le fichier" />
+
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                Validation du stage
+                                            </button>
+                                        </form>
                                     </div>
-
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="rue"
-                                            placeholder="Rue de l'entreprise">
-                                    </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="postal"
-                                        placeholder="Code postal de l'entreprise">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="ville"
-                                        placeholder="Ville de l'entreprise">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="phone"
-                                        placeholder="Téléphone de l'entreprise">
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="Periode"
-                                            placeholder="Période de stage">
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <input type="hidden" class="form-control form-control-user" name="rapport" value="30000" >
-
-                                        <!-- <input type="text" class="form-control form-control-user" name="rapport"
-                                            placeholder="Rapport de stage">-->
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                Validation du stage
-                                </button>
-                            </form>
-
-                            <!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
-                            <form enctype="multipart/form-data" action="_URL_" method="post">
-                                <!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
-                                <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-                                <!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
-                                Envoyez ce fichier : <input name="userfile" type="file" />
-                                <input type="submit" value="Envoyer le fichier" />
-                            </form>
-
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-        </div>
-    </div>
-
-</div>
 
 
-<br><br><br>
+            <br><br><br>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
