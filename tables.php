@@ -45,8 +45,6 @@ $dbname = $_ENV['BD_NAME'];
 
 <body id="page-top">
 
-
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -67,30 +65,38 @@ $dbname = $_ENV['BD_NAME'];
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="acceuil.php">
-                <img src="/img/Acceuil.png" width="25" height="25">
+                    <img src="/img/Acceuil.png" width="25" height="25">
                     <span>Acceuil</span>
                 </a>
             </li>
 
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Pages
-            </div>
-
-<!-- Nav Item - Tables -->
-<li class="nav-item active">
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
                 <a class="nav-link" href="tables.php">
-                    <i class="fas fa-fw fa-table"></i>
+                    <img src="img/stage.png" width="25" height="25"></img>
                     <span>Stages</span></a>
             </li>
+            
 
-            <li class="nav-item">
-    <a class="nav-link" href="role.php">
-        <img src="/img/Acceuil.png" width="25" height="25">
-        <span>Role</span>
-    </a>
-</li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+
+            <?php
+            if ($user_role == 'SUPER_ADMIN') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="role.php">
+                        <img src="/img/role.png" width="25" height="25">
+                        <span>Role</span>
+                    </a>
+                </li>
+
+                <?php
+            }
+            ?>
 
 
             <!-- Divider -->
@@ -134,49 +140,73 @@ $dbname = $_ENV['BD_NAME'];
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    
+
                                 <?php
-                                    // Vérifier si une session est déjà active avant de la démarrer
-                                    if(session_status() !== PHP_SESSION_ACTIVE) {
-                                        session_start();
-                                    }
+// Vérifier si une session est déjà active avant de la démarrer
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
-                                    // Récupération de l'email depuis la session
-                                    $email = $_SESSION['email'];
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
 
-                                    // Connexion à la base de données
-                                    $connection = mysqli_connect($servername, $username, $password, $dbname);
+// Connexion à la base de données
+$connection = mysqli_connect($servername, $username, $password, $dbname);
 
-                                    // Vérifier la connexion
-                                    if (!$connection) {
-                                        die("La connexion a échoué : " . mysqli_connect_error());
-                                    }
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
+}
 
-                                    // Requête SQL
-                                    $query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
-                                    $result = mysqli_query($connection, $query);
+// Requête SQL
+$query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
+$result = mysqli_query($connection, $query);
 
-                                    // Vérifier si la requête a abouti
-                                    if (!$result) {
-                                        die("Erreur dans la requête : " . mysqli_error($connection));
-                                    }
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
 
-                                    // Affichage des données
-                                    $row = mysqli_fetch_assoc($result);
-                                    if ($row) {
-                                        echo $row['prenom_u'];
-                                    } else {
-                                        echo "Aucun prénom trouvé.";
-                                    }
+// Affichage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_firstname = $row['prenom_u'];
+} else {
+    $user_firstname = "Aucun prénom trouvé.";
+}
 
-                                    // Libérer la mémoire des résultats
-                                    mysqli_free_result($result);
+// Requête SQL pour obtenir les infos sur le rôle
+$query = "SELECT tbl_role.name_r FROM tbl_role 
+JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+JOIN tbl_user ON tbl_user_role.id_u_user = tbl_user.id_u
+WHERE tbl_user.mail_u = '$email';";
 
-                                    // Fermer la connexion à la base de données
-                                    mysqli_close($connection);
-                                ?>
+$result = mysqli_query($connection, $query);
 
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
 
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_role = $row['name_r'];
+} else {
+    $user_role = "Aucun rôle.";
+}
+
+// Libérer la mémoire des résultats
+mysqli_free_result($result);
+
+// Fermer la connexion à la base de données
+mysqli_close($connection);
+?>
+
+<span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?php echo $user_firstname;
+echo '(' . $user_role . ')'; ?>
+                                </span>
                                 </span>
 
                                 <img class="img-profile rounded-circle"
@@ -215,70 +245,68 @@ $dbname = $_ENV['BD_NAME'];
                     <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
 
                     <a href="ajout_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
-                
+
                     <br>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>    
-                                    <tr>
-                                        <th>Nom entreprise</th>
-                                        <th>Rue entreprise</th>
-                                        <th>Code postal entreprise</th>
-                                        <th>Ville entreprise</th>
-                                        <th>Téléphone entreprise</th>               
-                                    </tr>
-
-                                </thead> 
-
-                                <tfoot>    
+                                <thead>
                                     <tr>
                                         <th>Nom entreprise</th>
                                         <th>Rue entreprise</th>
                                         <th>Code postal entreprise</th>
                                         <th>Ville entreprise</th>
                                         <th>Téléphone entreprise</th>
-                                        
                                     </tr>
-                                </tfoot> 
+
+                                </thead>
+
+                                <tfoot>
+                                    <tr>
+                                        <th>Nom entreprise</th>
+                                        <th>Rue entreprise</th>
+                                        <th>Code postal entreprise</th>
+                                        <th>Ville entreprise</th>
+                                        <th>Téléphone entreprise</th>
+
+                                    </tr>
+                                </tfoot>
                                     <tbody>
 
                                     <?php
-                                    
-                                    try {
 
-                                        $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-                                        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                                        $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
-                                        // Exécute la requête
-                                        $stmt->execute();
-                                        // Affiche les données dans le tableau
-                                        
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            
-                                            echo "<tr>";
-                                            echo "<td>".$row["nom_e"]."</td>"; 
-                                            echo "<td>".$row["rue_e"]."</td>";
-                                            echo "<td>".$row["CP_e"]."</td>";
-                                            echo "<td>".$row["city_e"]."</td>";
-                                            echo "<td>".$row["phone_e"]."</td>";
-                                            echo "</tr>";
+try {
 
+    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+    // Exécute la requête
+    $stmt->execute();
+    // Affiche les données dans le tableau
 
-                                        }
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                                        } catch(PDOException $e) {
-                                            echo "Erreur : " . $e->getMessage();
-                                        }
-                                        // Ferme la connexion
-                                        $dbh = null;
-                                    
-                                
-                                    ?>
+        echo "<tr>";
+        echo "<td>" . $row["nom_e"] . "</td>";
+        echo "<td>" . $row["rue_e"] . "</td>";
+        echo "<td>" . $row["CP_e"] . "</td>";
+        echo "<td>" . $row["city_e"] . "</td>";
+        echo "<td>" . $row["phone_e"] . "</td>";
+        echo "</tr>";
+
+    }
+
+} catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage();
+}
+// Ferme la connexion
+$dbh = null;
+
+?>
                                     </tbody>
                                 </table>
 

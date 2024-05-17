@@ -143,7 +143,7 @@ mysqli_close($connection);
 
 
             <?php
-            if ($user_role == 'ADMIN' || $user_role == 'SUPER_ADMIN') {
+            if ($user_role == 'SUPER_ADMIN') {
                 ?>
 
                 <li class="nav-item">
