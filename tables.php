@@ -153,6 +153,12 @@ mysqli_close($connection);
                         <span>Role</span>
                     </a>
                 </li>
+            <li class="nav-item">
+    <a class="nav-link" href="admin.php">
+        <img src="/img/Acceuil.png" width="25" height="25">
+        <span>Role</span>
+    </a>
+</li>
 
                 <?php
             }
@@ -214,17 +220,8 @@ echo '(' . $user_role . ')'; ?>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
 
                                 </a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
