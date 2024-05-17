@@ -136,7 +136,7 @@ mysqli_close($connection);
                     <img src="img/stage.png" width="25" height="25"></img>
                     <span>Stages</span></a>
             </li>
-            
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -156,7 +156,7 @@ mysqli_close($connection);
                 <?php
             }
             ?>
-            
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
