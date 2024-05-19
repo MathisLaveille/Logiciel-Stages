@@ -321,7 +321,6 @@ try {
                        
                                                 <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
                                                 Envoyez ce fichier : <input name="userfile" type="file" />
-                                                <input type="submit" value="Envoyer le fichier" />
 
                                             </div>
 
