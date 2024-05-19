@@ -17,49 +17,95 @@ $errorMessage = "";
 
 
 try {
+    echo $_POST['nom']; 
+    echo $_POST['rue'];
+    echo $_POST['postal'];
+    echo $_POST['ville'];
+    echo $_POST['phone'];
+    echo $_POST['date_debut'];
+    echo $_POST['date_fin'];
 
-    if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone'])) {
+
+    // Vérifier si le formulaire a été soumis et que toutes les variables sont présentes
+    if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone']) && isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
+
+        echo '1';
+
         $nom = $_POST['nom'];
         $rue = $_POST['rue'];
         $postal = $_POST['postal'];
         $ville = $_POST['ville'];
         $phone = $_POST['phone'];
+        $date_debut = $_POST['date_debut'];
+        $date_fin = $_POST['date_fin'];
 
+        // Vérifier si le fichier a été correctement téléchargé
+        
 
         // Connexion à la base de données
-
         $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
-        // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
+        // Démarrer une transaction
+        $dbh->beginTransaction();
+
+        // Préparation de la requête pour insérer les informations de l'entreprise
+        $stmt1 = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
 
         // Liaison des paramètres
-        $stmt->bindParam(':nom', $nom);
-        $stmt->bindParam(':rue', $rue);
-        $stmt->bindParam(':postal', $postal);
-        $stmt->bindParam(':ville', $ville);
-        $stmt->bindParam(':phone', $phone);
-
-
+        $stmt1->bindParam(':nom', $nom);
+        $stmt1->bindParam(':rue', $rue);
+        $stmt1->bindParam(':postal', $postal);
+        $stmt1->bindParam(':ville', $ville);
+        $stmt1->bindParam(':phone', $phone);
 
         // Exécution de la requête
-        $stmt->execute();
+        $stmt1->execute();
 
-        header('location: /tables.php');
+        // Récupérer l'ID de l'entreprise insérée
+        $id_s = $dbh->lastInsertId();
+
+        // Préparation de la requête pour insérer les informations du stage
+        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start, period_end) VALUES (:id_s, :period_start, :period_end)");
+
+        // Liaison des paramètres
+        $stmt2->bindParam(':id_s', $id_s);
+        $stmt2->bindParam(':period_start', $date_debut);
+        $stmt2->bindParam(':period_end', $date_fin);
+
+        // Exécution de la requête
+        $stmt2->execute();
+
+        // Valider la transaction
+        $dbh->commit();
+
+        // Redirection vers la page des stages
+        header('Location: /tables.php');
+        exit();
+    } else {
+        throw new Exception('Toutes les variables ne sont pas définies.');
     }
 } catch (PDOException $e) {
-    print (3);
+    // Annuler la transaction en cas d'erreur
+    if ($dbh->inTransaction()) {
+        $dbh->rollBack();
+    }
+
+    echo '2';
+
     $code = $e->getCode();
-    $errorMessage = "erreur";
+    $errorMessage = "Erreur : " . $e->getMessage();
 
+    echo "code = '$code'";
+    echo $errorMessage;
+} catch (Exception $e) {
+    echo '2';
 
-    print ("code = '$code'");
-    print ($e->getMessage());
+    $errorMessage = "Erreur : " . $e->getMessage();
+
+    echo $errorMessage;
 }
 
-
-
-
+echo '3';
 ?>
 
 <!DOCTYPE html>
@@ -307,18 +353,18 @@ try {
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                                     <input type="date" class="form-control form-control-user"
-                                                        #name="date_debut" placeholder="Date début de stage : " />
+                                                        name="date_debut" placeholder="Date début de stage : " />
                                                 </div>
 
                                                 <div class="col-sm-6">
-                                                <input type="date" class="form-control form-control-user"
-                                                    #name="date_debut" placeholder="Date début de stage : " />
+                                                    <input type="date" class="form-control form-control-user"
+                                                        name="date_fin" placeholder="Date début de stage : " />
                                                 </div>
 
                                             </div>
 
                                             <div class="form-group row">
-                       
+
                                                 <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
                                                 Envoyez ce fichier : <input name="userfile" type="file" />
 
