@@ -17,19 +17,10 @@ $errorMessage = "";
 
 
 try {
-    echo $_POST['nom']; 
-    echo $_POST['rue'];
-    echo $_POST['postal'];
-    echo $_POST['ville'];
-    echo $_POST['phone'];
-    echo $_POST['date_debut'];
-    echo $_POST['date_fin'];
-
 
     // Vérifier si le formulaire a été soumis et que toutes les variables sont présentes
     if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone']) && isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
 
-        echo '1';
 
         $nom = $_POST['nom'];
         $rue = $_POST['rue'];
@@ -81,8 +72,6 @@ try {
         // Redirection vers la page des stages
         header('Location: /tables.php');
         exit();
-    } else {
-        throw new Exception('Toutes les variables ne sont pas définies.');
     }
 } catch (PDOException $e) {
     // Annuler la transaction en cas d'erreur
@@ -90,7 +79,6 @@ try {
         $dbh->rollBack();
     }
 
-    echo '2';
 
     $code = $e->getCode();
     $errorMessage = "Erreur : " . $e->getMessage();
@@ -105,7 +93,6 @@ try {
     echo $errorMessage;
 }
 
-echo '3';
 ?>
 
 <!DOCTYPE html>

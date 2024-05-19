@@ -250,6 +250,8 @@ echo '(' . $user_role . ')'; ?>
                                         <th>Code postal entreprise</th>
                                         <th>Ville entreprise</th>
                                         <th>Téléphone entreprise</th>
+                                        <th>Début du stage</th>
+                                        <th>Fin du stage</th>
                                     </tr>
 
                                 </thead>
@@ -261,7 +263,8 @@ echo '(' . $user_role . ')'; ?>
                                         <th>Code postal entreprise</th>
                                         <th>Ville entreprise</th>
                                         <th>Téléphone entreprise</th>
-
+                                        <th>Début du stage</th>
+                                        <th>Fin du stage</th>
                                     </tr>
                                 </tfoot>
                                     <tbody>
@@ -272,22 +275,30 @@ try {
 
     $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+    $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+    $stmt2 = $dbh->prepare("SELECT period_start, period_end FROM tbl_stage");
     // Exécute la requête
-    $stmt->execute();
+    $stmt1->execute();
+    $stmt2->execute();
+
     // Affiche les données dans le tableau
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-        echo "<tr>";
-        echo "<td>" . $row["nom_e"] . "</td>";
-        echo "<td>" . $row["rue_e"] . "</td>";
-        echo "<td>" . $row["CP_e"] . "</td>";
-        echo "<td>" . $row["city_e"] . "</td>";
-        echo "<td>" . $row["phone_e"] . "</td>";
-        echo "</tr>";
-
+    while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+        $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    
+        if ($row2) {
+            echo "<tr>";
+            echo "<td>" . $row1["nom_e"] . "</td>";
+            echo "<td>" . $row1["rue_e"] . "</td>";
+            echo "<td>" . $row1["CP_e"] . "</td>";
+            echo "<td>" . $row1["city_e"] . "</td>";
+            echo "<td>" . $row1["phone_e"] . "</td>";
+            echo "<td>" . $row2["period_start"] . "</td>";
+            echo "<td>" . $row2["period_end"] . "</td>";
+            echo "</tr>";
+        }
     }
+    
 
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
