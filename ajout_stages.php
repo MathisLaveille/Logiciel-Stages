@@ -21,7 +21,6 @@ try {
     // Vérifier si le formulaire a été soumis et que toutes les variables sont présentes
     if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone']) && isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
 
-
         $nom = $_POST['nom'];
         $rue = $_POST['rue'];
         $postal = $_POST['postal'];
@@ -30,8 +29,18 @@ try {
         $date_debut = $_POST['date_debut'];
         $date_fin = $_POST['date_fin'];
 
-        // Vérifier si le fichier a été correctement téléchargé
-        
+        if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] === UPLOAD_ERR_OK) {
+            $file_name = $_FILES['fileToUpload']['name'];
+            $file_tmp = $_FILES['fileToUpload']['tmp_name'];
+
+            // Lire le contenu du fichier et l'encoder en base64
+            $file_content = base64_encode(file_get_contents($file_tmp));
+        } else {
+            // Gérer le cas où le fichier n'a pas été téléchargé avec succès
+            // Vous pouvez afficher un message d'erreur ou rediriger l'utilisateur vers une autre page
+            echo "Erreur lors du téléchargement du fichier.";
+            exit(); // Arrêter l'exécution du script
+        }
 
         // Connexion à la base de données
         $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -56,16 +65,17 @@ try {
         $id_s = $dbh->lastInsertId();
 
         // Préparation de la requête pour insérer les informations du stage
-        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start, period_end) VALUES (:id_s, :period_start, :period_end)");
+        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start, period_end, nom, contenu) VALUES (:id_s, :period_start, :period_end, :nom, :contenu)");
 
         // Liaison des paramètres
         $stmt2->bindParam(':id_s', $id_s);
         $stmt2->bindParam(':period_start', $date_debut);
         $stmt2->bindParam(':period_end', $date_fin);
+        $stmt2->bindParam(':nom', $file_name);
+        $stmt2->bindParam(':contenu', $file_content);
 
         // Exécution de la requête
         $stmt2->execute();
-
         // Valider la transaction
         $dbh->commit();
 
@@ -351,10 +361,7 @@ try {
                                             </div>
 
                                             <div class="form-group row">
-
-                                                <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-                                                Envoyez ce fichier : <input name="userfile" type="file" />
-
+                                                <input type="file" name="fileToUpload" id="fileToUpload">
                                             </div>
 
                                             <button type="submit" class="btn btn-primary btn-user btn-block">
