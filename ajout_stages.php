@@ -15,6 +15,8 @@ $dbname = $_ENV['BD_NAME'];
 
 $errorMessage = "";
 
+echo $_FILES['pdf-file']['name'];
+echo $_FILES['pdf-file']['tmp_name'];
 
 try {
 
@@ -318,7 +320,7 @@ try {
                                         <div class="text-center">
                                             <h1 class="h4 text-gray-900 mb-4">Ajout d'un strage : </h1>
                                         </div>
-                                        <form class="user" method="post" action="ajout_stages.php">
+                                        <form class="user" method="post" action="ajout_stages.php" enctype="multipart/form-data">
 
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-3 mb-sm-0">
