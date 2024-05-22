@@ -20,6 +20,27 @@ try {
 
     // Vérifier si le formulaire a été soumis et que toutes les variables sont présentes
     if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone']) && isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
+        $upload_dir = 'uploads/';
+
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+
+        if ($_FILES['pdf-file']['error'] === UPLOAD_ERR_OK) {
+
+            $file_name = $_FILES['pdf-file']['name'];
+            $file_tmp = $_FILES['pdf-file']['tmp_name'];
+            $file_path = $upload_dir . basename($file_name);
+
+
+            if (move_uploaded_file($file_tmp, $file_path)) {
+                echo "Fichier téléchargé avec succès : " . $file_name;
+            } else {
+                echo "Erreur lors du déplacement du fichier.";
+            }
+        } else {
+            echo "Erreur lors du téléchargement du fichier.";
+        }
 
         $nom = $_POST['nom'];
         $rue = $_POST['rue'];
@@ -340,7 +361,11 @@ try {
                                             </div>
 
                                             <div class="form-group row">
-                                                <input type="file" name="fileToUpload" id="fileToUpload">
+
+                                                <label for="pdf-file">Sélectionner un fichier PDF :</label>
+                                                <input type="file" id="pdf-file" name="pdf-file"
+                                                    accept="application/pdf" required>
+
                                             </div>
 
                                             <button type="submit" class="btn btn-primary btn-user btn-block">
