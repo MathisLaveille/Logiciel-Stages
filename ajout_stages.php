@@ -29,24 +29,8 @@ try {
         $date_debut = $_POST['date_debut'];
         $date_fin = $_POST['date_fin'];
 
-        if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] === UPLOAD_ERR_OK) {
-            $file_name = $_FILES['fileToUpload']['name'];
-            $file_tmp = $_FILES['fileToUpload']['tmp_name'];
-
-            // Lire le contenu du fichier et l'encoder en base64
-            $file_content = base64_encode(file_get_contents($file_tmp));
-        } else {
-            // Gérer le cas où le fichier n'a pas été téléchargé avec succès
-            // Vous pouvez afficher un message d'erreur ou rediriger l'utilisateur vers une autre page
-            echo "Erreur lors du téléchargement du fichier.";
-            exit(); // Arrêter l'exécution du script
-        }
-
         // Connexion à la base de données
         $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-
-        // Démarrer une transaction
-        $dbh->beginTransaction();
 
         // Préparation de la requête pour insérer les informations de l'entreprise
         $stmt1 = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
@@ -65,19 +49,15 @@ try {
         $id_s = $dbh->lastInsertId();
 
         // Préparation de la requête pour insérer les informations du stage
-        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start, period_end, nom, contenu) VALUES (:id_s, :period_start, :period_end, :nom, :contenu)");
+        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start, period_end) VALUES (:id_s, :period_start, :period_end)");
 
         // Liaison des paramètres
         $stmt2->bindParam(':id_s', $id_s);
         $stmt2->bindParam(':period_start', $date_debut);
         $stmt2->bindParam(':period_end', $date_fin);
-        $stmt2->bindParam(':nom', $file_name);
-        $stmt2->bindParam(':contenu', $file_content);
 
         // Exécution de la requête
         $stmt2->execute();
-        // Valider la transaction
-        $dbh->commit();
 
         // Redirection vers la page des stages
         header('Location: /tables.php');
@@ -96,7 +76,6 @@ try {
     echo "code = '$code'";
     echo $errorMessage;
 } catch (Exception $e) {
-    echo '2';
 
     $errorMessage = "Erreur : " . $e->getMessage();
 
