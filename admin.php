@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 require 'vendor/autoload.php';
 
 // Charger les variables d'environnement à partir du fichier .env
@@ -13,7 +12,6 @@ $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
     // Connexion à la base de données
@@ -48,9 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
     header("Location: admin.php");
     exit;
 }
-
-
-
 
 // Récupération de l'email depuis la session
 $email = $_SESSION['email'];
@@ -153,8 +148,7 @@ mysqli_close($connection);
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="acceuil.php">
-                <div class="sidebar-brand-icon rotate-n-15">
-                </div>
+                <div class="sidebar-brand-icon rotate-n-15"></div>
                 <div class="sidebar-brand-text mx-3">NDLP Avranches</div>
                 <img src="/img/NDLP.png" width="70" height="50">
             </a>
@@ -162,14 +156,13 @@ mysqli_close($connection);
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-                        <!-- Nav Item - Dashboard -->
-                        <li class="nav-item">
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
                 <a class="nav-link" href="acceuil.php">
                     <img src="/img/Acceuil.png" width="25" height="25">
                     <span>Acceuil</span>
                 </a>
             </li>
-
 
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
@@ -178,38 +171,20 @@ mysqli_close($connection);
                     <span>Stages</span></a>
             </li>
 
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-
-            <?php
-            if ($user_role == 'SUPER_ADMIN') {
-                ?>
-
+            <?php if ($user_role == 'SUPER_ADMIN') { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="admin.php">
                         <img src="/img/role.png" width="25" height="25">
                         <span>Administration</span>
                     </a>
                 </li>
+            <?php } ?>
 
                 <?php
             }
-
-
-            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
-                ?>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="validation_stage.php">
-                        <img src="/img/role.png" width="25" height="25">
-                        <span>Validation stage</span>
-                    </a>
-                </li>
-
-                <?php
-            }  
             ?>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -241,8 +216,6 @@ mysqli_close($connection);
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -250,14 +223,10 @@ mysqli_close($connection);
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-
-                                <?php echo $user_firstname;
-echo '(' . $user_role . ')'; ?>
-
+                                    <?php echo $user_firstname;
+                                    echo '(' . $user_role . ')'; ?>
                                 </span>
-
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -270,10 +239,9 @@ echo '(' . $user_role . ')'; ?>
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
-
-                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="index.php" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -284,10 +252,9 @@ echo '(' . $user_role . ')'; ?>
 
                 </nav>
 
-
-<!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
-<br>
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
+                <br>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -302,9 +269,6 @@ echo '(' . $user_role . ')'; ?>
                     <th>Nouveau rôle</th>
                     </tr>
                 </thead>
-                <br><br>
-
-<input type="submit" value="Mettre à jour le rôle">
                 <tbody>
                 <?php
                 // Connexion à la base de données
@@ -315,38 +279,38 @@ echo '(' . $user_role . ')'; ?>
                     die("La connexion a échoué : " . mysqli_connect_error());
                 }
 
-                // Requête SQL pour obtenir les utilisateurs et leurs rôles
-                $query = "SELECT tbl_user.id_u, tbl_user.prenom_u, tbl_user.mail_u, tbl_role.name_r FROM tbl_user
-                          JOIN tbl_user_role ON tbl_user_role.id_u_user = tbl_user.id_u
-                          JOIN tbl_role ON tbl_user_role.id_r_role = tbl_role.id_r";
+                                        // Requête pour obtenir tous les utilisateurs et leurs rôles
+                                        $query = "SELECT tbl_user.id_u, tbl_user.nom_u, tbl_user.prenom_u, tbl_role.name_r
+                                  FROM tbl_user
+                                  JOIN tbl_user_role ON tbl_user.id_u = tbl_user_role.id_u_user
+                                  JOIN tbl_role ON tbl_user_role.id_r_role = tbl_role.id_r";
+                                        $result = mysqli_query($connection, $query);
 
-                $result = mysqli_query($connection, $query);
+                                        if (!$result) {
+                                            die("Erreur dans la requête : " . mysqli_error($connection));
+                                        }
 
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row['prenom_u'] . " (" . $row['mail_u'] . ")</td>";
-                        echo "<td>" . $row['name_r'] . "</td>";
-                        echo "<td>
-                                <select name='role[" . $row['id_u'] . "]' class='form-control'>
-                                <option value='SUPER_ADMIN'>Super-Admin</option>
-                                <option value='ADMIN'>Admin</option>
-                                <option value='STUDENT'>Eleve</option>
-                                <option value='TEACHER'>Professeur</option>
-                                <option value='TUTOR'>Tuteur</option>
-                                <option value='GUEST'>Inviter</option>
-                                </select>
-                              </td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3'>Aucun utilisateur trouvé</td></tr>";
-                }
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>{$row['nom_u']}</td>";
+                                            echo "<td>{$row['prenom_u']}</td>";
+                                            echo "<td>{$row['name_r']}</td>";
+                                            echo "<td>";
+                                            echo "<select name='role[{$row['id_u']}]' class='form-control'>";
+                                            echo "<option value='SUPER_ADMIN'>Super-Admin</option>";
+                                            echo "<option value='ADMIN'>Admin</option>";
+                                            echo "<option value='STUDENT'>Eleve</option>";
+                                            echo "<option value='TEACHER'>Professeur</option>";
+                                            echo "<option value='TUTOR'>Tuteur</option>";
+                                            echo "<option value='GUEST'>Invité</option>";
+                                            echo "</select>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
 
                 // Fermer la connexion
                 mysqli_close($connection);
                 ?>
-
             </tbody>
             </table>
 
@@ -362,7 +326,7 @@ echo '(' . $user_role . ')'; ?>
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->

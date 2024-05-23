@@ -22,17 +22,14 @@ try {
         $password2 = $_POST['RepeatPassword'];
         $email = $_POST['email'];
 
-
         if ($password != $password2) {
             $errorMessage = "Les mots de passe ne correspondent pas.";
         } else {
-
 
             // Préparation de la requête
             $stmt = $dbh->prepare("UPDATE tbl_user
                        SET password_u = PASSWORD(CONCAT('*-6', :password))
                        WHERE mail_u = :email");
-
 
             // Liaison des paramètres
             $stmt->bindParam(':password', $password2);
@@ -44,7 +41,7 @@ try {
         }
     }
 } catch (PDOException $e) {
-$errorMessage = $e->getMessage();
+    $errorMessage = $e->getMessage();
 }
 
 ?>

@@ -25,7 +25,6 @@ try {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        
         $_SESSION['email'] = $email;
 
         // Vérifier si le compte existe
@@ -35,18 +34,18 @@ try {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            print (1);// Le compte existe
+            print(1); // Le compte existe
             echo "Connexion réussie.";
             header('location: /acceuil.php');
         } else {
             // Le compte n'existe pas ou les identifiants sont incorrects
             echo "Nom d'utilisateur ou mot de passe incorrect.";
-            print (2);
+            print(2);
         }
     }
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
-    print (3);
+    print(3);
 }
 
 ?>

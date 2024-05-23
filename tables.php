@@ -156,20 +156,6 @@ mysqli_close($connection);
 
                 <?php
             }
-
-
-            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
-                ?>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="validation_stage.php">
-                        <img src="/img/role.png" width="25" height="25">
-                        <span>Validation stage</span>
-                    </a>
-                </li>
-
-                <?php
-            }  
             ?>
 
 
@@ -214,7 +200,7 @@ mysqli_close($connection);
 
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?php echo $user_firstname;
-                                    echo '(' . $user_role . ')'; ?>
+echo '(' . $user_role . ')'; ?>
                                 </span>
 
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
@@ -282,43 +268,42 @@ mysqli_close($connection);
 
                                         <?php
 
-                                        try {
+try {
 
-                                            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-                                            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                                            $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
-                                            $stmt2 = $dbh->prepare("SELECT period_start_s, period_end_s FROM tbl_stage");
-                                            // Exécute la requête
-                                            $stmt1->execute();
-                                            $stmt2->execute();
+    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+    $stmt2 = $dbh->prepare("SELECT period_start_s, period_end_s FROM tbl_stage");
+    // Exécute la requête
+    $stmt1->execute();
+    $stmt2->execute();
 
-                                            // Affiche les données dans le tableau
-                                        
-                                            while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-                                                $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    // Affiche les données dans le tableau
 
-                                                if ($row2) {
-                                                    echo "<tr>";
-                                                    echo "<td>" . $row1["nom_e"] . "</td>";
-                                                    echo "<td>" . $row1["rue_e"] . "</td>";
-                                                    echo "<td>" . $row1["CP_e"] . "</td>";
-                                                    echo "<td>" . $row1["city_e"] . "</td>";
-                                                    echo "<td>" . $row1["phone_e"] . "</td>";
-                                                    echo "<td>" . $row2["period_start_s"] . "</td>";
-                                                    echo "<td>" . $row2["period_end_s"] . "</td>";
-                                                    echo "<td>" . "Convention de stage" . "</td>";
-                                                    echo "</tr>";
-                                                }
-                                            }
+    while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+        $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
+        if ($row2) {
+            echo "<tr>";
+            echo "<td>" . $row1["nom_e"] . "</td>";
+            echo "<td>" . $row1["rue_e"] . "</td>";
+            echo "<td>" . $row1["CP_e"] . "</td>";
+            echo "<td>" . $row1["city_e"] . "</td>";
+            echo "<td>" . $row1["phone_e"] . "</td>";
+            echo "<td>" . $row2["period_start_s"] . "</td>";
+            echo "<td>" . $row2["period_end_s"] . "</td>";
+            echo "<td>" . "Convention de stage" . "</td>";
+            echo "</tr>";
+        }
+    }
 
-                                        } catch (PDOException $e) {
-                                            echo "Erreur : " . $e->getMessage();
-                                        }
-                                        // Ferme la connexion
-                                        $dbh = null;
+} catch (PDOException $e) {
+    echo "Erreur : " . $e->getMessage();
+}
+// Ferme la connexion
+$dbh = null;
 
-                                        ?>
+?>
                                     </tbody>
                                 </table>
 
