@@ -14,6 +14,44 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
+    // Connexion à la base de données
+    $connection = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Vérifier la connexion
+    if (!$connection) {
+        die("La connexion a échoué : " . mysqli_connect_error());
+    }
+
+    foreach ($_POST['role'] as $user_id => $new_role) {
+        // Requête pour obtenir l'id du nouveau rôle
+        $query = "SELECT id_r FROM tbl_role WHERE name_r='$new_role'";
+        $result = mysqli_query($connection, $query);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $role_id = $row['id_r'];
+
+            // Mettre à jour le rôle de l'utilisateur
+            $update_query = "UPDATE tbl_user_role SET id_r_role='$role_id' WHERE id_u_user='$user_id'";
+            if (!mysqli_query($connection, $update_query)) {
+                echo "Erreur lors de la mise à jour du rôle : " . mysqli_error($connection);
+            }
+        }
+    }
+
+    // Fermer la connexion
+    mysqli_close($connection);
+
+    // Redirection pour éviter la resoumission du formulaire
+    header("Location: admin.php");
+    exit;
+}
+
+
+
+
 // Récupération de l'email depuis la session
 $email = $_SESSION['email'];
 
@@ -231,6 +269,100 @@ echo '(' . $user_role . ')'; ?>
                     </ul>
 
                 </nav>
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
+<br>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                    <th>Utilisateur</th>
+                    <th>Rôle actuel</th>
+                    <th>Nouveau rôle</th>
+                    </tr>
+                </thead>
+            </table>
+
+
+
+<!-- Section pour gérer les rôles des utilisateurs -->
+<div class="container mt-4">
+    <h2>Gestion des rôles des utilisateurs</h2>
+    <form action="admin.php" method="POST">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Rôle actuel</th>
+                    <th>Nouveau rôle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Connexion à la base de données
+                $connection = mysqli_connect($servername, $username, $password, $dbname);
+
+                // Vérifier la connexion
+                if (!$connection) {
+                    die("La connexion a échoué : " . mysqli_connect_error());
+                }
+
+                // Requête SQL pour obtenir les utilisateurs et leurs rôles
+                $query = "SELECT tbl_user.id_u, tbl_user.prenom_u, tbl_user.mail_u, tbl_role.name_r FROM tbl_user
+                          JOIN tbl_user_role ON tbl_user_role.id_u_user = tbl_user.id_u
+                          JOIN tbl_role ON tbl_user_role.id_r_role = tbl_role.id_r";
+
+                $result = mysqli_query($connection, $query);
+
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row['prenom_u'] . " (" . $row['mail_u'] . ")</td>";
+                        echo "<td>" . $row['name_r'] . "</td>";
+                        echo "<td>
+                                <select name='role[" . $row['id_u'] . "]' class='form-control'>
+                                    <option value='SUPER_ADMIN'>Super-Admin</option>
+                                    <option value='ADMIN'>Admin</option>
+                                    <option value='STUDENT'>Eleve</option>
+                                    <option value='TEACHER'>Proffeseur</option>
+                                    <option value='TUTOR'>Tuteur</option>
+                                    <option value='GUEST'>Inviter</option>
+                                </select>
+                              </td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='3'>Aucun utilisateur trouvé</td></tr>";
+                }
+
+                // Fermer la connexion
+                mysqli_close($connection);
+                ?>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Mettre à jour les rôles</button>
+    </form>
+</div>
+</div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
     <!-- Bootstrap core JavaScript-->
