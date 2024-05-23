@@ -338,7 +338,7 @@ $dbh = null;
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span> Crée par Griffon Dawson, Laveille Mathis, Grall Emeric </span>
+                        <span> Crée par Laveille Mathis et Grall Emeric </span>
                     </div>
                 </div>
             </footer>

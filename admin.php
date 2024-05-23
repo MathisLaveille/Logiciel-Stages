@@ -126,9 +126,7 @@ mysqli_close($connection);
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -174,21 +172,15 @@ mysqli_close($connection);
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <?php
-            if ($user_role == 'SUPER_ADMIN') {
-                ?>
-
+            <?php if ($user_role == 'SUPER_ADMIN') { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="admin.php">
                         <img src="/img/role.png" width="25" height="25">
                         <span>Administration</span>
                     </a>
                 </li>
-
-                <?php
-            }
-
-
+            <?php } ?>
+            <?php
             if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
                 ?>
 
@@ -237,17 +229,14 @@ mysqli_close($connection);
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname;
-                                    echo '(' . $user_role . ')'; ?>
+                                    <?php echo $user_firstname; echo '(' . $user_role . ')'; ?>
                                 </span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
@@ -257,8 +246,7 @@ mysqli_close($connection);
                                     Settings
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="index.php" data-toggle="modal"
-                                    data-target="#logoutModal">
+                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -273,39 +261,31 @@ mysqli_close($connection);
                 <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
                 <br>
 
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                    <th>Utilisateur</th>
-                    <th>Rôle actuel</th>
-                    <th>Nouveau rôle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                // Connexion à la base de données
-                $connection = mysqli_connect($servername, $username, $password, $dbname);
-
-                // Vérifier la connexion
-                if (!$connection) {
-                    die("La connexion a échoué : " . mysqli_connect_error());
-                }
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form method="post" action="admin.php">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Rôle</th>
+                                            <th>Nouveau rôle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        // Connexion à la base de données
+                                        $connection = mysqli_connect($servername, $username, $password, $dbname);
 
                                         // Requête pour obtenir tous les utilisateurs et leurs rôles
-                                        $query = "SELECT tbl_user.id_u, tbl_user.nom_u, tbl_user.prenom_u, tbl_role.name_r
-                                  FROM tbl_user
-                                  JOIN tbl_user_role ON tbl_user.id_u = tbl_user_role.id_u_user
-                                  JOIN tbl_role ON tbl_user_role.id_r_role = tbl_role.id_r";
+                                        $query = "SELECT tbl_user.id_u, tbl_user.nom_u, tbl_user.prenom_u, tbl_role.name_r FROM tbl_user
+                                                  JOIN tbl_user_role ON tbl_user.id_u = tbl_user_role.id_u_user
+                                                  JOIN tbl_role ON tbl_user_role.id_r_role = tbl_role.id_r";
                                         $result = mysqli_query($connection, $query);
-
-                                        if (!$result) {
-                                            die("Erreur dans la requête : " . mysqli_error($connection));
-                                        }
 
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             echo "<tr>";
@@ -314,23 +294,71 @@ mysqli_close($connection);
                                             echo "<td>{$row['name_r']}</td>";
                                             echo "<td>";
                                             echo "<select name='role[{$row['id_u']}]' class='form-control'>";
-                                            echo "<option value='SUPER_ADMIN'>Super-Admin</option>";
-                                            echo "<option value='ADMIN'>Admin</option>";
-                                            echo "<option value='STUDENT'>Eleve</option>";
-                                            echo "<option value='TEACHER'>Professeur</option>";
+                                            echo "option value='SUPER_ADMIN'>Super-Admin</option>";
+                                            echo"<option value='ADMIN'>Admin</option>";
+                                            echo"<option value='STUDENT'>Eleve</option>";
+                                            echo"<option value='TEACHER'>Professeur</option>";
                                             echo "<option value='TUTOR'>Tuteur</option>";
-                                            echo "<option value='GUEST'>Invité</option>";
+                                            echo"<option value='GUEST'>Inviter</option>";
                                             echo "</select>";
                                             echo "</td>";
                                             echo "</tr>";
                                         }
 
-                // Fermer la connexion
-                mysqli_close($connection);
-                ?>
-            </tbody>
-            </table>
+                                        // Fermer la connexion
+                                        mysqli_close($connection);
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <button type="submit" class="btn btn-primary">Mettre à jour les rôles</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Crée par Laveille Mathis et Grall Emeric</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="index.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

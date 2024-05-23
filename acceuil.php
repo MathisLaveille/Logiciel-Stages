@@ -252,20 +252,14 @@ mysqli_close($connection);
                                                 :</strong></a>
                                         <br><br>
                                         <a style="font-family: Roboto, sans-serif;"><strong>Ce site a été conçu par une
-                                                équipe
-                                                de trois étudiants en BTS Services Informatiques aux Organisations (SIO)
+                                                équipe de deux étudiants en BTS Services Informatiques aux Organisations (SIO)
                                                 option Solutions Logicielles et Applications Métiers
                                                 (SLAM).</strong></a>
                                         <br><br>
                                         <a style="font-family: Roboto, sans-serif;"><strong>Explication du projet
                                                 :</strong></a>
                                         <br><br>
-                                        <a style="font-family: Roboto, sans-serif;"> <strong>Le projet a débuté le 12
-                                                janvier
-                                                2024. Nous avons fait un cahier des charges , la création d'un MCD
-                                                (Modèle Conceptuel des données). Nous
-                                                avons rencontré le client puis il nous a donné des fonctionnalités
-                                                précises. </strong></a>
+                                        <a style="font-family: Roboto, sans-serif;"> <strong>Le projet a  </strong></a>
                                         <br><br>
                                         <a style="font-family: Roboto, sans-serif;"><strong>Bonne Visite !</strong> </a>
                                         <br><br>
