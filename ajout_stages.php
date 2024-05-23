@@ -44,7 +44,7 @@ try {
         $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
         // Préparation de la requête pour insérer les informations de l'entreprise
-        $stmt1 = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
+        $stmt1 = $dbh->prepare("INSERT INTO tbl_verifier_company (nom_v, rue_v, CP_v, city_v, phone_v) VALUES (:nom, :rue, :postal, :ville, :phone)");
 
         // Liaison des paramètres
         $stmt1->bindParam(':nom', $nom);
@@ -60,12 +60,12 @@ try {
         $id_s = $dbh->lastInsertId();
 
         // Préparation de la requête pour insérer les informations du stage
-        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start_s, period_end_s) VALUES (:id_s, :period_start_s, :period_end_s)");
+        $stmt2 = $dbh->prepare("INSERT INTO tbl_verifier_stage (id_v, period_start_v, period_end_v) VALUES (:id_s, :period_start_v, :period_end_v)");
 
         // Liaison des paramètres
         $stmt2->bindParam(':id_s', $id_s);
-        $stmt2->bindParam(':period_start_s', $date_debut);
-        $stmt2->bindParam(':period_end_s', $date_fin);
+        $stmt2->bindParam(':period_start_v', $date_debut);
+        $stmt2->bindParam(':period_end_v', $date_fin);
 
         // Exécution de la requête
         $stmt2->execute();
@@ -92,7 +92,6 @@ try {
 
     echo $errorMessage;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -306,7 +305,7 @@ try {
                                 <div class="col-lg-12">
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Ajout d'un strage : </h1>
+                                            <h1 class="h4 text-gray-900 mb-4">Ajout d'un stage : </h1>
                                         </div>
                                         <form class="user" method="post" action="ajout_stages.php" enctype="multipart/form-data">
 

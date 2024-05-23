@@ -242,7 +242,7 @@ mysqli_close($connection);
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
 
-                    <a href="ajout_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
+                    <a href="modifier_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
 
                     <br>
 
@@ -262,6 +262,8 @@ mysqli_close($connection);
                                             <th>Début du stage</th>
                                             <th>Fin du stage</th>
                                             <th>Convention de stage</th>
+                                            <th>Valider</th>
+                                            <th>Refuser</th>
                                         </tr>
 
                                     </thead>
@@ -276,48 +278,42 @@ mysqli_close($connection);
                                             <th>Début du stage</th>
                                             <th>Fin du stage</th>
                                             <th>Convention de stage</th>
+                                            <th>Valider</th>
+                                            <th>Refuser</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-
                                         <?php
-
                                         try {
-
                                             $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                                             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                                            $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
-                                            $stmt2 = $dbh->prepare("SELECT period_start_s, period_end_s FROM tbl_stage");
-                                            // Exécute la requête
+                                            $stmt1 = $dbh->prepare("SELECT id_v, nom_v, rue_v, CP_v, city_v, phone_v FROM tbl_verifier_company");
+                                            $stmt2 = $dbh->prepare("SELECT id_v, period_start_v, period_end_v FROM tbl_verifier_stage");
                                             $stmt1->execute();
                                             $stmt2->execute();
 
-                                            // Affiche les données dans le tableau
-                                        
                                             while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
                                                 $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
                                                 if ($row2) {
                                                     echo "<tr>";
-                                                    echo "<td>" . $row1["nom_e"] . "</td>";
-                                                    echo "<td>" . $row1["rue_e"] . "</td>";
-                                                    echo "<td>" . $row1["CP_e"] . "</td>";
-                                                    echo "<td>" . $row1["city_e"] . "</td>";
-                                                    echo "<td>" . $row1["phone_e"] . "</td>";
-                                                    echo "<td>" . $row2["period_start_s"] . "</td>";
-                                                    echo "<td>" . $row2["period_end_s"] . "</td>";
-                                                    echo "<td>" . "Convention de stage" . "</td>";
+                                                    echo "<td>" . $row1["nom_v"] . "</td>";
+                                                    echo "<td>" . $row1["rue_v"] . "</td>";
+                                                    echo "<td>" . $row1["CP_v"] . "</td>";
+                                                    echo "<td>" . $row1["city_v"] . "</td>";
+                                                    echo "<td>" . $row1["phone_v"] . "</td>";
+                                                    echo "<td>" . $row2["period_start_v"] . "</td>";
+                                                    echo "<td>" . $row2["period_end_v"] . "</td>";
+                                                    echo "<td>Convention de stage</td>";
+                                                    echo '<td><form method="POST" action="handle_stage.php"><button type="submit" name="valider" value="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-success">Valider</button></form></td>';
+                                                    echo '<td><form method="POST" action="handle_stage.php"><button type="submit" name="refuser" value="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-danger">Refuser</button></form></td>';
                                                     echo "</tr>";
                                                 }
                                             }
-
-
                                         } catch (PDOException $e) {
                                             echo "Erreur : " . $e->getMessage();
                                         }
-                                        // Ferme la connexion
                                         $dbh = null;
-
                                         ?>
                                     </tbody>
                                 </table>

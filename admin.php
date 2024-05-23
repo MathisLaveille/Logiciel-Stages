@@ -196,6 +196,20 @@ mysqli_close($connection);
 
                 <?php
             }
+
+
+            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="validation_stage.php">
+                        <img src="/img/role.png" width="25" height="25">
+                        <span>Validation stage</span>
+                    </a>
+                </li>
+
+                <?php
+            }  
             ?>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -288,6 +302,9 @@ echo '(' . $user_role . ')'; ?>
                     <th>Nouveau rôle</th>
                     </tr>
                 </thead>
+                <br><br>
+
+<input type="submit" value="Mettre à jour le rôle">
                 <tbody>
                 <?php
                 // Connexion à la base de données
@@ -329,6 +346,7 @@ echo '(' . $user_role . ')'; ?>
                 // Fermer la connexion
                 mysqli_close($connection);
                 ?>
+
             </tbody>
             </table>
 
