@@ -302,23 +302,7 @@ echo '(' . $user_role . ')'; ?>
                     <th>Nouveau rôle</th>
                     </tr>
                 </thead>
-            </table>
-
-
-
-<!-- Section pour gérer les rôles des utilisateurs -->
-<div class="container mt-4">
-    <h2>Gestion des rôles des utilisateurs</h2>
-    <form action="admin.php" method="POST">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Utilisateur</th>
-                    <th>Rôle actuel</th>
-                    <th>Nouveau rôle</th>
-                </tr>
-            </thead>
-            <tbody>
+                <tbody>
                 <?php
                 // Connexion à la base de données
                 $connection = mysqli_connect($servername, $username, $password, $dbname);
@@ -342,12 +326,12 @@ echo '(' . $user_role . ')'; ?>
                         echo "<td>" . $row['name_r'] . "</td>";
                         echo "<td>
                                 <select name='role[" . $row['id_u'] . "]' class='form-control'>
-                                    <option value='SUPER_ADMIN'>Super-Admin</option>
-                                    <option value='ADMIN'>Admin</option>
-                                    <option value='STUDENT'>Eleve</option>
-                                    <option value='TEACHER'>Proffeseur</option>
-                                    <option value='TUTOR'>Tuteur</option>
-                                    <option value='GUEST'>Inviter</option>
+                                <option value='SUPER_ADMIN'>Super-Admin</option>
+                                <option value='ADMIN'>Admin</option>
+                                <option value='STUDENT'>Eleve</option>
+                                <option value='TEACHER'>Professeur</option>
+                                <option value='TUTOR'>Tuteur</option>
+                                <option value='GUEST'>Inviter</option>
                                 </select>
                               </td>";
                         echo "</tr>";
@@ -360,23 +344,7 @@ echo '(' . $user_role . ')'; ?>
                 mysqli_close($connection);
                 ?>
             </tbody>
-        </table>
-        <button type="submit" class="btn btn-primary">Mettre à jour les rôles</button>
-    </form>
-</div>
-</div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
+            </table>
 
 
     <!-- Bootstrap core JavaScript-->
