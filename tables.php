@@ -48,7 +48,7 @@ if ($row) {
 }
 
 // Requête SQL pour obtenir les infos sur le rôle
-$query = "SELECT tbl_role.name_r FROM tbl_role 
+$query = "SELECT tbl_role.name_r FROM tbl_role
 JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
 JOIN tbl_user ON tbl_user_role.id_u_user = tbl_user.id_u
 WHERE tbl_user.mail_u = '$email';";
@@ -137,15 +137,15 @@ mysqli_close($connection);
                     <img src="img/stage.png" width="25" height="25"></img>
                     <span>Stages</span></a>
             </li>
-            
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
 
             <?php
-            if ($user_role == 'SUPER_ADMIN') {
-                ?>
+if ($user_role == 'SUPER_ADMIN') {
+    ?>
             <li class="nav-item">
     <a class="nav-link" href="admin.php">
         <img src="/img/role.png" width="25" height="25">
@@ -154,8 +154,8 @@ mysqli_close($connection);
 </li>
 
                 <?php
-            }
-            ?>
+}
+?>
 
 
             <!-- Divider -->
@@ -184,9 +184,6 @@ mysqli_close($connection);
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-
-
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
