@@ -15,9 +15,6 @@ $dbname = $_ENV['BD_NAME'];
 
 $errorMessage = "";
 
-echo $_FILES['pdf-file']['name'];
-echo $_FILES['pdf-file']['tmp_name'];
-
 try {
 
     // Vérifier si le formulaire a été soumis et que toutes les variables sont présentes
