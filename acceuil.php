@@ -205,7 +205,7 @@ mysqli_close($connection);
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
- 
+
 
 
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -229,42 +229,53 @@ mysqli_close($connection);
                                 <div class="col-lg-6">
                                     <div class="p-5">
                                         <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4"><strong>Bienvenue sur le site !</strong></h1>
+                                            <h1 class="h4 text-gray-900 mb-4"><strong>Bienvenue sur le site !</strong>
+                                            </h1>
                                         </div>
                                         <br><br>
 
-                                        <a style="font-family: Roboto, sans-serif;"><strong>Petite présentation :</strong></a>
+                                        <a style="font-family: Roboto, sans-serif;"><strong>Petite présentation
+                                                :</strong></a>
                                         <br><br>
-                                        <a style="font-family: Roboto, sans-serif;"><strong>Ce site a été conçu par une équipe
-                                            de trois étudiants en BTS Services Informatiques aux Organisations (SIO)
-                                            option Solutions Logicielles et Applications Métiers (SLAM).</strong></a>
+                                        <a style="font-family: Roboto, sans-serif;"><strong>Ce site a été conçu par une
+                                                équipe
+                                                de trois étudiants en BTS Services Informatiques aux Organisations (SIO)
+                                                option Solutions Logicielles et Applications Métiers
+                                                (SLAM).</strong></a>
                                         <br><br>
-                                        <a style="font-family: Roboto, sans-serif;"><strong>Explication du projet :</strong></a>
+                                        <a style="font-family: Roboto, sans-serif;"><strong>Explication du projet
+                                                :</strong></a>
                                         <br><br>
-                                        <a style="font-family: Roboto, sans-serif;"> <strong>Le projet a débuté le 12 janvier
-                                            2024. Nous avons fait un cahier des charges , la création d'un MCD (Modèle Conceptuel des données). Nous
-                                           avons rencontré le client puis il nous a donné des fonctionnalités précises. </strong></a>
-                                           <br><br>
-                                           <a style="font-family: Roboto, sans-serif;"><strong>Bonne Visite !</strong> </a>
+                                        <a style="font-family: Roboto, sans-serif;"> <strong>Le projet a débuté le 12
+                                                janvier
+                                                2024. Nous avons fait un cahier des charges , la création d'un MCD
+                                                (Modèle Conceptuel des données). Nous
+                                                avons rencontré le client puis il nous a donné des fonctionnalités
+                                                précises. </strong></a>
                                         <br><br>
-                                      
+                                        <a style="font-family: Roboto, sans-serif;"><strong>Bonne Visite !</strong> </a>
+                                        <br><br>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                <style>
-        .col-lg-6 img {
-            width: 75%; /* la largeur de l'image est à 75% de la colonne parente */
-            margin: 0 auto; /* Centre horizontalement l'image */
-        }
-    </style>
+                                    <style>
+                                        .col-lg-6 img {
+                                            width: 75%;
+                                            /* la largeur de l'image est à 75% de la colonne parente */
+                                            margin: 0 auto;
+                                            /* Centre horizontalement l'image */
+                                        }
+                                    </style>
 
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
+                                    <div class="card o-hidden border-0 shadow-lg my-5">
+                                        <div class="card-body p-0">
+                                            <!-- Nested Row within Card Body -->
+                                            <div class="row">
 
-                                <img src="../img/NDLP.png" width="75%"> <!-- Largeur de 75% de la colonne parente -->
-                            </div>
+                                                <img src="../img/NDLP.png" width="75%">
+                                                <!-- Largeur de 75% de la colonne parente -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -282,7 +293,7 @@ mysqli_close($connection);
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Crée par Griffon Dawson, Laveille Mathis, Grall Emeric</span>
+                        <span>Crée par Laveille Mathis et Grall Emeric</span>
                     </div>
                 </div>
             </footer>

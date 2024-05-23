@@ -15,50 +15,92 @@ $dbname = $_ENV['BD_NAME'];
 
 $errorMessage = "";
 
-
 try {
 
-    if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone'])) {
+    // Vérifier si le formulaire a été soumis et que toutes les variables sont présentes
+    if (isset($_POST['nom']) && isset($_POST['rue']) && isset($_POST['postal']) && isset($_POST['ville']) && isset($_POST['phone']) && isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
+        $upload_dir = 'uploads/';
+
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+
+        if ($_FILES['pdf-file']['error'] === UPLOAD_ERR_OK) {
+
+            $file_name = $_FILES['pdf-file']['name'];
+            $file_tmp = $_FILES['pdf-file']['tmp_name'];
+            $file_path = $upload_dir . basename($file_name);
+
+
+            if (move_uploaded_file($file_tmp, $file_path)) {
+                echo "Fichier téléchargé avec succès : " . $file_name;
+            } else {
+                echo "Erreur lors du déplacement du fichier.";
+            }
+        } else {
+            echo "Erreur lors du téléchargement du fichier.";
+        }
+
         $nom = $_POST['nom'];
         $rue = $_POST['rue'];
         $postal = $_POST['postal'];
         $ville = $_POST['ville'];
         $phone = $_POST['phone'];
+        $date_debut = $_POST['date_debut'];
+        $date_fin = $_POST['date_fin'];
 
-        
         // Connexion à la base de données
-
         $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    
-        // Préparation de la requête
-        $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
-    
-        // Liaison des paramètres
-        $stmt->bindParam(':nom', $nom);
-        $stmt->bindParam(':rue', $rue);
-        $stmt->bindParam(':postal', $postal);
-        $stmt->bindParam(':ville', $ville);
-        $stmt->bindParam(':phone', $phone);
-        
 
-    
+        // Préparation de la requête pour insérer les informations de l'entreprise
+        $stmt1 = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (:nom, :rue, :postal, :ville, :phone)");
+
+        // Liaison des paramètres
+        $stmt1->bindParam(':nom', $nom);
+        $stmt1->bindParam(':rue', $rue);
+        $stmt1->bindParam(':postal', $postal);
+        $stmt1->bindParam(':ville', $ville);
+        $stmt1->bindParam(':phone', $phone);
+
         // Exécution de la requête
-        $stmt->execute();
-        
-        header('location: /tables.php');
+        $stmt1->execute();
+
+        // Récupérer l'ID de l'entreprise insérée
+        $id_s = $dbh->lastInsertId();
+
+        // Préparation de la requête pour insérer les informations du stage
+        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start, period_end) VALUES (:id_s, :period_start, :period_end)");
+
+        // Liaison des paramètres
+        $stmt2->bindParam(':id_s', $id_s);
+        $stmt2->bindParam(':period_start', $date_debut);
+        $stmt2->bindParam(':period_end', $date_fin);
+
+        // Exécution de la requête
+        $stmt2->execute();
+
+        // Redirection vers la page des stages
+        header('Location: /tables.php');
+        exit();
     }
 } catch (PDOException $e) {
-    print(3);
+    // Annuler la transaction en cas d'erreur
+    if ($dbh->inTransaction()) {
+        $dbh->rollBack();
+    }
+
+
     $code = $e->getCode();
-    $errorMessage = "erreur";
-    
+    $errorMessage = "Erreur : " . $e->getMessage();
 
-    print("code = '$code'");
-    print($e->getMessage());
+    echo "code = '$code'";
+    echo $errorMessage;
+} catch (Exception $e) {
+
+    $errorMessage = "Erreur : " . $e->getMessage();
+
+    echo $errorMessage;
 }
-
-
-
 
 ?>
 
@@ -124,8 +166,8 @@ try {
                 Pages
             </div>
 
-<!-- Nav Item - Tables -->
-<li class="nav-item active">
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
                 <a class="nav-link" href="tables.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Stages</span></a>
@@ -183,15 +225,15 @@ try {
                                 </form>
                             </div>
 
-                        <!-- Nav Item - User Information -->
+                            <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    
-                                <?php
+
+                                    <?php
                                     // Vérifier si une session est déjà active avant de la démarrer
-                                    if(session_status() !== PHP_SESSION_ACTIVE) {
+                                    if (session_status() !== PHP_SESSION_ACTIVE) {
                                         session_start();
                                     }
 
@@ -228,13 +270,12 @@ try {
 
                                     // Fermer la connexion à la base de données
                                     mysqli_close($connection);
-                                ?>
+                                    ?>
 
 
                                 </span>
 
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -265,85 +306,82 @@ try {
                 <!-- End of Topbar -->
 
 
-<div class="container">
+                <div class="container">
 
-<div class="card o-hidden border-0 shadow-lg my-5">
-    <div class="card-body p-0">
-        <!-- Nested Row within Card Body -->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="p-5">
-                    <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">Ajout d'un strage : </h1>
-                    </div>
-                            <form class="user" method="post" action="ajout_stages.php">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Ajout d'un strage : </h1>
+                                        </div>
+                                        <form class="user" method="post" action="ajout_stages.php" enctype="multipart/form-data">
 
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="nom"
-                                            placeholder="Nom de l'entreprise">
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="text" class="form-control form-control-user" name="nom"
+                                                        placeholder="Nom de l'entreprise">
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control form-control-user" name="rue"
+                                                        placeholder="Rue de l'entreprise">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user" name="postal"
+                                                    placeholder="Code postal de l'entreprise">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user" name="ville"
+                                                    placeholder="Ville de l'entreprise">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user" name="phone"
+                                                    placeholder="Téléphone de l'entreprise">
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="date" class="form-control form-control-user"
+                                                        name="date_debut" placeholder="Date début de stage : " />
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <input type="date" class="form-control form-control-user"
+                                                        name="date_fin" placeholder="Date début de stage : " />
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                <label for="pdf-file">Sélectionner un fichier PDF :</label>
+                                                <input type="file" id="pdf-file" name="pdf-file"
+                                                    accept="application/pdf" required>
+
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                Validation du stage
+                                            </button>
+                                        </form>
                                     </div>
-
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="rue"
-                                            placeholder="Rue de l'entreprise">
-                                    </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="postal"
-                                        placeholder="Code postal de l'entreprise">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="ville"
-                                        placeholder="Ville de l'entreprise">
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="phone"
-                                        placeholder="Téléphone de l'entreprise">
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="Periode"
-                                            placeholder="Période de stage">
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <input type="hidden" class="form-control form-control-user" name="rapport" value="30000" >
-
-                                        <!-- <input type="text" class="form-control form-control-user" name="rapport"
-                                            placeholder="Rapport de stage">-->
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                Validation du stage
-                                </button>
-                            </form>
-
-                            <!-- Le type d'encodage des données, enctype, DOIT être spécifié comme ce qui suit -->
-                            <form enctype="multipart/form-data" action="_URL_" method="post">
-                                <!-- MAX_FILE_SIZE doit précéder le champ input de type file -->
-                                <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-                                <!-- Le nom de l'élément input détermine le nom dans le tableau $_FILES -->
-                                Envoyez ce fichier : <input name="userfile" type="file" />
-                                <input type="submit" value="Envoyer le fichier" />
-                            </form>
-
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-        </div>
-    </div>
-
-</div>
 
 
-<br><br><br>
+            <br><br><br>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">

@@ -144,8 +144,8 @@ mysqli_close($connection);
 
 
             <?php
-if ($user_role == 'SUPER_ADMIN') {
-    ?>
+            if ($user_role == 'SUPER_ADMIN') {
+                ?>
             <li class="nav-item">
     <a class="nav-link" href="admin.php">
         <img src="/img/role.png" width="25" height="25">
@@ -195,17 +195,14 @@ if ($user_role == 'SUPER_ADMIN') {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
 
 
-<span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname;
-echo '(' . $user_role . ')'; ?>
-                                </span>
-                                </span>
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                        <?php echo $user_firstname;
+                                        echo '(' . $user_role . ')'; ?>
+                                    </span>
 
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -240,59 +237,70 @@ echo '(' . $user_role . ')'; ?>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Nom entreprise</th>
-                                        <th>Rue entreprise</th>
-                                        <th>Code postal entreprise</th>
-                                        <th>Ville entreprise</th>
-                                        <th>Téléphone entreprise</th>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                            <th>Nom entreprise</th>
+                                            <th>Rue entreprise</th>
+                                            <th>Code postal entreprise</th>
+                                            <th>Ville entreprise</th>
+                                            <th>Téléphone entreprise</th>
+                                            <th>Début du stage</th>
+                                            <th>Fin du stage</th>
+                                        </tr>
 
-                                </thead>
+                                    </thead>
 
-                                <tfoot>
-                                    <tr>
-                                        <th>Nom entreprise</th>
-                                        <th>Rue entreprise</th>
-                                        <th>Code postal entreprise</th>
-                                        <th>Ville entreprise</th>
-                                        <th>Téléphone entreprise</th>
-
-                                    </tr>
-                                </tfoot>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nom entreprise</th>
+                                            <th>Rue entreprise</th>
+                                            <th>Code postal entreprise</th>
+                                            <th>Ville entreprise</th>
+                                            <th>Téléphone entreprise</th>
+                                            <th>Début du stage</th>
+                                            <th>Fin du stage</th>
+                                        </tr>
+                                    </tfoot>
                                     <tbody>
 
-                                    <?php
+                                        <?php
 
-try {
+                                        try {
 
-    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
-    // Exécute la requête
-    $stmt->execute();
-    // Affiche les données dans le tableau
+                                            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                                            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                            $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+                                            $stmt2 = $dbh->prepare("SELECT period_start, period_end FROM tbl_stage");
+                                            // Exécute la requête
+                                            $stmt1->execute();
+                                            $stmt2->execute();
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                            // Affiche les données dans le tableau
+                                        
+                                            while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+                                                $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-        echo "<tr>";
-        echo "<td>" . $row["nom_e"] . "</td>";
-        echo "<td>" . $row["rue_e"] . "</td>";
-        echo "<td>" . $row["CP_e"] . "</td>";
-        echo "<td>" . $row["city_e"] . "</td>";
-        echo "<td>" . $row["phone_e"] . "</td>";
-        echo "</tr>";
+                                                if ($row2) {
+                                                    echo "<tr>";
+                                                    echo "<td>" . $row1["nom_e"] . "</td>";
+                                                    echo "<td>" . $row1["rue_e"] . "</td>";
+                                                    echo "<td>" . $row1["CP_e"] . "</td>";
+                                                    echo "<td>" . $row1["city_e"] . "</td>";
+                                                    echo "<td>" . $row1["phone_e"] . "</td>";
+                                                    echo "<td>" . $row2["period_start"] . "</td>";
+                                                    echo "<td>" . $row2["period_end"] . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                            }
 
-    }
 
-} catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
-}
-// Ferme la connexion
-$dbh = null;
+                                        } catch (PDOException $e) {
+                                            echo "Erreur : " . $e->getMessage();
+                                        }
+                                        // Ferme la connexion
+                                        $dbh = null;
 
-?>
+                                        ?>
                                     </tbody>
                                 </table>
 
@@ -306,9 +314,9 @@ $dbh = null;
             </div>
             <!-- End of Main Content -->
             <div class="container-fluid">
-</div>
+            </div>
 
-<br><br><br>
+            <br><br><br>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
