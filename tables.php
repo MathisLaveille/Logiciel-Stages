@@ -252,6 +252,8 @@ echo '(' . $user_role . ')'; ?>
                                         <th>Téléphone entreprise</th>
                                         <th>Début du stage</th>
                                         <th>Fin du stage</th>
+                                        <th>Fin du stage</th>
+                                        <th>Convention de stage</th>
                                     </tr>
 
                                 </thead>
@@ -265,6 +267,7 @@ echo '(' . $user_role . ')'; ?>
                                         <th>Téléphone entreprise</th>
                                         <th>Début du stage</th>
                                         <th>Fin du stage</th>
+                                        <th>Convention de stage</th>
                                     </tr>
                                 </tfoot>
                                     <tbody>
@@ -295,6 +298,7 @@ try {
             echo "<td>" . $row1["phone_e"] . "</td>";
             echo "<td>" . $row2["period_start"] . "</td>";
             echo "<td>" . $row2["period_end"] . "</td>";
+            echo "<td>" . "Convention de stage" . "</td>";
             echo "</tr>";
         }
     }
