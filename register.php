@@ -135,11 +135,11 @@ try {
                                             </div>
                                         </div>
 
-                                        <?php if (!empty($errorMessage)) { ?>
+                                        <?php if (!empty($errorMessage)) {?>
                                             <div class="alert alert-danger" role="alert">
                                                 <?php echo $errorMessage; ?>
                                             </div>
-                                        <?php } ?>
+                                        <?php }?>
 
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Valider le compte

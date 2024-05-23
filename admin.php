@@ -126,7 +126,9 @@ mysqli_close($connection);
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -215,14 +217,17 @@ mysqli_close($connection);
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname; echo '(' . $user_role . ')'; ?>
+                                    <?php echo $user_firstname;
+                                    echo '(' . $user_role . ')'; ?>
                                 </span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
@@ -232,7 +237,8 @@ mysqli_close($connection);
                                     Settings
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="index.php" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -250,65 +256,65 @@ mysqli_close($connection);
                 <!-- DataTales Example -->
 
                 <div class="card shadow mb-4">
-    <div class="card-body">
-        <div class="table-responsive">
-            <form method="post" action="admin.php">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Rôle</th>
-                            <th>Nouveau rôle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        // Connexion à la base de données
-                        $connection = mysqli_connect($servername, $username, $password, $dbname);
-                        if (!$connection) {
-                            die("La connexion à la base de données a échoué : " . mysqli_connect_error());
-                        }
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form method="post" action="admin.php">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Rôle</th>
+                                            <th>Nouveau rôle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        // Connexion à la base de données
+                                        $connection = mysqli_connect($servername, $username, $password, $dbname);
+                                        if (!$connection) {
+                                            die("La connexion à la base de données a échoué : " . mysqli_connect_error());
+                                        }
 
-                        // Requête pour obtenir tous les utilisateurs et leurs rôles
-                        $query = "SELECT tbl_user.id_u, tbl_user.nom_u, tbl_user.prenom_u, tbl_role.name_r 
+                                        // Requête pour obtenir tous les utilisateurs et leurs rôles
+                                        $query = "SELECT tbl_user.id_u, tbl_user.nom_u, tbl_user.prenom_u, tbl_role.name_r
                                   FROM tbl_user
                                   JOIN tbl_user_role ON tbl_user.id_u = tbl_user_role.id_u_user
                                   JOIN tbl_role ON tbl_user_role.id_r_role = tbl_role.id_r";
-                        $result = mysqli_query($connection, $query);
+                                        $result = mysqli_query($connection, $query);
 
-                        if (!$result) {
-                            die("Erreur dans la requête : " . mysqli_error($connection));
-                        }
+                                        if (!$result) {
+                                            die("Erreur dans la requête : " . mysqli_error($connection));
+                                        }
 
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>{$row['nom_u']}</td>";
-                            echo "<td>{$row['prenom_u']}</td>";
-                            echo "<td>{$row['name_r']}</td>";
-                            echo "<td>";
-                            echo "<select name='role[{$row['id_u']}]' class='form-control'>";
-                            echo "<option value='SUPER_ADMIN'>Super-Admin</option>";
-                            echo "<option value='ADMIN'>Admin</option>";
-                            echo "<option value='STUDENT'>Eleve</option>";
-                            echo "<option value='TEACHER'>Professeur</option>";
-                            echo "<option value='TUTOR'>Tuteur</option>";
-                            echo "<option value='GUEST'>Invité</option>";
-                            echo "</select>";
-                            echo "</td>";
-                            echo "</tr>";
-                        }
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>{$row['nom_u']}</td>";
+                                            echo "<td>{$row['prenom_u']}</td>";
+                                            echo "<td>{$row['name_r']}</td>";
+                                            echo "<td>";
+                                            echo "<select name='role[{$row['id_u']}]' class='form-control'>";
+                                            echo "<option value='SUPER_ADMIN'>Super-Admin</option>";
+                                            echo "<option value='ADMIN'>Admin</option>";
+                                            echo "<option value='STUDENT'>Eleve</option>";
+                                            echo "<option value='TEACHER'>Professeur</option>";
+                                            echo "<option value='TUTOR'>Tuteur</option>";
+                                            echo "<option value='GUEST'>Invité</option>";
+                                            echo "</select>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
 
-                        // Fermer la connexion
-                        mysqli_close($connection);
-                        ?>
-                    </tbody>
-                </table>
-                <button type="submit" class="btn btn-primary">Mettre à jour les rôles</button>
-            </form>
-        </div>
-    </div>
-</div>
+                                        // Fermer la connexion
+                                        mysqli_close($connection);
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <button type="submit" class="btn btn-primary">Mettre à jour les rôles</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>

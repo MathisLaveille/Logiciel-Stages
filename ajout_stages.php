@@ -80,7 +80,6 @@ try {
         $dbh->rollBack();
     }
 
-
     $code = $e->getCode();
     $errorMessage = "Erreur : " . $e->getMessage();
 
@@ -94,6 +93,75 @@ try {
 }
 
 ?>
+
+<?php
+
+
+// Vérifier si une session est déjà active avant de la démarrer
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+
+// Connexion à la base de données
+$connection = mysqli_connect($servername, $username, $password, $dbname);
+
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
+}
+
+// Requête SQL
+$query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Affichage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_firstname = $row['prenom_u'];
+} else {
+    $user_firstname = "Aucun prénom trouvé.";
+}
+
+// Requête SQL pour obtenir les infos sur le rôle
+$query = "SELECT tbl_role.name_r FROM tbl_role
+JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+JOIN tbl_user ON tbl_user_role.id_u_user = tbl_user.id_u
+WHERE tbl_user.mail_u = '$email';";
+
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_role = $row['name_r'];
+} else {
+    $user_role = "Aucun rôle.";
+}
+
+// Libérer la mémoire des résultats
+mysqli_free_result($result);
+
+// Fermer la connexion à la base de données
+mysqli_close($connection);
+?>
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -146,23 +214,38 @@ try {
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="acceuil.php">
-                    <img src="/img/Acceuil.png" width="35" height="35">
+                    <img src="/img/Acceuil.png" width="25" height="25">
                     <span>Acceuil</span>
                 </a>
             </li>
 
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Pages
-            </div>
-
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
                 <a class="nav-link" href="tables.php">
-                    <i class="fas fa-fw fa-table"></i>
+                    <img src="img/stage.png" width="25" height="25"></img>
                     <span>Stages</span></a>
             </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+
+            <?php
+            if ($user_role == 'SUPER_ADMIN') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.php">
+                        <img src="/img/role.png" width="25" height="25">
+                        <span>Administration</span>
+                    </a>
+                </li>
+
+                <?php
+            }
+            ?>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -255,7 +338,8 @@ try {
                                     } else {
                                         echo "Aucun prénom trouvé.";
                                     }
-
+                                    
+                                    echo '(' . $user_role . ')'; 
                                     // Libérer la mémoire des résultats
                                     mysqli_free_result($result);
 
@@ -263,6 +347,8 @@ try {
                                     mysqli_close($connection);
                                     ?>
 
+
+                                    
 
                                 </span>
 
@@ -308,7 +394,8 @@ try {
                                         <div class="text-center">
                                             <h1 class="h4 text-gray-900 mb-4">Ajout d'un strage : </h1>
                                         </div>
-                                        <form class="user" method="post" action="ajout_stages.php" enctype="multipart/form-data">
+                                        <form class="user" method="post" action="ajout_stages.php"
+                                            enctype="multipart/form-data">
 
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-3 mb-sm-0">
