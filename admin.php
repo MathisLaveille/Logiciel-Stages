@@ -288,23 +288,23 @@ mysqli_close($connection);
                                         $result = mysqli_query($connection, $query);
 
                                         while ($row = mysqli_fetch_assoc($result)) {
+                                            $currentRole = $row['name_r'];
                                             echo "<tr>";
                                             echo "<td>{$row['nom_u']}</td>";
                                             echo "<td>{$row['prenom_u']}</td>";
-                                            echo "<td>{$row['name_r']}</td>";
+                                            echo "<td>{$currentRole}</td>";
                                             echo "<td>";
                                             echo "<select name='role[{$row['id_u']}]' class='form-control'>";
-                                            echo "<option value='SUPER_ADMIN'>Super-Admin</option>";
-                                            echo "<option value='ADMIN'>Admin</option>";
-                                            echo "<option value='STUDENT'>Eleve</option>";
-                                            echo "<option value='TEACHER'>Professeur</option>";
-                                            echo "<option value='TUTOR'>Tuteur</option>";
-                                            echo "<option value='GUEST'>Inviter</option>";
+                                            echo "<option value='SUPER_ADMIN'" . ($currentRole == 'SUPER_ADMIN' ? " selected" : "") . ">Super-Admin</option>";
+                                            echo "<option value='ADMIN'" . ($currentRole == 'ADMIN' ? " selected" : "") . ">Admin</option>";
+                                            echo "<option value='STUDENT'" . ($currentRole == 'STUDENT' ? " selected" : "") . ">Eleve</option>";
+                                            echo "<option value='TEACHER'" . ($currentRole == 'TEACHER' ? " selected" : "") . ">Professeur</option>";
+                                            echo "<option value='TUTOR'" . ($currentRole == 'TUTOR' ? " selected" : "") . ">Tuteur</option>";
+                                            echo "<option value='GUEST'" . ($currentRole == 'GUEST' ? " selected" : "") . ">Invité</option>";
                                             echo "</select>";
                                             echo "</td>";
                                             echo "</tr>";
                                         }
-
                                         // Fermer la connexion
                                         mysqli_close($connection);
                                         ?>
