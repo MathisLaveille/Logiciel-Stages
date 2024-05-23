@@ -30,15 +30,6 @@ try {
             $file_name = $_FILES['pdf-file']['name'];
             $file_tmp = $_FILES['pdf-file']['tmp_name'];
             $file_path = $upload_dir . basename($file_name);
-
-
-            if (move_uploaded_file($file_tmp, $file_path)) {
-                echo "Fichier téléchargé avec succès : " . $file_name;
-            } else {
-                echo "Erreur lors du déplacement du fichier.";
-            }
-        } else {
-            echo "Erreur lors du téléchargement du fichier.";
         }
 
         $nom = $_POST['nom'];
@@ -69,12 +60,12 @@ try {
         $id_s = $dbh->lastInsertId();
 
         // Préparation de la requête pour insérer les informations du stage
-        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start, period_end) VALUES (:id_s, :period_start, :period_end)");
+        $stmt2 = $dbh->prepare("INSERT INTO tbl_stage (id_s, period_start_s, period_end_s) VALUES (:id_s, :period_start_s, :period_end_s)");
 
         // Liaison des paramètres
         $stmt2->bindParam(':id_s', $id_s);
-        $stmt2->bindParam(':period_start', $date_debut);
-        $stmt2->bindParam(':period_end', $date_fin);
+        $stmt2->bindParam(':period_start_s', $date_debut);
+        $stmt2->bindParam(':period_end_s', $date_fin);
 
         // Exécution de la requête
         $stmt2->execute();
