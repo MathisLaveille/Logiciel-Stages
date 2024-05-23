@@ -172,6 +172,20 @@ mysqli_close($connection);
             }  
             ?>
 
+<?php
+            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="modification_stage.php">
+                        <img src="/img/role.png" width="25" height="25">
+                        <span>Modification stage</span>
+                    </a>
+                </li>
+
+                <?php
+            }  
+            ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

@@ -245,7 +245,6 @@ mysqli_close($connection);
                 <?php
             }
 
-
             if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
                 ?>
 
@@ -259,7 +258,20 @@ mysqli_close($connection);
                 <?php
             }  
             ?>
-            
+             <?php
+            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="modification_stage.php">
+                        <img src="/img/role.png" width="25" height="25">
+                        <span>Modification stage</span>
+                    </a>
+                </li>
+
+                <?php
+            }  
+            ?>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -371,19 +383,6 @@ mysqli_close($connection);
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Déconnexion

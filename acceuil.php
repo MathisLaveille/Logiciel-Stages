@@ -169,7 +169,6 @@ mysqli_close($connection);
 
                 <?php
             }  
-
             if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
                 ?>
 
@@ -273,8 +272,6 @@ mysqli_close($connection);
                                         Le but est d'aider les étudiants dans leur recherche de stage.<br> 
                                         Et de faciliter la gestion des stages pour les professeurs.
                                     </strong></a>
-                                        <br><br>
-                                        <a style="font-family: Roboto, sans-serif;"> <strong>Le projet a  </strong></a>
                                         <br><br>
                                         <a style="font-family: Roboto, sans-serif;"><strong>Bonne Visite !</strong> </a>
                                         <br><br>
