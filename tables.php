@@ -48,7 +48,7 @@ if ($row) {
 }
 
 // Requête SQL pour obtenir les infos sur le rôle
-$query = "SELECT tbl_role.name_r FROM tbl_role 
+$query = "SELECT tbl_role.name_r FROM tbl_role
 JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
 JOIN tbl_user ON tbl_user_role.id_u_user = tbl_user.id_u
 WHERE tbl_user.mail_u = '$email';";
@@ -137,7 +137,7 @@ mysqli_close($connection);
                     <img src="img/stage.png" width="25" height="25"></img>
                     <span>Stages</span></a>
             </li>
-            
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -154,8 +154,8 @@ mysqli_close($connection);
 </li>
 
                 <?php
-            }
-            ?>
+}
+?>
 
 
             <!-- Divider -->
@@ -184,9 +184,6 @@ mysqli_close($connection);
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-
-
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -198,17 +195,14 @@ mysqli_close($connection);
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
 
 
-<span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname;
-echo '(' . $user_role . ')'; ?>
-                                </span>
-                                </span>
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                        <?php echo $user_firstname;
+                                        echo '(' . $user_role . ')'; ?>
+                                    </span>
 
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -256,7 +250,7 @@ echo '(' . $user_role . ')'; ?>
                                         <th>Convention de stage</th>
                                     </tr>
 
-                                </thead>
+                                    </thead>
 
                                 <tfoot>
                                     <tr>
@@ -272,17 +266,17 @@ echo '(' . $user_role . ')'; ?>
                                 </tfoot>
                                     <tbody>
 
-                                    <?php
+                                        <?php
 
-try {
+                                        try {
 
-    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
-    $stmt2 = $dbh->prepare("SELECT period_start, period_end FROM tbl_stage");
-    // Exécute la requête
-    $stmt1->execute();
-    $stmt2->execute();
+                                            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                                            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                            $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
+                                            $stmt2 = $dbh->prepare("SELECT period_start_s, period_end_s FROM tbl_stage");
+                                            // Exécute la requête
+                                            $stmt1->execute();
+                                            $stmt2->execute();
 
     // Affiche les données dans le tableau
 
@@ -304,13 +298,13 @@ try {
     }
     
 
-} catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
-}
-// Ferme la connexion
-$dbh = null;
+                                        } catch (PDOException $e) {
+                                            echo "Erreur : " . $e->getMessage();
+                                        }
+                                        // Ferme la connexion
+                                        $dbh = null;
 
-?>
+                                        ?>
                                     </tbody>
                                 </table>
 
@@ -324,9 +318,9 @@ $dbh = null;
             </div>
             <!-- End of Main Content -->
             <div class="container-fluid">
-</div>
+            </div>
 
-<br><br><br>
+            <br><br><br>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
