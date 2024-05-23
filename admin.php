@@ -176,7 +176,7 @@ mysqli_close($connection);
                 <li class="nav-item">
                     <a class="nav-link" href="admin.php">
                         <img src="/img/role.png" width="25" height="25">
-                        <span>Administration</span>
+                        <span>Gestion Roles</span>
                     </a>
                 </li>
             <?php } ?>
@@ -237,18 +237,9 @@ mysqli_close($connection);
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Déconnexion
                                 </a>
                             </div>
                         </li>
@@ -258,7 +249,7 @@ mysqli_close($connection);
                 </nav>
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
+                <h1 class="h3 mb-2 text-gray-800">Gestion des roles</h1>
                 <br>
 
                 <!-- DataTales Example -->
