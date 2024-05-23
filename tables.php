@@ -290,8 +290,8 @@ mysqli_close($connection);
                                                     echo "<td>" . $row1["CP_e"] . "</td>";
                                                     echo "<td>" . $row1["city_e"] . "</td>";
                                                     echo "<td>" . $row1["phone_e"] . "</td>";
-                                                    echo "<td>" . $row2["period_start"] . "</td>";
-                                                    echo "<td>" . $row2["period_end"] . "</td>";
+                                                    echo "<td>" . $row2["period_start_s"] . "</td>";
+                                                    echo "<td>" . $row2["period_end_s"] . "</td>";
                                                     echo "<td>" . "Convention de stage" . "</td>";
                                                     echo "</tr>";
                                                 }
