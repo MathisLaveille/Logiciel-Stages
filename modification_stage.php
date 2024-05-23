@@ -169,7 +169,7 @@ mysqli_close($connection);
                 </li>
 
                 <?php
-            }  
+            }
             ?>
 
 
@@ -240,7 +240,9 @@ mysqli_close($connection);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Validation du stage : </h1>
+                    <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
+
+                    <a href="modifier_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
 
                     <br>
 
@@ -260,8 +262,7 @@ mysqli_close($connection);
                                             <th>Début du stage</th>
                                             <th>Fin du stage</th>
                                             <th>Convention de stage</th>
-                                            <th>Valider</th>
-                                            <th>Refuser</th>
+                                            <th>Modifier le stage</th>
                                         </tr>
 
                                     </thead>
@@ -276,20 +277,25 @@ mysqli_close($connection);
                                             <th>Début du stage</th>
                                             <th>Fin du stage</th>
                                             <th>Convention de stage</th>
-                                            <th>Valider</th>
-                                            <th>Refuser</th>
+                                            <th>Modifier le stage</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
+
                                         <?php
+
                                         try {
+
                                             $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                                             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                                            $stmt1 = $dbh->prepare("SELECT id_v, nom_v, rue_v, CP_v, city_v, phone_v FROM tbl_verifier_company");
-                                            $stmt2 = $dbh->prepare("SELECT id_v, period_start_v, period_end_v FROM tbl_verifier_stage");
+                                            $stmt1 = $dbh->prepare("SELECT nom_v, rue_v, CP_v, city_v, phone_v FROM tbl_verifier_company");
+                                            $stmt2 = $dbh->prepare("SELECT period_start_v, period_end_v FROM tbl_verifier_stage");
+                                            // Exécute la requête
                                             $stmt1->execute();
                                             $stmt2->execute();
 
+                                            // Affiche les données dans le tableau
+                                        
                                             while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
                                                 $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -302,16 +308,19 @@ mysqli_close($connection);
                                                     echo "<td>" . $row1["phone_v"] . "</td>";
                                                     echo "<td>" . $row2["period_start_v"] . "</td>";
                                                     echo "<td>" . $row2["period_end_v"] . "</td>";
-                                                    echo "<td>Convention de stage</td>";
-                                                    echo '<td><form method="POST" action="handle_stage.php"><button type="submit" name="valider" value="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-success">Valider</button></form></td>';
-                                                    echo '<td><form method="POST" action="handle_stage.php"><button type="submit" name="refuser" value="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-danger">Refuser</button></form></td>';
+                                                    echo "<td>" . "Convention de stage" . "</td>";
+                                                    echo "<td>" . "Modifier" . "</td>";
                                                     echo "</tr>";
                                                 }
                                             }
+
+
                                         } catch (PDOException $e) {
                                             echo "Erreur : " . $e->getMessage();
                                         }
+                                        // Ferme la connexion
                                         $dbh = null;
+
                                         ?>
                                     </tbody>
                                 </table>
@@ -333,7 +342,7 @@ mysqli_close($connection);
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span> Crée par Laveille Mathis et Grall Emeric </span>
+                        <span> Crée par Griffon Dawson, Laveille Mathis, Grall Emeric </span>
                     </div>
                 </div>
             </footer>
