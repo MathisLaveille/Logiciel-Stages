@@ -317,9 +317,8 @@ mysqli_close($connection);
                                                     echo "<td>" . $row2["period_start_v"] . "</td>";
                                                     echo "<td>" . $row2["period_end_v"] . "</td>";
                                                     echo "<td>Convention de stage</td>";
-                                                    echo '<td><form method="POST" action="handle_stage.php"><button type="submit" name="valider" value="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-success">Valider</button></form></td>';
-                                                    echo '<td><form method="POST" action="handle_stage.php"><button type="submit" name="refuser" value="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-danger">Refuser</button></form></td>';
-                                                    echo "</tr>";
+                                                    echo '<td><button type="button" data-target="#validateModal" data-toggle="modal" data-id="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-success openValidateModal">Valider</button><form id="validateForm" method="POST" action="handle_stage.php" style="display:none;"><input type="hidden" name="valider" id="validateInput"></form></td>';
+                                                    echo '<td><button type="button" data-target="#deleteModal" data-toggle="modal" data-id="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-danger openDeleteModal">Refuser</button><form id="deleteForm" method="POST" action="handle_stage.php" style="display:none;"><input type="hidden" name="Refuser" id="deleteInput"></form></td>';
                                                 }
                                             }
                                         } catch (PDOException $e) {
@@ -335,7 +334,104 @@ mysqli_close($connection);
                     </div>
 
                 </div>
-                <!-- /.container-fluid -->
+
+
+
+
+
+<!-- Scipt verification check-->
+                <script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Add event listener to open the delete modal
+    document.querySelectorAll('.openDeleteModal').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('deleteInput').value = id;
+        });
+    });
+
+    // Add event listener to confirm button inside the delete modal
+    document.getElementById('confirmDelete').addEventListener('click', () => {
+        document.getElementById('deleteForm').submit();
+    });
+
+    // Add event listener to open the validate modal
+    document.querySelectorAll('.openValidateModal').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('validateInput').value = id;
+        });
+    });
+
+    // Add event listener to confirm button inside the validate modal
+    document.getElementById('confirmValidate').addEventListener('click', () => {
+        document.getElementById('validateForm').submit();
+    });
+});
+</script>
+<!-- Scipt verification check-->
+
+<!-- Scipt verification delete-->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Add event listener to open the modal
+    document.querySelectorAll('.openDeleteModal').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('deleteInput').value = id;
+        });
+    });
+
+    // Add event listener to confirm button inside the modal
+    document.getElementById('confirmDelete').addEventListener('click', () => {
+        document.getElementById('deleteForm').submit();
+    });
+});
+</script>
+<!-- Scipt verification delete-->
+
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir refuser cette entrée ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete">Refuser</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Validate Confirmation Modal -->
+<div class="modal fade" id="validateModal" tabindex="-1" role="dialog" aria-labelledby="validateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="validateModalLabel">Confirmer la validation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir valider cette entrée ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-success" id="confirmValidate">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
 
             </div>
             <!-- End of Main Content -->
@@ -370,15 +466,16 @@ mysqli_close($connection);
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Prêt à partir ?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+                        <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Sélectionnez « Se déconnecter » ci-dessous si vous êtes prêt à mettre fin à
+                    votre session en cours.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="index.php">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                    <a class="btn btn-primary" href="index.php">Se déconnecter</a>
                 </div>
             </div>
         </div>
