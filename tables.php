@@ -270,7 +270,7 @@ mysqli_close($connection);
                                             $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                                             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                                             $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
-                                            $stmt2 = $dbh->prepare("SELECT period_start, period_end FROM tbl_stage");
+                                            $stmt2 = $dbh->prepare("SELECT period_start_s, period_end_s FROM tbl_stage");
                                             // Exécute la requête
                                             $stmt1->execute();
                                             $stmt2->execute();
@@ -287,8 +287,8 @@ mysqli_close($connection);
                                                     echo "<td>" . $row1["CP_e"] . "</td>";
                                                     echo "<td>" . $row1["city_e"] . "</td>";
                                                     echo "<td>" . $row1["phone_e"] . "</td>";
-                                                    echo "<td>" . $row2["period_start"] . "</td>";
-                                                    echo "<td>" . $row2["period_end"] . "</td>";
+                                                    echo "<td>" . $row2["period_start_s"] . "</td>";
+                                                    echo "<td>" . $row2["period_end_s"] . "</td>";
                                                     echo "</tr>";
                                                 }
                                             }
