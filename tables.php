@@ -146,16 +146,16 @@ mysqli_close($connection);
             <?php
             if ($user_role == 'SUPER_ADMIN') {
                 ?>
-            <li class="nav-item">
-    <a class="nav-link" href="admin.php">
-        <img src="/img/role.png" width="25" height="25">
-        <span>Administration</span>
-    </a>
-</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.php">
+                        <img src="/img/role.png" width="25" height="25">
+                        <span>Administration</span>
+                    </a>
+                </li>
 
                 <?php
-}
-?>
+            }
+            ?>
 
 
             <!-- Divider -->
@@ -197,10 +197,10 @@ mysqli_close($connection);
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
 
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                        <?php echo $user_firstname;
-                                        echo '(' . $user_role . ')'; ?>
-                                    </span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?php echo $user_firstname;
+                                    echo '(' . $user_role . ')'; ?>
+                                </span>
 
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
@@ -237,33 +237,33 @@ mysqli_close($connection);
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Nom entreprise</th>
-                                        <th>Rue entreprise</th>
-                                        <th>Code postal entreprise</th>
-                                        <th>Ville entreprise</th>
-                                        <th>Téléphone entreprise</th>
-                                        <th>Début du stage</th>
-                                        <th>Fin du stage</th>
-                                        <th>Fin du stage</th>
-                                        <th>Convention de stage</th>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                            <th>Nom entreprise</th>
+                                            <th>Rue entreprise</th>
+                                            <th>Code postal entreprise</th>
+                                            <th>Ville entreprise</th>
+                                            <th>Téléphone entreprise</th>
+                                            <th>Début du stage</th>
+                                            <th>Fin du stage</th>
+                                            <th>Fin du stage</th>
+                                            <th>Convention de stage</th>
+                                        </tr>
 
                                     </thead>
 
-                                <tfoot>
-                                    <tr>
-                                        <th>Nom entreprise</th>
-                                        <th>Rue entreprise</th>
-                                        <th>Code postal entreprise</th>
-                                        <th>Ville entreprise</th>
-                                        <th>Téléphone entreprise</th>
-                                        <th>Début du stage</th>
-                                        <th>Fin du stage</th>
-                                        <th>Convention de stage</th>
-                                    </tr>
-                                </tfoot>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nom entreprise</th>
+                                            <th>Rue entreprise</th>
+                                            <th>Code postal entreprise</th>
+                                            <th>Ville entreprise</th>
+                                            <th>Téléphone entreprise</th>
+                                            <th>Début du stage</th>
+                                            <th>Fin du stage</th>
+                                            <th>Convention de stage</th>
+                                        </tr>
+                                    </tfoot>
                                     <tbody>
 
                                         <?php
@@ -278,25 +278,25 @@ mysqli_close($connection);
                                             $stmt1->execute();
                                             $stmt2->execute();
 
-    // Affiche les données dans le tableau
+                                            // Affiche les données dans le tableau
+                                        
+                                            while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+                                                $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-    while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-        $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-    
-        if ($row2) {
-            echo "<tr>";
-            echo "<td>" . $row1["nom_e"] . "</td>";
-            echo "<td>" . $row1["rue_e"] . "</td>";
-            echo "<td>" . $row1["CP_e"] . "</td>";
-            echo "<td>" . $row1["city_e"] . "</td>";
-            echo "<td>" . $row1["phone_e"] . "</td>";
-            echo "<td>" . $row2["period_start"] . "</td>";
-            echo "<td>" . $row2["period_end"] . "</td>";
-            echo "<td>" . "Convention de stage" . "</td>";
-            echo "</tr>";
-        }
-    }
-    
+                                                if ($row2) {
+                                                    echo "<tr>";
+                                                    echo "<td>" . $row1["nom_e"] . "</td>";
+                                                    echo "<td>" . $row1["rue_e"] . "</td>";
+                                                    echo "<td>" . $row1["CP_e"] . "</td>";
+                                                    echo "<td>" . $row1["city_e"] . "</td>";
+                                                    echo "<td>" . $row1["phone_e"] . "</td>";
+                                                    echo "<td>" . $row2["period_start"] . "</td>";
+                                                    echo "<td>" . $row2["period_end"] . "</td>";
+                                                    echo "<td>" . "Convention de stage" . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                            }
+
 
                                         } catch (PDOException $e) {
                                             echo "Erreur : " . $e->getMessage();
