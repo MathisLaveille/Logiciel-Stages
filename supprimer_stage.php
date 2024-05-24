@@ -1,79 +1,52 @@
 <?php
+// Démarrer la session
+session_start();
+
+// Inclure les fichiers nécessaires
 require 'vendor/autoload.php';
 
+// Charger les variables d'environnement
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+// Récupérer les variables d'environnement pour la base de données
 $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
-try {
-    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Connexion à la base de données
+$connection = mysqli_connect($servername, $username, $password, $dbname);
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['valider'])) {
-            list($companyId, $stageId) = explode('_', $_POST['valider']);
-
-            // Récupérer les données de tbl_verifier_company
-            $stmt = $dbh->prepare("SELECT * FROM tbl_verifier_company WHERE id_v = ?");
-            $stmt->execute([$companyId]);
-            $companyData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($companyData) {
-                // Insérer les données dans tbl_company
-                $stmt = $dbh->prepare("INSERT INTO tbl_company (nom_e, rue_e, CP_e, city_e, phone_e) VALUES (?, ?, ?, ?, ?)");
-                $stmt->execute([
-                    $companyData['nom_v'],
-                    $companyData['rue_v'],
-                    $companyData['CP_v'],
-                    $companyData['city_v'],
-                    $companyData['phone_v']
-                ]);
-
-                // Récupérer les données de tbl_verifier_stage
-                $stmt = $dbh->prepare("SELECT * FROM tbl_verifier_stage WHERE id_v = ?");
-                $stmt->execute([$stageId]);
-                $stageData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($stageData) {
-                    // Insérer les données dans tbl_stage
-                    $companyIdNew = $dbh->lastInsertId();
-                    $stmt = $dbh->prepare("INSERT INTO tbl_stage (period_start_s, period_end_s, id_s) VALUES (?, ?, ?)");
-                    $stmt->execute([
-                        $stageData['period_start_v'],
-                        $stageData['period_end_v'],
-                        $companyIdNew
-                    ]);
-
-                    // Supprimer les données des tables tbl_verifier_company et tbl_verifier_stage
-                    $stmt = $dbh->prepare("DELETE FROM tbl_verifier_company WHERE id_v = ?");
-                    $stmt->execute([$companyId]);
-
-                    $stmt = $dbh->prepare("DELETE FROM tbl_verifier_stage WHERE id_v = ?");
-                    $stmt->execute([$stageId]);
-                }
-            } 
-        } elseif (isset($_POST['refuser'])) {
-            list($companyId, $stageId) = explode('_', $_POST['refuser']);
-
-            // Supprimer les données des tables tbl_verifier_company et tbl_verifier_stage
-            $stmt = $dbh->prepare("DELETE FROM tbl_verifier_company WHERE id_v = ?");
-            $stmt->execute([$companyId]);
-
-            $stmt = $dbh->prepare("DELETE FROM tbl_verifier_stage WHERE id_v = ?");
-            $stmt->execute([$stageId]);
-        }
-    }
-} catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
 }
 
-$dbh = null;
+// Vérifier si l'identifiant du stage est passé en paramètre
+if (isset($_GET['id_s'])) {
+    $stage_id = intval($_GET['id_s']);
 
-// Rediriger vers la page tables.php après 3 secondes
-header("Location: validation_stage.php");
-exit();
+    // Préparer la requête de suppression
+    $query = "DELETE FROM tbl_stage WHERE id_s = ?";
+    $stmt = $connection->prepare($query);
+    $stmt->bind_param('i', $stage_id);
+
+    // Exécuter la requête
+    if ($stmt->execute()) {
+        // Rediriger vers la page des stages après la suppression
+        header("Location: tables.php");
+        exit();
+    } else {
+        echo "Erreur lors de la suppression du stage : " . $stmt->error;
+    }
+
+    // Fermer la requête préparée
+    $stmt->close();
+} else {
+    echo "Identifiant de stage non spécifié.";
+}
+
+// Fermer la connexion à la base de données
+mysqli_close($connection);
 ?>
