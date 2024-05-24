@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 require 'vendor/autoload.php';
@@ -13,38 +14,9 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
-    // Connexion à la base de données
-    $connection = mysqli_connect($servername, $username, $password, $dbname);
-
-    // Vérifier la connexion
-    if (!$connection) {
-        die("La connexion a échoué : " . mysqli_connect_error());
-    }
-
-    foreach ($_POST['role'] as $user_id => $new_role) {
-        // Requête pour obtenir l'id du nouveau rôle
-        $query = "SELECT id_r FROM tbl_role WHERE name_r='$new_role'";
-        $result = mysqli_query($connection, $query);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $role_id = $row['id_r'];
-
-            // Mettre à jour le rôle de l'utilisateur
-            $update_query = "UPDATE tbl_user_role SET id_r_role='$role_id' WHERE id_u_user='$user_id'";
-            if (!mysqli_query($connection, $update_query)) {
-                echo "Erreur lors de la mise à jour du rôle : " . mysqli_error($connection);
-            }
-        }
-    }
-
-    // Fermer la connexion
-    mysqli_close($connection);
-
-    // Redirection pour éviter la resoumission du formulaire
-    header("Location: admin.php");
-    exit;
+// Vérifier si une session est déjà active avant de la démarrer
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
 }
 
 // Récupération de l'email depuis la session
@@ -58,7 +30,7 @@ if (!$connection) {
     die("La connexion a échoué : " . mysqli_connect_error());
 }
 
-// Requête SQL pour obtenir les infos sur l'utilisateur
+// Requête SQL
 $query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
 $result = mysqli_query($connection, $query);
 
@@ -67,7 +39,7 @@ if (!$result) {
     die("Erreur dans la requête : " . mysqli_error($connection));
 }
 
-// Stockage des données
+// Affichage des données
 $row = mysqli_fetch_assoc($result);
 if ($row) {
     $user_firstname = $row['prenom_u'];
@@ -96,20 +68,13 @@ if ($row) {
     $user_role = "Aucun rôle.";
 }
 
-// Vérifier si l'utilisateur est connecté et a le rôle de SUPERADMIN
-if ($user_role !== 'SUPER_ADMIN') {
-    // Rediriger vers une page d'accès non autorisé si l'utilisateur n'est pas autorisé
-    header('Location: /acceuil.php');
-    exit;
-}
-
 // Libérer la mémoire des résultats
 mysqli_free_result($result);
 
 // Fermer la connexion à la base de données
 mysqli_close($connection);
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -198,7 +163,7 @@ mysqli_close($connection);
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Validation stage</span>
                             </a>
-                            <a class="collapse-item" href="modification_stage2.php">
+                            <a class="collapse-item" href="modification_stage1.php">
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Modification stage</span>
                             </a>
@@ -231,9 +196,10 @@ mysqli_close($connection);
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -241,17 +207,21 @@ mysqli_close($connection);
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?php echo $user_firstname;
                                     echo '(' . $user_role . ')'; ?>
                                 </span>
+
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="index.php" data-toggle="modal"
-                                    data-target="#logoutModal">
+
+                                </a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Déconnexion
                                 </a>
@@ -261,83 +231,115 @@ mysqli_close($connection);
                     </ul>
 
                 </nav>
+                <!-- End of Topbar -->
 
-                <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Gestion des roles</h1>
-                <br>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
 
-                <!-- DataTales Example -->
-                <div class="card shadow mb-4">
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
 
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <form method="post" action="admin.php">
+                    <a href="modifier_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
+
+                    <br>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Nom</th>
-                                            <th>Prénom</th>
-                                            <th>Rôle</th>
-                                            <th>Nouveau rôle</th>
+                                            <th>Nom entreprise</th>
+                                            <th>Rue entreprise</th>
+                                            <th>Code postal entreprise</th>
+                                            <th>Ville entreprise</th>
+                                            <th>Téléphone entreprise</th>
+                                            <th>Début du stage</th>
+                                            <th>Fin du stage</th>
+                                            <th>Convention de stage</th>
+                                            <th>Modifier le stage</th>
                                         </tr>
+
                                     </thead>
 
                                     <tfoot>
                                         <tr>
-                                            <th>Nom</th>
-                                            <th>Prénom</th>
-                                            <th>Rôle</th>
-                                            <th>Nouveau rôle</th>
+                                            <th>Nom entreprise</th>
+                                            <th>Rue entreprise</th>
+                                            <th>Code postal entreprise</th>
+                                            <th>Ville entreprise</th>
+                                            <th>Téléphone entreprise</th>
+                                            <th>Début du stage</th>
+                                            <th>Fin du stage</th>
+                                            <th>Convention de stage</th>
+                                            <th>Modifier le stage</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
+
                                         <?php
-                                        // Connexion à la base de données
-                                        $connection = mysqli_connect($servername, $username, $password, $dbname);
 
-                                        // Requête pour obtenir tous les utilisateurs et leurs rôles
-                                        $query = "SELECT tbl_user.id_u, tbl_user.nom_u, tbl_user.prenom_u, tbl_role.name_r FROM tbl_user
-                                                  JOIN tbl_user_role ON tbl_user.id_u = tbl_user_role.id_u_user
-                                                  JOIN tbl_role ON tbl_user_role.id_r_role = tbl_role.id_r";
-                                        $result = mysqli_query($connection, $query);
+                                        try {
 
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            $currentRole = $row['name_r'];
-                                            echo "<tr>";
-                                            echo "<td>{$row['nom_u']}</td>";
-                                            echo "<td>{$row['prenom_u']}</td>";
-                                            echo "<td>{$currentRole}</td>";
-                                            echo "<td>";
-                                            echo "<select name='role[{$row['id_u']}]' class='form-control'>";
-                                            echo "<option value='SUPER_ADMIN'" . ($currentRole == 'SUPER_ADMIN' ? " selected" : "") . ">Super-Admin</option>";
-                                            echo "<option value='ADMIN'" . ($currentRole == 'ADMIN' ? " selected" : "") . ">Admin</option>";
-                                            echo "<option value='STUDENT'" . ($currentRole == 'STUDENT' ? " selected" : "") . ">Eleve</option>";
-                                            echo "<option value='TEACHER'" . ($currentRole == 'TEACHER' ? " selected" : "") . ">Professeur</option>";
-                                            echo "<option value='TUTOR'" . ($currentRole == 'TUTOR' ? " selected" : "") . ">Tuteur</option>";
-                                            echo "<option value='GUEST'" . ($currentRole == 'GUEST' ? " selected" : "") . ">Invité</option>";
-                                            echo "</select>";
-                                            echo "</td>";
-                                            echo "</tr>";
+                                            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                                            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                            $stmt1 = $dbh->prepare("SELECT nom_m, rue_m, CP_m, city_m, phone_m FROM tbl_modifier_company");
+                                            $stmt2 = $dbh->prepare("SELECT period_start_m, period_end_m FROM tbl_modifier_stage");
+                                            // Exécute la requête
+                                            $stmt1->execute();
+                                            $stmt2->execute();
+
+                                            // Affiche les données dans le tableau
+                                        
+                                            while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+                                                $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+                                                if ($row2) {
+                                                    echo "<tr>";
+                                                    echo "<td>" . $row1["nom_m"] . "</td>";
+                                                    echo "<td>" . $row1["rue_m"] . "</td>";
+                                                    echo "<td>" . $row1["CP_m"] . "</td>";
+                                                    echo "<td>" . $row1["city_m"] . "</td>";
+                                                    echo "<td>" . $row1["phone_m"] . "</td>";
+                                                    echo "<td>" . $row2["period_start_m"] . "</td>";
+                                                    echo "<td>" . $row2["period_end_m"] . "</td>";
+                                                    echo "<td>" . "Convention de stage" . "</td>";
+                                                    echo "<td>" . "Modifier" . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                            }
+
+
+                                        } catch (PDOException $e) {
+                                            echo "Erreur : " . $e->getMessage();
                                         }
-                                        // Fermer la connexion
-                                        mysqli_close($connection);
+                                        // Ferme la connexion
+                                        $dbh = null;
+
                                         ?>
                                     </tbody>
                                 </table>
-                                <button type="submit" class="btn btn-primary">Mettre à jour les rôles</button>
-                            </form>
+
+                            </div>
                         </div>
                     </div>
+
                 </div>
+                <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
+            <div class="container-fluid">
+            </div>
 
+            <br><br><br>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Crée par Laveille Mathis et Grall Emeric</span>
+                        <span> Crée par Griffon Dawson, Laveille Mathis, Grall Emeric </span>
                     </div>
                 </div>
             </footer>
@@ -385,7 +387,7 @@ mysqli_close($connection);
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->

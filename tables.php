@@ -163,7 +163,7 @@ mysqli_close($connection);
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Validation stage</span>
                             </a>
-                            <a class="collapse-item" href="modification_stage.php">
+                            <a class="collapse-item" href="modification_stage2.php">
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Modification stage</span>
                             </a>
@@ -211,7 +211,7 @@ mysqli_close($connection);
 
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?php echo $user_firstname;
-echo '(' . $user_role . ')'; ?>
+                                    echo '(' . $user_role . ')'; ?>
                                 </span>
 
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
@@ -239,7 +239,7 @@ echo '(' . $user_role . ')'; ?>
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
 
-                    <a href="ajout_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
+                    <a href="ajout_stage.php" class="btn btn-primary btn-user btn-block"> Ajout d'un stage </a>
 
                     <br>
 
@@ -258,7 +258,8 @@ echo '(' . $user_role . ')'; ?>
                                             <th>Téléphone entreprise</th>
                                             <th>Début du stage</th>
                                             <th>Fin du stage</th>
-                                            <th>Convention de stage</th>
+                                            <th>Modifier le stage</th>
+                                            <th>Supprimer le stage</th>
                                         </tr>
 
                                     </thead>
@@ -272,49 +273,45 @@ echo '(' . $user_role . ')'; ?>
                                             <th>Téléphone entreprise</th>
                                             <th>Début du stage</th>
                                             <th>Fin du stage</th>
-                                            <th>Convention de stage</th>
+                                            <th>Modifier le stage</th>
+                                            <th>Supprimer le stage</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
 
                                         <?php
 
-try {
+                                        try {
 
-    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt1 = $dbh->prepare("SELECT nom_e, rue_e, CP_e, city_e, phone_e FROM tbl_company");
-    $stmt2 = $dbh->prepare("SELECT period_start_s, period_end_s FROM tbl_stage");
-    // Exécute la requête
-    $stmt1->execute();
-    $stmt2->execute();
+                                            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                                            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                            $stmt = $dbh->prepare("SELECT tbl_company.nom_e, tbl_company.rue_e, tbl_company.CP_e, tbl_company.city_e, tbl_company.phone_e, tbl_stage.id_s, tbl_stage.period_start_s, tbl_stage.period_end_s FROM tbl_company JOIN tbl_stage ON tbl_company.id_e = tbl_stage.id_s");
+                                            // Exécute la requête
+                                            $stmt->execute();
 
-    // Affiche les données dans le tableau
+                                            // Affiche les données dans le tableau
+                                        
+                                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                echo "<tr>";
+                                                echo "<td>" . $row["nom_e"] . "</td>";
+                                                echo "<td>" . $row["rue_e"] . "</td>";
+                                                echo "<td>" . $row["CP_e"] . "</td>";
+                                                echo "<td>" . $row["city_e"] . "</td>";
+                                                echo "<td>" . $row["phone_e"] . "</td>";
+                                                echo "<td>" . $row["period_start_s"] . "</td>";
+                                                echo "<td>" . $row["period_end_s"] . "</td>";
+                                                echo "<td><a href='modification_stage.php?id_s=" . $row["id_s"] . "' class='btn btn-warning btn-sm'>Modifier</a></td>";
+                                                echo "<td><a href='supprimer_stage.php?id_s=" . $row["id_s"] . "' class='btn btn-danger btn-sm'>Supprimer</a></td>";
+                                                echo "</tr>";
+                                            }
 
-    while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-        $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+                                        } catch (PDOException $e) {
+                                            echo "Erreur : " . $e->getMessage();
+                                        }
+                                        // Ferme la connexion
+                                        $dbh = null;
 
-        if ($row2) {
-            echo "<tr>";
-            echo "<td>" . $row1["nom_e"] . "</td>";
-            echo "<td>" . $row1["rue_e"] . "</td>";
-            echo "<td>" . $row1["CP_e"] . "</td>";
-            echo "<td>" . $row1["city_e"] . "</td>";
-            echo "<td>" . $row1["phone_e"] . "</td>";
-            echo "<td>" . $row2["period_start_s"] . "</td>";
-            echo "<td>" . $row2["period_end_s"] . "</td>";
-            echo "<td>" . "Convention de stage" . "</td>";
-            echo "</tr>";
-        }
-    }
-
-} catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
-}
-// Ferme la connexion
-$dbh = null;
-
-?>
+                                        ?>
                                     </tbody>
                                 </table>
 

@@ -163,7 +163,7 @@ mysqli_close($connection);
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Validation stage</span>
                             </a>
-                            <a class="collapse-item" href="modification_stage.php">
+                            <a class="collapse-item" href="modification_stage2.php">
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Modification stage</span>
                             </a>
