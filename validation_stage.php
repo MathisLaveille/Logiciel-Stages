@@ -301,7 +301,7 @@ mysqli_close($connection);
                                                     echo "<td>" . $row2["period_end_v"] . "</td>";
                                                     echo "<td>Convention de stage</td>";
                                                     echo '<td><button type="button" data-target="#validateModal" data-toggle="modal" data-id="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-success openValidateModal">Valider</button><form id="validateForm" method="POST" action="handle_stage.php" style="display:none;"><input type="hidden" name="valider" id="validateInput"></form></td>';
-                                                    echo '<td><button type="button" data-target="#deleteModal" data-toggle="modal" data-id="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-danger openDeleteModal">Refuser</button><form id="deleteForm" method="POST" action="handle_stage.php" style="display:none;"><input type="hidden" name="Refuser" id="deleteInput"></form></td>';
+                                                    echo '<td><button type="button" data-target="#deleteModal" data-toggle="modal" data-id="' . $row1["id_v"] . '_' . $row2["id_v"] . '" class="btn btn-danger openDeleteModal">Refuser</button><form id="deleteForm" method="POST" action="handle_stage.php" style="display:none;"><input type="hidden" name="refuser" id="deleteInput"></form></td>';
                                                 }
                                             }
                                         } catch (PDOException $e) {
@@ -353,6 +353,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 </script>
 <!-- Scipt verification check-->
+
+
 
 <!-- Scipt verification delete-->
 <script>
