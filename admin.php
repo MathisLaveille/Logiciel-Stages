@@ -146,7 +146,8 @@ mysqli_close($connection);
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="acceuil.php">
-                <div class="sidebar-brand-icon rotate-n-15"></div>
+                <div class="sidebar-brand-icon rotate-n-15">
+                </div>
                 <div class="sidebar-brand-text mx-3">NDLP Avranches</div>
                 <img src="/img/NDLP.png" width="70" height="50">
             </a>
@@ -166,57 +167,50 @@ mysqli_close($connection);
             <li class="nav-item active">
                 <a class="nav-link" href="tables.php">
                     <img src="img/stage.png" width="25" height="25"></img>
-                    <span>Stages</span></a>
+                    <span>Stages</span>
+                </a>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <?php if ($user_role == 'SUPER_ADMIN') { ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="admin.php">
-                        <img src="/img/role.png" width="25" height="25">
-                        <span>Gestion Roles</span>
-                    </a>
-                </li>
-            <?php } ?>
             <?php
-            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
+            if ($user_role == 'SUPER_ADMIN' || $user_role == 'ADMIN' || $user_role == 'TEACHER') {
                 ?>
-
+                <!-- Nav Item - Dropdown Menu -->
                 <li class="nav-item">
-                    <a class="nav-link" href="validation_stage.php">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMenu"
+                        aria-expanded="true" aria-controls="collapseMenu">
                         <img src="/img/role.png" width="25" height="25">
-                        <span>Validation stage</span>
+                        <span>Administration</span>
                     </a>
+                    <div id="collapseMenu" class="collapse" aria-labelledby="headingMenu" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php if ($user_role == 'SUPER_ADMIN') { ?>
+                                <a class="collapse-item" href="admin.php">
+                                    <img src="/img/role2.png" width="25" height="25">
+                                    <span>Gestion Roles</span>
+                                </a>
+                            <?php } ?>
+                            <a class="collapse-item" href="validation_stage.php">
+                                <img src="/img/role2.png" width="25" height="25">
+                                <span>Validation stage</span>
+                            </a>
+                            <a class="collapse-item" href="modification_stage.php">
+                                <img src="/img/role2.png" width="25" height="25">
+                                <span>Modification stage</span>
+                            </a>
+                        </div>
+                    </div>
                 </li>
-
                 <?php
-            }  
+            }
             ?>
-            <?php
-            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
-                ?>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="modification_stage.php">
-                        <img src="/img/role.png" width="25" height="25">
-                        <span>Modification stage</span>
-                    </a>
-                </li>
-
-                <?php
-            }  
-            ?>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
         </ul>
         <!-- End of Sidebar -->
 

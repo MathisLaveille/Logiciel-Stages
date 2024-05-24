@@ -130,71 +130,54 @@ mysqli_close($connection);
                 </a>
             </li>
 
-
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
                 <a class="nav-link" href="tables.php">
                     <img src="img/stage.png" width="25" height="25"></img>
-                    <span>Stages</span></a>
+                    <span>Stages</span>
+                </a>
             </li>
 
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
-
 
             <?php
-            if ($user_role == 'SUPER_ADMIN') {
+            if ($user_role == 'SUPER_ADMIN' || $user_role == 'ADMIN' || $user_role == 'TEACHER') {
                 ?>
-
+                <!-- Nav Item - Dropdown Menu -->
                 <li class="nav-item">
-                    <a class="nav-link" href="admin.php">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMenu"
+                        aria-expanded="true" aria-controls="collapseMenu">
                         <img src="/img/role.png" width="25" height="25">
-                        <span>Gestion Roles</span>
+                        <span>Administration</span>
                     </a>
+                    <div id="collapseMenu" class="collapse" aria-labelledby="headingMenu" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php if ($user_role == 'SUPER_ADMIN') { ?>
+                                <a class="collapse-item" href="admin.php">
+                                    <img src="/img/role2.png" width="25" height="25">
+                                    <span>Gestion Roles</span>
+                                </a>
+                            <?php } ?>
+                            <a class="collapse-item" href="validation_stage.php">
+                                <img src="/img/role2.png" width="25" height="25">
+                                <span>Validation stage</span>
+                            </a>
+                            <a class="collapse-item" href="modification_stage.php">
+                                <img src="/img/role2.png" width="25" height="25">
+                                <span>Modification stage</span>
+                            </a>
+                        </div>
+                    </div>
                 </li>
-
-                <?php
-            }
-
-
-            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
-                ?>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="validation_stage.php">
-                        <img src="/img/role.png" width="25" height="25">
-                        <span>Validation stage</span>
-                    </a>
-                </li>
-
                 <?php
             }
             ?>
-
-<?php
-            if ($user_role == 'SUPER_ADMIN' or $user_role == 'ADMIN' or $user_role == 'TEACHER') {
-                ?>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="modification_stage.php">
-                        <img src="/img/role.png" width="25" height="25">
-                        <span>Modification stage</span>
-                    </a>
-                </li>
-
-                <?php
-            }  
-            ?>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
         </ul>
         <!-- End of Sidebar -->
 
@@ -302,8 +285,8 @@ mysqli_close($connection);
 
                                             $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                                             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                                            $stmt1 = $dbh->prepare("SELECT nom_v, rue_v, CP_v, city_v, phone_v FROM tbl_verifier_company");
-                                            $stmt2 = $dbh->prepare("SELECT period_start_v, period_end_v FROM tbl_verifier_stage");
+                                            $stmt1 = $dbh->prepare("SELECT nom_m, rue_m, CP_m, city_m, phone_m FROM tbl_modifier_company");
+                                            $stmt2 = $dbh->prepare("SELECT period_start_m, period_end_m FROM tbl_modifier_stage");
                                             // Exécute la requête
                                             $stmt1->execute();
                                             $stmt2->execute();
@@ -315,13 +298,13 @@ mysqli_close($connection);
 
                                                 if ($row2) {
                                                     echo "<tr>";
-                                                    echo "<td>" . $row1["nom_v"] . "</td>";
-                                                    echo "<td>" . $row1["rue_v"] . "</td>";
-                                                    echo "<td>" . $row1["CP_v"] . "</td>";
-                                                    echo "<td>" . $row1["city_v"] . "</td>";
-                                                    echo "<td>" . $row1["phone_v"] . "</td>";
-                                                    echo "<td>" . $row2["period_start_v"] . "</td>";
-                                                    echo "<td>" . $row2["period_end_v"] . "</td>";
+                                                    echo "<td>" . $row1["nom_m"] . "</td>";
+                                                    echo "<td>" . $row1["rue_m"] . "</td>";
+                                                    echo "<td>" . $row1["CP_m"] . "</td>";
+                                                    echo "<td>" . $row1["city_m"] . "</td>";
+                                                    echo "<td>" . $row1["phone_m"] . "</td>";
+                                                    echo "<td>" . $row2["period_start_m"] . "</td>";
+                                                    echo "<td>" . $row2["period_end_m"] . "</td>";
                                                     echo "<td>" . "Convention de stage" . "</td>";
                                                     echo "<td>" . "Modifier" . "</td>";
                                                     echo "</tr>";
