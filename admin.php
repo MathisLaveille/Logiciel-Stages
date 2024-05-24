@@ -126,7 +126,9 @@ mysqli_close($connection);
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -196,7 +198,7 @@ mysqli_close($connection);
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Validation stage</span>
                             </a>
-                            <a class="collapse-item" href="modification_stage.php">
+                            <a class="collapse-item" href="modification_stage2.php">
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Modification stage</span>
                             </a>
@@ -237,15 +239,19 @@ mysqli_close($connection);
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname; echo '(' . $user_role . ')'; ?>
+                                    <?php echo $user_firstname;
+                                    echo '(' . $user_role . ')'; ?>
                                 </span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="index.php" data-toggle="modal" data-target="#logoutModal">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="index.php" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Déconnexion
                                 </a>
@@ -275,6 +281,15 @@ mysqli_close($connection);
                                             <th>Nouveau rôle</th>
                                         </tr>
                                     </thead>
+
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Rôle</th>
+                                            <th>Nouveau rôle</th>
+                                        </tr>
+                                    </tfoot>
                                     <tbody>
                                         <?php
                                         // Connexion à la base de données

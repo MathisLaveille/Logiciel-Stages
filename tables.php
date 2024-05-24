@@ -163,7 +163,7 @@ mysqli_close($connection);
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Validation stage</span>
                             </a>
-                            <a class="collapse-item" href="modification_stage.php">
+                            <a class="collapse-item" href="modification_stage2.php">
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Modification stage</span>
                             </a>
@@ -211,7 +211,7 @@ mysqli_close($connection);
 
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?php echo $user_firstname;
-echo '(' . $user_role . ')'; ?>
+                                    echo '(' . $user_role . ')'; ?>
                                 </span>
 
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
@@ -279,36 +279,36 @@ echo '(' . $user_role . ')'; ?>
 
                                         <?php
 
-try {
+                                        try {
 
-    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $dbh->prepare("SELECT tbl_company.nom_e, tbl_company.rue_e, tbl_company.CP_e, tbl_company.city_e, tbl_company.phone_e, tbl_stage.id_s, tbl_stage.period_start_s, tbl_stage.period_end_s FROM tbl_company JOIN tbl_stage ON tbl_company.id_e = tbl_stage.id_s");
-    // Exécute la requête
-    $stmt->execute();
+                                            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                                            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                            $stmt = $dbh->prepare("SELECT tbl_company.nom_e, tbl_company.rue_e, tbl_company.CP_e, tbl_company.city_e, tbl_company.phone_e, tbl_stage.id_s, tbl_stage.period_start_s, tbl_stage.period_end_s FROM tbl_company JOIN tbl_stage ON tbl_company.id_e = tbl_stage.id_s");
+                                            // Exécute la requête
+                                            $stmt->execute();
 
-    // Affiche les données dans le tableau
+                                            // Affiche les données dans le tableau
+                                        
+                                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                echo "<tr>";
+                                                echo "<td>" . $row["nom_e"] . "</td>";
+                                                echo "<td>" . $row["rue_e"] . "</td>";
+                                                echo "<td>" . $row["CP_e"] . "</td>";
+                                                echo "<td>" . $row["city_e"] . "</td>";
+                                                echo "<td>" . $row["phone_e"] . "</td>";
+                                                echo "<td>" . $row["period_start_s"] . "</td>";
+                                                echo "<td>" . $row["period_end_s"] . "</td>";
+                                                echo "<td><a href='modification_stage.php?id_s=" . $row["id_s"] . "' class='btn btn-warning btn-sm'>Modifier</a></td>";
+                                                echo "</tr>";
+                                            }
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "<tr>";
-        echo "<td>" . $row["nom_e"] . "</td>";
-        echo "<td>" . $row["rue_e"] . "</td>";
-        echo "<td>" . $row["CP_e"] . "</td>";
-        echo "<td>" . $row["city_e"] . "</td>";
-        echo "<td>" . $row["phone_e"] . "</td>";
-        echo "<td>" . $row["period_start_s"] . "</td>";
-        echo "<td>" . $row["period_end_s"] . "</td>";
-        echo "<td><a href='modification_stage.php?id_s=" . $row["id_s"] . "' class='btn btn-warning btn-sm'>Modifier</a></td>";
-        echo "</tr>";
-    }
+                                        } catch (PDOException $e) {
+                                            echo "Erreur : " . $e->getMessage();
+                                        }
+                                        // Ferme la connexion
+                                        $dbh = null;
 
-} catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
-}
-// Ferme la connexion
-$dbh = null;
-
-?>
+                                        ?>
                                     </tbody>
                                 </table>
 
