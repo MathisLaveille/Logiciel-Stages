@@ -199,8 +199,9 @@ if ($row) {
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname; ?>
-                                </span>
+        <?php echo $user_firstname;
+        echo '(' . $user_role . ')'; ?>
+    </span>
 
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
@@ -234,40 +235,48 @@ if ($row) {
 
                                 <div class="form-group">
                                     <label for="nom_e">Nom de l'entreprise</label>
-                                    <input type="text" class="form-control" id="nom_e" name="nom_e" value="<?php echo $stage['nom_e']; ?>" required>
+                                    <input type="text" class="form-control" id="nom_e" name="nom_e"
+                                        value="<?php echo $stage['nom_e']; ?>" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="rue_e">Rue de l'entreprise</label>
-                                    <input type="text" class="form-control" id="rue_e" name="rue_e" value="<?php echo $stage['rue_e']; ?>" required>
+                                    <input type="text" class="form-control" id="rue_e" name="rue_e"
+                                        value="<?php echo $stage['rue_e']; ?>" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="CP_e">Code postal de l'entreprise</label>
-                                    <input type="text" class="form-control" id="CP_e" name="CP_e" value="<?php echo $stage['CP_e']; ?>" required>
+                                    <input type="text" class="form-control" id="CP_e" name="CP_e"
+                                        value="<?php echo $stage['CP_e']; ?>" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="city_e">Ville de l'entreprise</label>
-                                    <input type="text" class="form-control" id="city_e" name="city_e" value="<?php echo $stage['city_e']; ?>" required>
+                                    <input type="text" class="form-control" id="city_e" name="city_e"
+                                        value="<?php echo $stage['city_e']; ?>" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="phone_e">Téléphone de l'entreprise</label>
-                                    <input type="text" class="form-control" id="phone_e" name="phone_e" value="<?php echo $stage['phone_e']; ?>" required>
+                                    <input type="text" class="form-control" id="phone_e" name="phone_e"
+                                        value="<?php echo $stage['phone_e']; ?>" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="period_start_s">Début du stage</label>
-                                    <input type="date" class="form-control" id="period_start_s" name="period_start_s" value="<?php echo $stage['period_start_s']; ?>" required>
+                                    <input type="date" class="form-control" id="period_start_s" name="period_start_s"
+                                        value="<?php echo $stage['period_start_s']; ?>" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="period_end_s">Fin du stage</label>
-                                    <input type="date" class="form-control" id="period_end_s" name="period_end_s" value="<?php echo $stage['period_end_s']; ?>" required>
+                                    <input type="date" class="form-control" id="period_end_s" name="period_end_s"
+                                        value="<?php echo $stage['period_end_s']; ?>" required>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Enregistrer les modifications</button>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Enregistrer les
+                                    modifications</button>
                             </form>
                         </div>
                     </div>
@@ -298,12 +307,6 @@ if ($row) {
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname;
-                                    echo '(' . $user_role . ')'; ?>
-                                </span>
-
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
