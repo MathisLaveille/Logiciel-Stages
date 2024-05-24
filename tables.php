@@ -163,10 +163,7 @@ mysqli_close($connection);
                                 <img src="/img/role2.png" width="25" height="25">
                                 <span>Validation stage</span>
                             </a>
-                            <a class="collapse-item" href="modification_stage2.php">
-                                <img src="/img/role2.png" width="25" height="25">
-                                <span>Modification stage</span>
-                            </a>
+                            
                         </div>
                     </div>
                 </li>
@@ -239,7 +236,7 @@ mysqli_close($connection);
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
 
-                    <a href="ajout_stage.php" class="btn btn-primary btn-user btn-block"> Ajout d'un stage </a>
+                    <a href="ajout_stages.php" class="btn btn-primary btn-user btn-block"> Ajout d'un stage </a>
 
                     <br>
 
