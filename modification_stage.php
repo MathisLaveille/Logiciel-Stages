@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 require 'vendor/autoload.php';
@@ -30,8 +29,11 @@ if (!$connection) {
     die("La connexion a échoué : " . mysqli_connect_error());
 }
 
-// Requête SQL
-$query = "SELECT prenom_u FROM tbl_user WHERE mail_u='$email'";
+// Récupérer l'ID du stage à modifier depuis l'URL
+$id_stage = $_GET['id_s'];
+
+// Récupérer les données actuelles du stage
+$query = "SELECT * FROM tbl_stage JOIN tbl_company ON tbl_stage.id_s = tbl_company.id_e WHERE id_s = '$id_stage'";
 $result = mysqli_query($connection, $query);
 
 // Vérifier si la requête a abouti
@@ -39,42 +41,12 @@ if (!$result) {
     die("Erreur dans la requête : " . mysqli_error($connection));
 }
 
-// Affichage des données
-$row = mysqli_fetch_assoc($result);
-if ($row) {
-    $user_firstname = $row['prenom_u'];
-} else {
-    $user_firstname = "Aucun prénom trouvé.";
-}
-
-// Requête SQL pour obtenir les infos sur le rôle
-$query = "SELECT tbl_role.name_r FROM tbl_role
-JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
-JOIN tbl_user ON tbl_user_role.id_u_user = tbl_user.id_u
-WHERE tbl_user.mail_u = '$email';";
-
-$result = mysqli_query($connection, $query);
-
-// Vérifier si la requête a abouti
-if (!$result) {
-    die("Erreur dans la requête : " . mysqli_error($connection));
-}
-
-// Stockage des données
-$row = mysqli_fetch_assoc($result);
-if ($row) {
-    $user_role = $row['name_r'];
-} else {
-    $user_role = "Aucun rôle.";
-}
-
-// Libérer la mémoire des résultats
-mysqli_free_result($result);
+// Récupérer les données du stage
+$stage = mysqli_fetch_assoc($result);
 
 // Fermer la connexion à la base de données
 mysqli_close($connection);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -87,7 +59,7 @@ mysqli_close($connection);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gestion des stages</title>
+    <title>Modification de Stage</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -97,9 +69,6 @@ mysqli_close($connection);
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -141,39 +110,6 @@ mysqli_close($connection);
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <?php
-            if ($user_role == 'SUPER_ADMIN' || $user_role == 'ADMIN' || $user_role == 'TEACHER') {
-                ?>
-                <!-- Nav Item - Dropdown Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMenu"
-                        aria-expanded="true" aria-controls="collapseMenu">
-                        <img src="/img/role.png" width="25" height="25">
-                        <span>Administration</span>
-                    </a>
-                    <div id="collapseMenu" class="collapse" aria-labelledby="headingMenu" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <?php if ($user_role == 'SUPER_ADMIN') { ?>
-                                <a class="collapse-item" href="admin.php">
-                                    <img src="/img/role2.png" width="25" height="25">
-                                    <span>Gestion Roles</span>
-                                </a>
-                            <?php } ?>
-                            <a class="collapse-item" href="validation_stage.php">
-                                <img src="/img/role2.png" width="25" height="25">
-                                <span>Validation stage</span>
-                            </a>
-                            <a class="collapse-item" href="modification_stage.php">
-                                <img src="/img/role2.png" width="25" height="25">
-                                <span>Modification stage</span>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <?php
-            }
-            ?>
-
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -199,8 +135,6 @@ mysqli_close($connection);
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -208,10 +142,8 @@ mysqli_close($connection);
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname;
-                                    echo '(' . $user_role . ')'; ?>
+                                    <?php echo $user_firstname; ?>
                                 </span>
 
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
@@ -220,7 +152,6 @@ mysqli_close($connection);
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
 
-                                </a>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Déconnexion
@@ -237,92 +168,51 @@ mysqli_close($connection);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Modification du Stage</h1>
 
-                    <a href="modifier_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
-
-                    <br>
-
-                    <!-- DataTales Example -->
+                    <!-- Formulaire de modification -->
                     <div class="card shadow mb-4">
-
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nom entreprise</th>
-                                            <th>Rue entreprise</th>
-                                            <th>Code postal entreprise</th>
-                                            <th>Ville entreprise</th>
-                                            <th>Téléphone entreprise</th>
-                                            <th>Début du stage</th>
-                                            <th>Fin du stage</th>
-                                            <th>Convention de stage</th>
-                                            <th>Modifier le stage</th>
-                                        </tr>
+                            <form action="update_stage.php" method="post">
+                                <input type="hidden" name="id_s" value="<?php echo $stage['id_s']; ?>">
 
-                                    </thead>
+                                <div class="form-group">
+                                    <label for="nom_e">Nom de l'entreprise</label>
+                                    <input type="text" class="form-control" id="nom_e" name="nom_e" value="<?php echo $stage['nom_e']; ?>" required>
+                                </div>
 
-                                    <tfoot>
-                                        <tr>
-                                            <th>Nom entreprise</th>
-                                            <th>Rue entreprise</th>
-                                            <th>Code postal entreprise</th>
-                                            <th>Ville entreprise</th>
-                                            <th>Téléphone entreprise</th>
-                                            <th>Début du stage</th>
-                                            <th>Fin du stage</th>
-                                            <th>Convention de stage</th>
-                                            <th>Modifier le stage</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
+                                <div class="form-group">
+                                    <label for="rue_e">Rue de l'entreprise</label>
+                                    <input type="text" class="form-control" id="rue_e" name="rue_e" value="<?php echo $stage['rue_e']; ?>" required>
+                                </div>
 
-                                        <?php
+                                <div class="form-group">
+                                    <label for="CP_e">Code postal de l'entreprise</label>
+                                    <input type="text" class="form-control" id="CP_e" name="CP_e" value="<?php echo $stage['CP_e']; ?>" required>
+                                </div>
 
-                                        try {
+                                <div class="form-group">
+                                    <label for="city_e">Ville de l'entreprise</label>
+                                    <input type="text" class="form-control" id="city_e" name="city_e" value="<?php echo $stage['city_e']; ?>" required>
+                                </div>
 
-                                            $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-                                            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                                            $stmt1 = $dbh->prepare("SELECT nom_m, rue_m, CP_m, city_m, phone_m FROM tbl_modifier_company");
-                                            $stmt2 = $dbh->prepare("SELECT period_start_m, period_end_m FROM tbl_modifier_stage");
-                                            // Exécute la requête
-                                            $stmt1->execute();
-                                            $stmt2->execute();
+                                <div class="form-group">
+                                    <label for="phone_e">Téléphone de l'entreprise</label>
+                                    <input type="text" class="form-control" id="phone_e" name="phone_e" value="<?php echo $stage['phone_e']; ?>" required>
+                                </div>
 
-                                            // Affiche les données dans le tableau
-                                        
-                                            while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-                                                $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+                                <div class="form-group">
+                                    <label for="period_start_s">Début du stage</label>
+                                    <input type="date" class="form-control" id="period_start_s" name="period_start_s" value="<?php echo $stage['period_start_s']; ?>" required>
+                                </div>
 
-                                                if ($row2) {
-                                                    echo "<tr>";
-                                                    echo "<td>" . $row1["nom_m"] . "</td>";
-                                                    echo "<td>" . $row1["rue_m"] . "</td>";
-                                                    echo "<td>" . $row1["CP_m"] . "</td>";
-                                                    echo "<td>" . $row1["city_m"] . "</td>";
-                                                    echo "<td>" . $row1["phone_m"] . "</td>";
-                                                    echo "<td>" . $row2["period_start_m"] . "</td>";
-                                                    echo "<td>" . $row2["period_end_m"] . "</td>";
-                                                    echo "<td>" . "Convention de stage" . "</td>";
-                                                    echo "<td>" . "Modifier" . "</td>";
-                                                    echo "</tr>";
-                                                }
-                                            }
+                                <div class="form-group">
+                                    <label for="period_end_s">Fin du stage</label>
+                                    <input type="date" class="form-control" id="period_end_s" name="period_end_s" value="<?php echo $stage['period_end_s']; ?>" required>
+                                </div>
 
-
-                                        } catch (PDOException $e) {
-                                            echo "Erreur : " . $e->getMessage();
-                                        }
-                                        // Ferme la connexion
-                                        $dbh = null;
-
-                                        ?>
-                                    </tbody>
-                                </table>
-
-                            </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Enregistrer les modifications</button>
+                            </form>
                         </div>
                     </div>
 
@@ -331,15 +221,12 @@ mysqli_close($connection);
 
             </div>
             <!-- End of Main Content -->
-            <div class="container-fluid">
-            </div>
 
-            <br><br><br>
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span> Crée par Griffon Dawson, Laveille Mathis, Grall Emeric </span>
+                        <span> Crée par Laveille Mathis et Grall Emeric </span>
                     </div>
                 </div>
             </footer>
