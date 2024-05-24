@@ -166,6 +166,35 @@ if ($row) {
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <?php
+            if ($user_role == 'SUPER_ADMIN' || $user_role == 'ADMIN' || $user_role == 'TEACHER') {
+                ?>
+                <!-- Nav Item - Dropdown Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMenu"
+                        aria-expanded="true" aria-controls="collapseMenu">
+                        <img src="/img/role.png" width="25" height="25">
+                        <span>Administration</span>
+                    </a>
+                    <div id="collapseMenu" class="collapse" aria-labelledby="headingMenu" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <?php if ($user_role == 'SUPER_ADMIN') { ?>
+                                <a class="collapse-item" href="admin.php">
+                                    <img src="/img/role2.png" width="25" height="25">
+                                    <span>Gestion Roles</span>
+                                </a>
+                            <?php } ?>
+                            <a class="collapse-item" href="validation_stage.php">
+                                <img src="/img/role2.png" width="25" height="25">
+                                <span>Validation stage</span>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <?php
+            }
+            ?>
+
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -199,7 +228,8 @@ if ($row) {
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?php echo $user_firstname; ?>
+                                    <?php echo $user_firstname;
+                                    echo '(' . $user_role . ')'; ?>
                                 </span>
 
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
