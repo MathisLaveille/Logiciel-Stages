@@ -239,7 +239,7 @@ mysqli_close($connection);
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Recherche de stages</h1>
 
-                    <a href="ajout_stages.php" class="btn btn-primary btn-user btn-block"> Ajouter un stage </a>
+                    <a href="ajout_stage.php" class="btn btn-primary btn-user btn-block"> Ajout d'un stage </a>
 
                     <br>
 
@@ -259,6 +259,7 @@ mysqli_close($connection);
                                             <th>Début du stage</th>
                                             <th>Fin du stage</th>
                                             <th>Modifier le stage</th>
+                                            <th>Supprimer le stage</th>
                                         </tr>
 
                                     </thead>
@@ -273,6 +274,7 @@ mysqli_close($connection);
                                             <th>Début du stage</th>
                                             <th>Fin du stage</th>
                                             <th>Modifier le stage</th>
+                                            <th>Supprimer le stage</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -299,6 +301,7 @@ mysqli_close($connection);
                                                 echo "<td>" . $row["period_start_s"] . "</td>";
                                                 echo "<td>" . $row["period_end_s"] . "</td>";
                                                 echo "<td><a href='modification_stage.php?id_s=" . $row["id_s"] . "' class='btn btn-warning btn-sm'>Modifier</a></td>";
+                                                echo "<td><a href='supprimer_stage.php?id_s=" . $row["id_s"] . "' class='btn btn-danger btn-sm'>Supprimer</a></td>";
                                                 echo "</tr>";
                                             }
 
